@@ -1,0 +1,153 @@
+<?php
+
+define("MODULE_CSS_BACKEND", 1 << 0);
+define("MODULE_CSS_FRONTEND", 1 << 1);
+
+class ModuleAPI extends ModuleCore {
+}
+
+class ModuleCore {
+	private static	$entries = array(); // List of all created content objects
+
+	protected	$internal_id;	// A plugin internally unique number for
+					// plugins with more than 1 module entry
+
+	private		$title,
+			$icon_32_filename,
+			$icon_64_filename,
+
+			$css_backend = array(), // List of all css files registered by modules for backend inclusion
+			$css_frontend = array(), // List of all css files registered by modules for frontend inclusion
+			$views = array();
+
+	public		$plugin;
+
+	public function ModuleCore(&$plugin, $internal_id = 1)
+	{
+		$this->internal_id = $internal_id;
+		$this->plugin = $plugin;
+		ModuleCore::$entries[] = &$this;
+	}
+
+	public function SetTitle($title)
+	{
+		$this->title = $title;
+	}
+
+	public function GetTitle()
+	{
+		return $this->title;
+	}
+
+	public function AddView($filename, $id)
+	{
+		$this->views[$id] = $filename;
+	}
+
+	public function GetView($id)
+	{
+		return $this->views[$id];
+	}
+
+	public function GetViewUrl($view = 0)
+	{
+		$plugin_id = (int)$_GET['plugin'];
+		$module_id = (int)$_GET['module'];
+		if ($view == 0) {
+			if (isset($_GET['view']))
+				$view = (int)$_GET['view'];
+			else
+				$view = 0;
+		}
+
+		return CMS_BASE."?page=".PAGE_MODULES."&plugin=".$plugin_id."&module=".$module_id."&view=".$view;
+	}
+
+	public function AddCss($filename, $flags = MODULE_CSS_BACKEND)
+	{
+		if ($flags & MODULE_CSS_BACKEND)
+			$this->css_backend[] = $filename;
+
+		if ($flags & MODULE_CSS_FRONTEND)
+			$this->css_frontend[] = $filename;
+	}
+
+	public function GetCssBackendList()
+	{
+		return $this->css_backend;
+	}
+
+	public function GetCssForendList()
+	{
+		return $this->css_forend;
+	}
+
+	public function SetIcon32($filename)
+	{
+		$this->icon_32_filename = $filename;
+	}
+
+	public function GetIcon32()
+	{
+		return "../plugins/".$this->plugin->GetDirectory()."/".$this->icon_32_filename;
+	}
+
+	public function SetIcon64($filename)
+	{
+		$this->icon_64_filename = $filename;
+	}
+
+	public function GetIcon64()
+	{
+		return "../plugins/".$this->plugin->GetDirectory()."/".$this->icon_64_filename;
+	}
+
+	// Used internally to set id when content container is created
+	public function SetId($id)
+	{
+		$this->internal_id = $id;
+	}
+
+	public function GetId()
+	{
+		return $this->internal_id;
+	}
+
+	static private function CompareEntryTitles($a, $b)
+	{
+		return strcmp($a->GetTitle(), $b->GetTitle());
+	}
+
+	// Returns an array with contents registered for the provided section_id
+	static public function GetRegistered($section_id)
+	{
+		$list = Array();
+
+		foreach (ModuleCore::$entries as $entry) {
+			if ($section_id & $entry->widths)
+				$list[] = $entry;
+		}
+
+		// Sort the entries by name
+		usort($list, "ModuleCore::CompareEntryTitles");
+
+		return $list;
+	}
+
+	static public function GetByPluginAndInternal($plugin_id, $internal_id)
+	{
+		foreach (ModuleCore::$entries as $entry) {
+			if ($plugin_id == $entry->plugin->GetId() && $internal_id == $entry->GetId())
+				return $entry;
+		}
+		return false;
+	}
+
+	public static function GetEntries()
+	{
+		return ModuleCore::$entries;
+	}
+
+}
+
+?>

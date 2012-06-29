@@ -1,0 +1,9 @@
+config.php
+media/
+pics/
+cms/config.php
+cms/pics/
+cms/jquery/
+plugins/
+!plugins/include.php
+themes/

@@ -1,0 +1,68 @@
+.Fullscreen {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	display: none;
+}
+
+#LoadDimmer, #DialogDimmer, #ErrorDimmer {
+	background-color: #000000;
+	opacity: 0.85; /* Opacity is also hardcoded in js/loading.js */
+}
+
+#LoadContents {
+	text-align: center;
+	color: #ffffff;
+	font-family: 'Gudea', arial;
+	font-size: 14pt;
+	display: none;
+}
+
+#DialogClose, #ErrorClose {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: right;
+	display: none;
+}
+
+#DialogClose img, #ErrorClose img {
+	cursor: pointer;
+}
+
+#DialogContents div.Ask {
+	text-align: center;
+}
+
+#DialogContents div.Ask button {
+	margin: 20px;
+	margin-bottom: 0px;
+	width: 100px;
+}
+
+#ErrorClose {
+	width: 540px;
+}
+
+#DialogContents, #ErrorContents {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+	color: #000000;
+	box-shadow: 0px 0px 10px #000000;
+	display: none;
+}
+
+#ErrorContents {
+	width: 500px;
+}
+
+
