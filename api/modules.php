@@ -1,7 +1,7 @@
 <?php
 
-define("MODULE_CSS_BACKEND", 1 << 0);
-define("MODULE_CSS_FRONTEND", 1 << 1);
+define("MODULE_BACKEND", 1 << 0);
+define("MODULE_FRONTEND", 1 << 1);
 
 class ModuleAPI extends ModuleCore {
 }
@@ -63,12 +63,12 @@ class ModuleCore {
 		return CMS_BASE."?page=".PAGE_MODULES."&plugin=".$plugin_id."&module=".$module_id."&view=".$view;
 	}
 
-	public function AddCss($filename, $flags = MODULE_CSS_BACKEND)
+	public function AddCss($filename, $flags = MODULE_BACKEND)
 	{
-		if ($flags & MODULE_CSS_BACKEND)
+		if ($flags & MODULE_BACKEND)
 			$this->css_backend[] = $filename;
 
-		if ($flags & MODULE_CSS_FRONTEND)
+		if ($flags & MODULE_FRONTEND)
 			$this->css_frontend[] = $filename;
 	}
 
