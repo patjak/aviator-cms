@@ -72,14 +72,33 @@ class ModuleCore {
 			$this->css_frontend[] = $filename;
 	}
 
+	public function AddJs($filename, $flags = MODULE_BACKEND)
+	{
+		if ($flags & MODULE_BACKEND)
+			$this->js_backend[] = $filename;
+
+		if ($flags & MODULE_FRONTEND)
+			$this->js_frontend[] = $filename;
+	}
+
 	public function GetCssBackendList()
 	{
 		return $this->css_backend;
 	}
 
-	public function GetCssForendList()
+	public function GetCssFrontendList()
 	{
-		return $this->css_forend;
+		return $this->css_frontend;
+	}
+
+	public function GetJsBackendList()
+	{
+		return $this->js_backend;
+	}
+
+	public function GetJsFrontendList()
+	{
+		return $this->js_frontend;
 	}
 
 	public function SetIcon32($filename)

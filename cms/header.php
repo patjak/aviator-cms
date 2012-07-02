@@ -24,7 +24,13 @@ foreach (ModuleCore::GetEntries() as $entry) {
 	if ($plugin_id != (int)$_GET['plugin'] || $module_id != (int)$_GET['module'])
 		continue;
 
-	// FIXME: Add module js and css
+	foreach ($entry->GetCssBackendList() as $css) {
+		echo "<link rel=\"stylesheet\" href=\"".$css."\"/>\n";
+	}
+
+	foreach ($entry->GetJsBackendList() as $js) {
+		echo "<script type=\"text/javascript\" src=\"".$js."\"></script>\n";
+	}
 }
 
 if (URL::GetPage() == PAGE_CONTENTS_EDIT) {
