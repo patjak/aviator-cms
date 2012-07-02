@@ -14,6 +14,11 @@ class Context {
 		return SITE_BASE.Context::$directory;
 	}
 
+	static function GetPath()
+	{
+		return SITE_PATH.Context::$directory;
+	}
+
 	static function SetDirectory($directory)
 	{
 		Context::$directory = $directory;
