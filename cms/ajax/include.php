@@ -41,7 +41,7 @@ set_error_handler('AjaxErrorHandler');
 
 // Make sure the user is logged in and session is still alive
 session_start();
-if (!isset($_SESSION['logged_in'])) {
+if (!isset($_SESSION['user_id'])) {
 	Ajax::SetStatus(AJAX_STATUS_TIMEOUT);
 	exit();
 }

@@ -29,9 +29,19 @@ if ($install_finished === false) {
 	Settings::Set("lock_site_tree", "0");
 	Settings::Set("enable_page_rules", "0");
 	Settings::Set("allow_change_start_page", "1");
-	Settings::Set("admin_username", "patrik");
-	Settings::Set("admin_password", "abcd1234");
 	Settings::Set("install_finished", "1");
+
+	// FIXME: Let user specify credentials for the admin account
+	$res = DB::Query("SELECT id FROM ".DB_PREFIX."users WHERE username='admin'");
+	if (DB::NumRows($res) == 0) {
+		$admin_vo = new DaoUser();
+		$admin_vo->username = "admin";
+		$admin_vo->password = md5("password");
+		$admin_vo->fullname = "Administrator";
+		$admin_vo->full_access = 1;
+		DB::Insert(DB_PREFIX."users", $admin_vo);
+	}
+
 	echo "<img src=\"pics/icons_64/settings.png\" style=\"margin: 10px;\"/><br/>".
 	"Installation completed successfully";
 } else {

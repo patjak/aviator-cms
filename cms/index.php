@@ -11,18 +11,22 @@ require_once("common.php");
 // Start session and check for login
 session_start();
 if (isset($_POST['__user']) && isset($_POST['__pass'])) {
-	$username = Settings::Get("admin_username");
-	$password = Settings::Get("admin_password");
+	$res = DB::Query("SELECT id, username, password FROM ".DB_PREFIX."users");
+	$username = $_POST['__user'];
+	$password = md5($_POST['__pass']);
 
-	if ($_POST['__user'] == $username && $_POST['__pass'] == $password) {
-		$_SESSION['logged_in'] = true;
+	while ($row = DB::Row($res)) {
+		if ($row[1] == $username && $row[2] == $password) {
+			$_SESSION['user_id'] = $row[0];
 
-		$site_base = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], "/")+1);
-		header("Location: ".$site_base."\n");
-		exit();
+			$site_base = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], "/")+1);
+			header("Location: ".$site_base."\n");
+			exit();
+		}
 	}
 }
-if (!(isset($_SESSION['logged_in']))) {
+
+if (!(isset($_SESSION['user_id']))) {
 	require_once("login.php");
 	exit();
 }
