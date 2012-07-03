@@ -32,6 +32,10 @@ require_once("dao/theme.php");
 require_once("dao/contents.php");
 require_once("dao/images.php");
 require_once("dao/links.php");
+require_once("dao/users.php");
+require_once("dao/resources.php");
+require_once("dao/permissions.php");
+require_once("dao/access_logs.php");
 
 // Load plugins
 PluginCore::FindAndLoadAll();
