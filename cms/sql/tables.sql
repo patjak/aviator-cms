@@ -234,12 +234,12 @@ CREATE TABLE permissions (
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
-CREATE TABLE user_access_log (
+CREATE TABLE access_logs (
 	id INT NOT NULL AUTO_INCREMENT,
 	timestamp DATETIME,
 	user_id INT,
 	permission_id INT,
-	type INT,	# create = 1, update = 2, delete = 3
+	type INT,	# Bitmask: create = 001, update = 010, delete = 100 
 
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (permission_id) REFERENCES permissions(id),
