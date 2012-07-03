@@ -193,3 +193,55 @@ CREATE TABLE image_cache (
 	FOREIGN KEY (image_ref_id) REFERENCES image_refs(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
+
+CREATE TABLE resources (
+	id INT NOT NULL AUTO_INCREMENT,
+	name TEXT,	# A description of what the resource protects
+	page_id INT,
+	plugin_id INT,
+	content_id INT,
+	internal_id INT,
+
+	FOREIGN KEY (page_id) REFERENCES pages(id),
+	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
+	FOREIGN KEY (content_id) REFERENCES contents(id),
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
+CREATE TABLE users (
+	id INT NOT NULL AUTO_INCREMENT,
+	username TEXT,
+	password TEXT,	# Stored as MD5 sum
+	fullname TEXT,
+	email TEXT,
+	full_access INT, # Gives access to everything if == 1
+
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
+CREATE TABLE permissions (
+	id INT NOT NULL AUTO_INCREMENT,
+	resource_id INT,
+	user_id INT,
+
+	# Describes what kind of actions a user can do on a given resource
+	allow_create INT,
+	allow_update INT,
+	allow_delete INT,
+
+	FOREIGN KEY (resource_id) REFERENCES resources(id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
+CREATE TABLE user_access_log (
+	id INT NOT NULL AUTO_INCREMENT,
+	timestamp DATETIME,
+	user_id INT,
+	permission_id INT,
+	type INT,	# create = 1, update = 2, delete = 3
+
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (permission_id) REFERENCES permissions(id),
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
