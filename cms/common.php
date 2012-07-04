@@ -15,7 +15,6 @@ require_once("lib/pages.php");
 require_once("lib/user.php");
 require_once("lib/settings.php");
 require_once("lib/image_uploader.php");
-require_once("settings.php");
 require_once("lib/ajax_return.php");
 require_once("lib/layout.php");
 require_once(SITE_PATH."api/context.php");

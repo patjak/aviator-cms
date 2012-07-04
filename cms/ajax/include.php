@@ -5,6 +5,7 @@ $DEBUG = TRUE;
 
 set_include_path(get_include_path().":../../");
 require_once("common.php");
+require_once(CMS_PATH."settings.php");
 
 // Catch all output and create and return an JSON object
 Ajax::Start();

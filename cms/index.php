@@ -29,7 +29,13 @@ if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 if (!(isset($_SESSION['user_id']))) {
 	require_once("login.php");
 	exit();
+} else {
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$_SESSION['user_id']);
+	$user_vo = DB::Obj($res, "DaoUser");
+	User::Set($user_vo);
 }
+
+require_once(CMS_PATH."settings.php");
 
 // Start displaying stuff on screen
 $page = URL::GetPage();
