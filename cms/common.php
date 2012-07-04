@@ -12,6 +12,7 @@ require_once("lib/db.php");
 require_once("lib/url.php");
 require_once("lib/components.php");
 require_once("lib/pages.php");
+require_once("lib/user.php");
 require_once("lib/settings.php");
 require_once("lib/image_uploader.php");
 require_once("settings.php");
