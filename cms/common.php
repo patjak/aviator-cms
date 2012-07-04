@@ -12,7 +12,6 @@ require_once("lib/db.php");
 require_once("lib/url.php");
 require_once("lib/components.php");
 require_once("lib/pages.php");
-require_once("lib/user.php");
 require_once("lib/settings.php");
 require_once("lib/image_uploader.php");
 require_once("lib/ajax_return.php");
@@ -36,6 +35,9 @@ require_once("dao/users.php");
 require_once("dao/resources.php");
 require_once("dao/permissions.php");
 require_once("dao/access_logs.php");
+
+// Depends on dao/users.php
+require_once("lib/user.php");
 
 // Load plugins
 PluginCore::FindAndLoadAll();

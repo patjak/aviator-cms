@@ -10,6 +10,7 @@ Settings::Set("php_memory_limit", 128);
 
 $user_vo = User::Get();
 
+
 // FIXME: This will go away when user resources and permissions are in place
 if ($user_vo !== false && $user_vo->full_access != 1)
 	define("PAGE_RULES_ENABLED", true);

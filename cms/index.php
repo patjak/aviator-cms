@@ -6,10 +6,10 @@ $SECURE = true;
 // Enable / Disable debugging
 $DEBUG = true;
 
+session_start();
 require_once("common.php");
 
 // Start session and check for login
-session_start();
 if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 	$res = DB::Query("SELECT id, username, password FROM ".DB_PREFIX."users");
 	$username = $_POST['__user'];
@@ -29,10 +29,6 @@ if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 if (!(isset($_SESSION['user_id']))) {
 	require_once("login.php");
 	exit();
-} else {
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$_SESSION['user_id']);
-	$user_vo = DB::Obj($res, "DaoUser");
-	User::Set($user_vo);
 }
 
 require_once(CMS_PATH."settings.php");

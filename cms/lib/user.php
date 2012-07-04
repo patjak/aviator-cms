@@ -14,4 +14,10 @@ class User {
 	}
 }
 
+if (isset($_SESSION['user_id'])) {
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$_SESSION['user_id']);
+	$user_vo = DB::Obj($res, "DaoUser");
+	User::Set($user_vo);
+}
+
 ?>

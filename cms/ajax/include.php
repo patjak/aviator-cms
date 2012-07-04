@@ -3,6 +3,7 @@
 $SECURE = TRUE;
 $DEBUG = TRUE;
 
+session_start();
 set_include_path(get_include_path().":../../");
 require_once("common.php");
 require_once(CMS_PATH."settings.php");
@@ -41,7 +42,6 @@ function AjaxErrorHandler($errno, $errstr)
 set_error_handler('AjaxErrorHandler');
 
 // Make sure the user is logged in and session is still alive
-session_start();
 if (!isset($_SESSION['user_id'])) {
 	Ajax::SetStatus(AJAX_STATUS_TIMEOUT);
 	exit();
