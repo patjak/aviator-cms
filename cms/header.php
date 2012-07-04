@@ -99,12 +99,8 @@ case PAGE_PROFILE:
 </td>--><!--<td>
 <a class="<?php echo $sel_plugins;?>" href="?page=<?php echo PAGE_PLUGINS;?>"><img src="pics/icons_64/plugin.png"/><br/>Plugins</a>
 </td>--><td>
-<?php if (!HIDE_SITE_SETTINGS) { ?>
-
 <a class="<?php echo $sel_setup;?>" href="?page=<?php echo PAGE_SETUP;?>"><img src="pics/icons_64/settings.png"/><br/>Site setup</a>
 </td>
-
-<?php } ?>
 <!--<td><a class="<?php echo $sel_profile;?>" href="?page=<?php echo PAGE_PROFILE;?>"><img src="pics/icons_64/profile.png"/><br/>Your profile</a>
 </td>--><td>
 <a href="logout.php"><img src="pics/icons_64/power_off.png"/><br/>Log out</a>

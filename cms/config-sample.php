@@ -1,8 +1,5 @@
 <?php
 
-// FIXME: Remove this when the user system is in place
-define("HIDE_SITE_SETTINGS", false);
-
 define("SITE_PATH", "/var/www/website/");
 define("SITE_BASE", "http://localhost/website/");
 
