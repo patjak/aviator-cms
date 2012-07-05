@@ -94,11 +94,11 @@ case PAGE_PROFILE:
 <a class="<?php echo $sel_contents;?>" href="?page=<?php echo PAGE_CONTENTS;?>"><img src="pics/icons_64/box.png"/><br/>Contents</a>
 </td><td>
 <a class="<?php echo $sel_modules;?>" href="?page=<?php echo PAGE_MODULES;?>"><img src="pics/icons_64/module.png"/><br/>Modules</a>
-</td><!--<td>
-<a class="<?php echo $sel_themes;?>" href="?page=<?php echo PAGE_THEMES;?>"><img src="pics/icons_64/television.png"/><br/>Themes</a>
-</td>--><!--<td>
+</td><td>
+<a class="<?php echo $sel_themes;?>" href="?page=<?php echo PAGE_THEMES;?>"><img src="pics/icons_64/brush.png"/><br/>Themes</a>
+</td><td>
 <a class="<?php echo $sel_plugins;?>" href="?page=<?php echo PAGE_PLUGINS;?>"><img src="pics/icons_64/plugin.png"/><br/>Plugins</a>
-</td>--><td>
+</td><td>
 <a class="<?php echo $sel_setup;?>" href="?page=<?php echo PAGE_SETUP;?>"><img src="pics/icons_64/settings.png"/><br/>Site setup</a>
 </td>
 <!--<td><a class="<?php echo $sel_profile;?>" href="?page=<?php echo PAGE_PROFILE;?>"><img src="pics/icons_64/profile.png"/><br/>Your profile</a>
