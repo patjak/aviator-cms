@@ -146,6 +146,18 @@ class PluginCore {
 		return false;
 	}
 
+	public static function GetById($id)
+	{
+		$entries = PluginCore::GetEntries();
+
+		foreach ($entries as $entry) {
+			if ($entry->GetId() == $id)
+				return $entry;
+		}
+
+		return false;
+	}
+
 	public static function GetEntries()
 	{
 		return PluginCore::$entries;

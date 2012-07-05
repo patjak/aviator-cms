@@ -18,7 +18,8 @@ class ModuleCore {
 
 			$css_backend = array(), // List of all css files registered by modules for backend inclusion
 			$css_frontend = array(), // List of all css files registered by modules for frontend inclusion
-			$views = array();
+			$views = array(),
+			$action = array();
 
 	public		$plugin;
 
@@ -49,6 +50,14 @@ class ModuleCore {
 		return $this->views[$id];
 	}
 
+	public function GetCurrentView()
+	{
+		if (isset($_GET['view']))
+			return (int)$_GET['view'];
+		else
+			return false;
+	}
+
 	public function GetViewUrl($view = 0)
 	{
 		$plugin_id = (int)$_GET['plugin'];
@@ -61,6 +70,18 @@ class ModuleCore {
 		}
 
 		return CMS_BASE."?page=".PAGE_MODULES."&plugin=".$plugin_id."&module=".$module_id."&view=".$view;
+	}
+
+	public function AddAction($filename, $id)
+	{
+		$this->actions[$id] = $filename;
+	}
+
+	public function GetActionUrl($action)
+	{
+		$view_url = $this->GetViewUrl();
+
+		return $view_url."&action=".$action;
 	}
 
 	public function AddCss($filename, $flags = MODULE_BACKEND)
