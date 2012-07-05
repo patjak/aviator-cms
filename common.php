@@ -23,6 +23,7 @@ require_once(CMS_PATH."dao/layout.php");
 require_once(CMS_PATH."dao/theme.php");
 require_once(CMS_PATH."dao/contents.php");
 require_once(CMS_PATH."dao/images.php");
+require_once(CMS_PATH."dao/links.php");
 
 // Load plugins
 PluginCore::FindAndLoadAll();
