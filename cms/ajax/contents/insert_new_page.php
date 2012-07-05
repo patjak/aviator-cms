@@ -67,7 +67,7 @@ if (Theme::GetPageDepth($parent_id) >= ($max_page_depth - 1)) {
 }
 
 $parent_vo = Theme::GetPage($parent_id);
-if ($parent_vo->allow_subpage == 0) {
+if ($parent_vo != false && $parent_vo->allow_subpage == 0) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>This page cannot have sub pages</p>";
 	exit();
