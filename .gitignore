@@ -4,6 +4,6 @@ pics/
 cms/config.php
 cms/pics/
 cms/jquery/
-plugins/
+plugins/*/
 !plugins/include.php
 themes/
