@@ -18,7 +18,9 @@ class Theme {
 			$section_column_2_height = 0,
 			$section_column_3_height = 0,
 			$section_column_4_height = 0,
-			$section_footer_height = 0;
+			$section_footer_height = 0,
+
+			$image_margin = 0;
 
 	static public function RenderContent($section_id, $content_vo)
 	{
@@ -348,6 +350,16 @@ class Theme {
 		case SECTION_FOOTER:
 			return Theme::$section_footer_height;
 		}
+	}
+
+	static public function SetImageMargin($width)
+	{
+		Theme::$image_margin = $width;
+	}
+
+	static public function  GetImageMargin()
+	{
+		return Theme::$image_margin;
 	}
 }
 ?>
