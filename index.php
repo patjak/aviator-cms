@@ -1,7 +1,7 @@
 <?php
 $SECURE = true; // Mark this a valid entry point
 require_once("common.php");
-require_once("themes/schullstrom_morner2/config.php");
+require_once("themes/default/config.php");
 
 $theme_path = Theme::GetPath();
 $theme_base = Theme::GetBase();
