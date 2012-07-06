@@ -16,8 +16,14 @@ class ModuleCore {
 			$icon_32_filename,
 			$icon_64_filename,
 
-			$css_backend = array(), // List of all css files registered by modules for backend inclusion
-			$css_frontend = array(), // List of all css files registered by modules for frontend inclusion
+			// List of css includes for backend and frontend
+			$css_backend = array(),
+			$css_frontend = array(),
+
+			// List of js include for backend and frontend
+			$js_backend = array(),
+			$js_frontend = array(),
+
 			$views = array(),
 			$action = array();
 
