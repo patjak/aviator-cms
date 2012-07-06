@@ -68,9 +68,16 @@ if ($title == "") {
 	exit();
 }
 
+// Check move operations
 if ($pid == $parent_id) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>Cannot set parent page to the page you're editing</p>";
+	exit();
+}
+
+if (Theme::IsParent($pid, $parent_id)) {
+	Ajax::SetStatus(AJAX_STATUS_WARNING);
+	echo "<p>Cannot move a page into one of it's sub pages</p>";
 	exit();
 }
 
