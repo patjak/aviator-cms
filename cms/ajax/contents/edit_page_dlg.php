@@ -16,7 +16,7 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 		$parent_str = "=".$parent_id;
 	}
 
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str);
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort ASC");
 
 	while ($page = DB::Obj($res, "DaoPage")) {
 
