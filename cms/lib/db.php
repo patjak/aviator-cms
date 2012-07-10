@@ -1,6 +1,6 @@
 <?php
 
-require_once("secure.php");
+require_once(SITE_PATH."secure.php");
 
 $con = 0;
 
