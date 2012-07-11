@@ -13,6 +13,7 @@
 <script type="text/javascript" src="js/contents_edit.js"></script>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <script type="text/javascript" src="js/image_uploader.js"></script>
+<script type="text/javascript" src="js/link_picker.js"></script>
 <?php
 foreach (ModuleCore::GetEntries() as $entry) {
 	$module_id = $entry->GetId();

@@ -527,3 +527,11 @@ div.CroppingHint div.y {
 	height: 100%;
 	top: 0px;
 }
+
+div.LinkPicker img {
+	margin: 4px;
+}
+
+div.LinkPicker table {
+	color: #ffffff;
+}

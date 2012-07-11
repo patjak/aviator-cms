@@ -219,10 +219,18 @@ class ContentCore {
 		if ($link == NULL) {
 			DB::Query("INSERT INTO ".DB_PREFIX."links (content_id, internal_id) ".
 			"values(".$content_id.", ".$internal_id.")");
+			$id = DB::InsertID();
+
+			$link = $this->GetLink($content_id, $internal_id);
+			$link->sort = $link->id;
+			DB::Update(DB_PREFIX."links", $link);
 		} else {
 			$link->content_id = $content_id;
 			$link->internal_id = $internal_id;
 			DB::Insert(DB_PREFIX."links", $link);
+
+			$link->sort = $link->id;
+			DB::Update(DB_PREFIX."links", $link);
 		}
 	}
 
@@ -247,8 +255,19 @@ class ContentCore {
 		return $links;
 	}
 
-	public function UpdateLink($content_id, $internal_id, $link)
+	public function UpdateLinkPicker($content_id, $internal_id, $link)
 	{
+		$id = $link->id;
+		$link->name = $_POST['link_picker_'.$id.'_name'];
+		$link->in_new_window = (int)$_POST['link_picker_'.$id.'_in_new_window'];
+		$link->is_internal = (int)$_POST['link_picker_'.$id.'_is_internal'];
+		$link->internal_page_id = (int)$_POST['link_picker_'.$id.'_internal_page_id'];
+		$link->external_url = $_POST['link_picker_'.$id.'_external_url'];
+		$link->enabled = (int)$_POST['link_picker_'.$id.'_enabled'];
+
+		if ($link->internal_page_id == 0)
+			$link->internal_page_id = NULL;
+
 		DB::Update(DB_PREFIX."links", $link);
 	}
 

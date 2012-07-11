@@ -14,6 +14,7 @@ require_once("lib/components.php");
 require_once("lib/pages.php");
 require_once("lib/settings.php");
 require_once("lib/image_uploader.php");
+require_once("lib/link_picker.php");
 require_once("lib/ajax_return.php");
 require_once("lib/layout.php");
 require_once(SITE_PATH."api/context.php");
