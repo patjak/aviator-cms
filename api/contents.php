@@ -228,10 +228,28 @@ class ContentCore {
 
 	public function GetLink($content_id, $internal_id)
 	{
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+		if (DB::NumRows($res) == 1)
+			return DB::Obj($res, "DaoLink");
+		else
+			return false;
+	}
+
+	public function GetAllLinks($content_id)
+	{
+		$links = array();
+
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE content_id=".$content_id." ORDER BY sort ASC");
+		while ($vo = DB::Obj($res, "DaoLinks")) {
+			$links[] = $vo;
+		}
+
+		return $links;
 	}
 
 	public function UpdateLink($content_id, $internal_id, $link)
 	{
+		DB::Update(DB_PREFIX."links", $link);
 	}
 
 	public function DeleteLink($content_id, $internal_id)
