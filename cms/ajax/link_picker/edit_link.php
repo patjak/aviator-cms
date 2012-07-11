@@ -55,6 +55,6 @@ if ($link_vo->is_internal == 1) {
 PagesAPI::GetPagesAsOptions($link_vo->internal_page_id);
 ?>
 </select></td></tr>
-<tr><td></td><td><button type="submit"><img src="pics/icons_24/check.png"/> Save changes</button></td></tr>
+<tr><td></td><td><button type="submit"><img src="pics/icons_24/check.png"/> Apply changes</button></td></tr>
 </table>
 </form>
