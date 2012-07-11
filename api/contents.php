@@ -240,7 +240,7 @@ class ContentCore {
 		$links = array();
 
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE content_id=".$content_id." ORDER BY sort ASC");
-		while ($vo = DB::Obj($res, "DaoLinks")) {
+		while ($vo = DB::Obj($res, "DaoLink")) {
 			$links[] = $vo;
 		}
 
