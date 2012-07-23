@@ -62,6 +62,14 @@ class Theme {
 			Theme::RenderContent($section_id, $content_vo);
 	}
 
+	// This will make the Theme think we are on a different page than what we have in the URL (page_id)
+	static public function SetPage($id)
+	{
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$id);
+		Theme::$page_vo = DB::Obj($res, "DaoPage");
+		Theme::$page_id = $id;
+	}
+
 	static public function GetPage($id = 0)
 	{
 		if ($id > 0) {
