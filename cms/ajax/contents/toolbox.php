@@ -50,7 +50,7 @@ if ((!PAGE_RULES_ENABLED || $allow_change_start_page) && $pid == 0) {
 <?php
 if ($pid > 0) {
 ?>
-<a href=""><img src="pics/icons_32/visible.png"/> View page</a><br/>
+<a href="<?php echo SITE_BASE."?page_id=".$page->id;?>" target="_blank"><img src="pics/icons_32/visible.png"/> View page</a><br/>
 <span class="Button" onclick="ShowEditPage(<?php echo $pid;?>);"><img src="pics/icons_32/edit.png"/> Edit settings</span><br/>
 <?php
 if (!PAGE_RULES_ENABLED || $page->allow_delete) { ?>
