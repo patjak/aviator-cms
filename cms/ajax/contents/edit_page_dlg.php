@@ -48,7 +48,9 @@ else
 <input type="hidden" name="pid" value="<?php echo $pid;?>"/>
 <h2><img src="pics/icons_32/paper_new.png"/> Edit page settings</h2>
 <div class="Heading">Page title</div>
-<input type="text" name="title" value="<?php echo htmlentities($page->title, ENT_QUOTES, "UTF-8");?>"/>
+<input type="text" name="title" value="<?php echo htmlentities($page->title, ENT_QUOTES, "UTF-8");?>" style="width: 200px;"/>
+<div class="Heading">Description</div>
+<input type="text" name="description" value="<?php echo htmlentities($page->description, ENT_QUOTES, "UTF-8");?>" style="width: 600px;"/>
 <div class="Heading">Attributes</div>
 <input type="checkbox" name="published" <?php echo $published_str;?>/>Published<br/>
 <input type="checkbox" name="in_menu" <?php echo $in_menu_str;?>/>Visible in menu

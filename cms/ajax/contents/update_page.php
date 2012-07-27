@@ -21,6 +21,11 @@ if (isset($_POST['title']))
 else
 	$title = "";
 
+if (isset($_POST['description']))
+	$description = mysql_real_escape_string($_POST['description']);
+else
+	$description = "";
+
 if (isset($_POST['published']))
 	$published = 1;
 else
@@ -98,6 +103,7 @@ if ($max_top_level_pages > 0 && $parent_id == NULL && $page->parent_id != NULL &
 
 
 $page->title = $title;
+$page->description = $description;
 $page->parent_id = $parent_id;
 $page->published = $published;
 $page->in_menu = $in_menu;

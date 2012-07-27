@@ -40,7 +40,9 @@ $row = DB::Row($res);
 <h2><img src="pics/icons_32/paper_new.png"/> Add new page</h2>
 <input type="hidden" id="layout_id" name="layout_id" value="<?php echo $row[0];?>"/>
 <div class="Heading">Page title</div>
-<input type="text" name="title"/>
+<input type="text" name="title" style="width: 200px;"/>
+<div class="Heading">Description</div>
+<input type="text" name="description" style="width: 600px;"/>
 <div class="Heading">Attributes</div>
 <nobr><input type="checkbox" name="published"/>Published</nobr><br/>
 <nobr><input type="checkbox" name="in_menu" checked/>Visible in menu</nobr>

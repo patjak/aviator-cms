@@ -21,6 +21,11 @@ if (isset($_POST['title']))
 else
 	$title = "";
 
+if (isset($_POST['description']))
+	$description = mysql_real_escape_string($_POST['description']);
+else
+	$description = "";
+
 if (isset($_POST['published']))
 	$published = 1;
 else
@@ -75,6 +80,7 @@ if ($parent_vo != false && $parent_vo->allow_subpage == 0) {
 
 $page = new DaoPage();
 $page->title = $title;
+$page->description = $description;
 $page->parent_id = $parent_id;
 $page->layout_id = $layout_id;
 $page->published = $published;
