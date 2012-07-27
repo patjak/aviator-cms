@@ -66,6 +66,7 @@ CREATE TABLE page_styles (
 CREATE TABLE pages (
         id INT NOT NULL AUTO_INCREMENT,
         title TEXT,
+	description TEXT,
         parent_id INT		DEFAULT NULL,
 	layout_id INT		DEFAULT NULL,
 	type_id INT		DEFAULT NULL,

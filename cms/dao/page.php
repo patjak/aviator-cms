@@ -3,6 +3,7 @@
 class DaoPage {
 	public	$id,
 		$title,
+		$description,
 		$parent_id,
 		$layout_id,
 		$type_id,
