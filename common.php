@@ -6,7 +6,7 @@ if (isset($DEBUG) && $DEBUG) {
 	error_reporting(E_ALL);
 }
 
-require_once("cms/config.php");
+require_once("config.php");
 require_once(CMS_PATH."lib/db.php");
 require_once(CMS_PATH."lib/settings.php");
 require_once(SITE_PATH."api/context.php");

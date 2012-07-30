@@ -7,7 +7,7 @@ if (isset($DEBUG) && $DEBUG) {
 }
 
 require_once("defines.php");
-require_once("config.php");
+require_once("../config.php");
 require_once("lib/db.php");
 require_once("lib/url.php");
 require_once("lib/components.php");
