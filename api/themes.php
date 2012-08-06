@@ -319,15 +319,15 @@ class Theme {
 			break;
 
 		case SECTION_COLUMN_2:
-			Theme::$section_column_1_height = $height;
+			Theme::$section_column_2_height = $height;
 			break;
 
 		case SECTION_COLUMN_3:
-			Theme::$section_column_1_height = $height;
+			Theme::$section_column_3_height = $height;
 			break;
 
 		case SECTION_COLUMN_4:
-			Theme::$section_column_1_height = $height;
+			Theme::$section_column_4_height = $height;
 			break;
 
 		case SECTION_FOOTER:
