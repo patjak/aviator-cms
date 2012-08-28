@@ -6,7 +6,24 @@
 // admin choose them in site settings
 Settings::Set("max_page_depth", 3);
 Settings::Set("max_top_level_pages", 5);
-Settings::Set("php_memory_limit", 128);
+
+// Parse memory_limit setting with ini_get()
+$val = ini_get("memory_limit");
+$val = trim($val);
+$postfix = strtolower($val[strlen($val)-1]);
+$val = substr($val, 0, -1);
+
+switch($postfix) {
+case 'g':
+	$val *= 1024;
+case 'k':
+	$val /= 1024;
+case 'm':
+default:
+	// We assume MB
+}
+// Store memory_limit in MB
+Settings::Set("php_memory_limit", $val);
 
 $user_vo = User::Get();
 
