@@ -20,6 +20,7 @@ $install_finished = Settings::Get("install_finished");
 
 if ($install_finished === false) {
 	Settings::Set("site_title", "My new website");
+	Settings::Set("site_start_page", "0");
 	Settings::Set("max_page_depth", "0");
 	Settings::Set("max_top_level_pages", "0");
 	Settings::Set("show_contents_menu", "1");
@@ -42,10 +43,10 @@ if ($install_finished === false) {
 		DB::Insert(DB_PREFIX."users", $admin_vo);
 	}
 
-	echo "<img src=\"pics/icons_64/settings.png\" style=\"margin: 10px;\"/><br/>".
+	echo "<img src=\"".CMS_BASE."pics/icons_64/settings.png\" style=\"margin: 10px;\"/><br/>".
 	"Installation completed successfully";
 } else {
-	echo "<img src=\"pics/icons_64/warning.png\" style=\"margin: 10px;\"/><br/>".
+	echo "<img src=\"".CMS_BASE."pics/icons_64/warning.png\" style=\"margin: 10px;\"/><br/>".
 	"Installation has already been completed";
 }
 
