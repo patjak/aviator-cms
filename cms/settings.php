@@ -16,8 +16,10 @@ $val = substr($val, 0, -1);
 switch($postfix) {
 case 'g':
 	$val *= 1024;
+	break;
 case 'k':
 	$val /= 1024;
+	break;
 case 'm':
 default:
 	// We assume MB
