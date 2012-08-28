@@ -7,7 +7,21 @@ if (isset($DEBUG) && $DEBUG) {
 }
 
 require_once("defines.php");
-require_once("../config.php");
+
+// FIXME: This is an ugly hack
+if (file_exists("../config.php")) {
+	require_once("../config.php");
+} else if (file_exists("../../config.php")) {
+	require_once("../../config.php");
+} else if (file_exists("../../../config.php")) {
+	require_once("../../../config.php");
+} else if (file_exists("../../../../config.php")) {
+	require_once("../../../../config.php");
+} else {
+	echo "Fatal error: Cannot find config file!";
+	exit();
+}
+
 require_once("lib/db.php");
 require_once("lib/url.php");
 require_once("lib/components.php");
