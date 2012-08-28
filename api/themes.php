@@ -39,6 +39,8 @@ class Theme {
 		$contents = array();
 
 		$page_vo = Theme::GetPage($page_id);
+		if ($page_vo === false)
+			return array();
 
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE page_id=".$page_vo->id." AND section_id=".$section_id." ORDER BY sort ASC");
 		while ($content_vo = DB::Obj($res, "DaoContent")) {
@@ -81,6 +83,16 @@ class Theme {
 					$page_id = (int)$_GET['page_id'];
 				else
 					$page_id = Settings::Get("site_start_page");
+
+				// Start page is selected as first top page in CMS
+				if ($page_id == 0) {
+					$pages = Theme::GetTopPages();
+					if (count($pages) > 0)
+						$page_id = $pages[0]->id;
+					else
+						return false;
+				}
+
 				Theme::$page_id = $page_id;
 			}
 	
@@ -191,10 +203,17 @@ class Theme {
 
 	static public function GetLayout($page_id = 0)
 	{
-		if ($page_id == 0)
-			$page_id = Theme::GetPage()->id;
+		if ($page_id == 0) {
+			$page_vo = Theme::GetPage();
+			if ($page_vo !== false)
+				$page_id = $page_vo->id;
+			else
+				return false;
+		}
 
 		$page_vo = Theme::GetPage($page_id);
+		if ($page_vo === false)
+			return false;
 
 		$res = DB::Query("SELECT * FROM layouts WHERE id=".$page_vo->layout_id);
 		$layout_vo = DB::Obj($res, "DaoLayout");
@@ -261,6 +280,9 @@ class Theme {
 			$layout_vo = Theme::GetLayout();
 		else
 			$layout_vo = Theme::GetLayout($page_id);
+
+		if ($layout_vo === false)
+			return false;
 
 		switch ($section_id) {
 		case SECTION_HEADER:
