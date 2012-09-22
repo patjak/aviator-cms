@@ -173,6 +173,12 @@ class Theme {
 		return Theme::GetPage($page_id);
 	}
 
+	static public function PageNumChildren($id)
+	{
+		$res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id=".$id);
+		return DB::NumRows($res);
+	}
+
 	static public function GetPageChildren($id = 0)
 	{
 		$parent_vo = Theme::GetPage($id);
