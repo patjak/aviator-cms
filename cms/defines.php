@@ -8,6 +8,7 @@ define("PAGE_MODULES", $i++);
 define("PAGE_THEMES", $i++);
 define("PAGE_PLUGINS", $i++);
 define("PAGE_SITE", $i++);
+define("PAGE_USERS", $i++);
 define("PAGE_PROFILE", $i++);
 define("PAGE_SETUP", $i++);
 define("PAGE_LOGOUT", $i++);

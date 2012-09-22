@@ -57,6 +57,9 @@ case PAGE_PLUGINS:
 case PAGE_SETUP:
 	require_once("page_site_setup.php");
 	break;
+case PAGE_USERS:
+	require_once("page_users.php");
+	break;
 case PAGE_PROFILE:
 	require_once("page_profile.php");
 	break;

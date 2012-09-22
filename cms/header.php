@@ -60,6 +60,7 @@ $sel_modules = "";
 $sel_themes = "";
 $sel_plugins = "";
 $sel_site = "";
+$sel_users = "";
 $sel_profile = "";
 $sel_setup = "";
 
@@ -82,10 +83,12 @@ case PAGE_PLUGINS:
 case PAGE_SETUP:
 	$sel_setup = "Selected";
 	break;
+case PAGE_USERS:
+	$sel_users = "Selected";
+	break;
 case PAGE_PROFILE:
 	$sel_profile = "Selected";
 	break;
-
 }
 ?>
 <table><tr>
@@ -99,6 +102,8 @@ case PAGE_PROFILE:
 <a class="<?php echo $sel_themes;?>" href="?page=<?php echo PAGE_THEMES;?>"><img src="pics/icons_64/brush.png"/><br/>Themes</a>
 </td><td>
 <a class="<?php echo $sel_plugins;?>" href="?page=<?php echo PAGE_PLUGINS;?>"><img src="pics/icons_64/plugin.png"/><br/>Plugins</a>
+</td><td>
+<a class="<?php echo $sel_users;?>" href="?page=<?php echo PAGE_USERS;?>"><img src="pics/icons_64/users.png"/><br/>Users</a>
 </td><td>
 <a class="<?php echo $sel_setup;?>" href="?page=<?php echo PAGE_SETUP;?>"><img src="pics/icons_64/settings.png"/><br/>Site setup</a>
 </td>
