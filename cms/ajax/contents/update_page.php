@@ -95,7 +95,8 @@ $res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id IS NULL");
 $num_top_pages = DB::NumRows($res);
 $max_top_level_pages = Settings::Get("max_top_level_pages");
 
-if ($max_top_level_pages > 0 && $parent_id == NULL && $page->parent_id != NULL && $num_top_pages >= $max_top_level_pages) {
+if ($page->allow_move == 1 && $max_top_level_pages > 0 && $parent_id == NULL &&
+    $page->parent_id != NULL && $num_top_pages >= $max_top_level_pages) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>You are not allowed to have more top level pages</p>";
 	exit();
@@ -104,15 +105,22 @@ if ($max_top_level_pages > 0 && $parent_id == NULL && $page->parent_id != NULL &
 
 $page->title = $title;
 $page->description = $description;
-$page->parent_id = $parent_id;
 $page->published = $published;
 $page->in_menu = $in_menu;
-$page->allow_move = $allow_move;
-$page->allow_edit = $allow_edit;
-$page->allow_subpage = $allow_subpage;
-$page->allow_delete = $allow_delete;
-$page->allow_change_style = $allow_change_style;
-$page->style_id = $page_style;
+
+if (!PAGE_RULES_ENABLED || $page->allow_move == 1)
+	$page->parent_id = $parent_id;
+
+if (!PAGE_RULES_ENABLED || $page->allow_change_style == 1)
+	$page->style_id = $page_style;
+
+if (!PAGE_RULES_ENABLED) {
+	$page->allow_move = $allow_move;
+	$page->allow_edit = $allow_edit;
+	$page->allow_subpage = $allow_subpage;
+	$page->allow_delete = $allow_delete;
+	$page->allow_change_style = $allow_change_style;
+}
 
 DB::Update(DB_PREFIX."pages", $page);
 
