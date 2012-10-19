@@ -20,8 +20,12 @@ else
 $res_ref = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_id);
 $image_ref = DB::Obj($res_ref, "DaoImageRef");
 
-$res_link = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE id=".$image_ref->link_id);
-$link_vo = DB::Obj($res_link, "DaoLink");
+if ($image_ref->link_id != NULL) {
+	$res_link = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE id=".$image_ref->link_id);
+	$link_vo = DB::Obj($res_link, "DaoLink");
+} else {
+	$show_link = false;
+}
 
 ?>
 <h2>Upload or choose image</h2>

@@ -45,7 +45,39 @@ if ((!PAGE_RULES_ENABLED || $allow_change_start_page) && $pid == 0) {
 <?php
 }
 
+// Find image ref or create one if it doesn't exist
+if ($pid > 0) {
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
+	$page = DB::Obj($res, "DaoPage");
+
+	if ($page->image_ref_id == NULL) {
+		$image_ref = new DaoImageRef();
+		DB::Insert(DB_PREFIX."image_refs", $image_ref);
+		$page->image_ref_id = $image_ref->id;
+		DB::Update(DB_PREFIX."pages", $page);
+	} else {
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$page->image_ref_id);
+		$image_ref = DB::Obj($res, "DaoImageRef");
+	}
+
+	$img_uploader = new ImageUploader($image_ref);
+	$img_uploader->SetThumbMaxWidth(180);
+	$img_uploader->SetThumbMaxHeight(100);
+	$img_uploader->ShowLink(false);
+	echo "<span class=\"Button\" onclick=\"$('div.PageImageUploader').toggle();\">".
+	"<img src=\"pics/icons_32/image.png\"/> Page image</span><br/>".
+	"<div class=\"PageImageUploader\" style=\"text-align: center; display: none;\">".
+	"<form onsubmit=\"SavePageImage($(this)); return false;\" method=\"POST\">".
+	"<input type=\"hidden\" name=\"image_ref_id\" value=\"".$image_ref->id."\"/>";
+	$img_uploader->Render();
+	echo "<button type=\"submit\">Save</button> ".
+	"<button onclick=\"return false; $('div.PageImageUploader').toggle();\">Cancel</button>".
+	"<div class=\"Heading\"></div>".
+	"</form>".
+	"</div>";
+}
 ?>
+<span class="Button" onclick="ShowNewPage(<?php echo $pid;?>);"><img src="pics/icons_32/page.png"/> New subpage</span><br/>
 <span class="Button" onclick="ShowNewPage(<?php echo $pid;?>);"><img src="pics/icons_32/page.png"/> New subpage</span><br/>
 <?php
 if ($pid > 0) {

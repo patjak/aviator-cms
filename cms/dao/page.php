@@ -4,6 +4,7 @@ class DaoPage {
 	public	$id,
 		$title,
 		$description,
+		$image_ref_id,
 		$parent_id,
 		$layout_id,
 		$type_id,

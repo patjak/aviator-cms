@@ -163,6 +163,19 @@ function UpdatePage(form, pid) {
 	});
 }
 
+function SavePageImage(form) {
+	$.post("ajax/contents/save_page_image.php", form.serialize(), function(data) {
+		if (!IsJsonValid(data)) 
+			return;
+
+		json = jQuery.parseJSON(data);
+
+		if (json.status == 0)
+			form.parent().slideUp(200);
+	});
+}
+
+
 $(document).ready(function() {
 	// Make sure the proper page is loaded
 	if ($("#SiteTree").length <= 0)
