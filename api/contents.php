@@ -124,12 +124,12 @@ class ContentCore {
 		return ContentCore::$css_frontend;
 	}
 
-	public function GetJsBackendList()
+	static public function GetJsBackendList()
 	{
 		return ContentCore::$js_backend;
 	}
 
-	public function GetJsFrontendList()
+	static public function GetJsFrontendList()
 	{
 		return ContentCore::$js_frontend;
 	}
