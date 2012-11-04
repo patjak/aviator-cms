@@ -17,10 +17,9 @@ if ($pid > 0) {
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
 	$page = DB::Obj($res, "DaoPage");
 
-	echo "<div class=\"Heading\">".
-	"<img style=\"margin: 0px; margin-right: 14px; float: left;\" src=\"pics/icons_24/visible.png\"/>".
+	echo "<div class=\"Heading\" style=\"text-align: center;\">".
 	"<a href=\"".SITE_BASE."?page_id=".$page->id."\" target=\"_blank\" style=\"line-height: 24px;\">".
-	" ".$page->title."</a><div style=\"clear: both;\"></div></div>".
+	" ".$page->title."</a></div>".
 	"<div style=\"text-align: center; margin-bottom: 20px;\">";
 	HtmlLayout($page->id, $page->layout_id, 120, 100, 4, true);
 
