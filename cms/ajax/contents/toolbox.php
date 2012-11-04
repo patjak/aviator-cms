@@ -78,7 +78,6 @@ if ($pid > 0) {
 }
 ?>
 <span class="Button" onclick="ShowNewPage(<?php echo $pid;?>);"><img src="pics/icons_32/page.png"/> New subpage</span><br/>
-<span class="Button" onclick="ShowNewPage(<?php echo $pid;?>);"><img src="pics/icons_32/page.png"/> New subpage</span><br/>
 <?php
 if ($pid > 0) {
 ?>
