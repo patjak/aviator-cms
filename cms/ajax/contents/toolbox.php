@@ -63,14 +63,14 @@ if ($pid > 0) {
 	$img_uploader->SetThumbMaxWidth(180);
 	$img_uploader->SetThumbMaxHeight(100);
 	$img_uploader->ShowLink(false);
-	echo "<span class=\"Button\" onclick=\"$('div.PageImageUploader').toggle();\">".
+	echo "<span class=\"Button\" onclick=\"$('div.PageImageUploader').slideToggle(200);\">".
 	"<img src=\"pics/icons_32/image.png\"/> Page image</span><br/>".
 	"<div class=\"PageImageUploader\" style=\"text-align: center; display: none;\">".
 	"<form onsubmit=\"SavePageImage($(this)); return false;\" method=\"POST\">".
 	"<input type=\"hidden\" name=\"image_ref_id\" value=\"".$image_ref->id."\"/>";
 	$img_uploader->Render();
 	echo "<button type=\"submit\">Save</button> ".
-	"<button onclick=\"return false; $('div.PageImageUploader').toggle();\">Cancel</button>".
+	"<button onclick=\"$('div.PageImageUploader').slideToggle(200); return false;\">Cancel</button>".
 	"<div class=\"Heading\"></div>".
 	"</form>".
 	"</div>";
