@@ -1,3 +1,5 @@
+SET foreign_key_checks = 0;
+ 
 CREATE TABLE settings (
         id INT NOT NULL AUTO_INCREMENT,
         name TEXT,
@@ -67,6 +69,7 @@ CREATE TABLE pages (
         id INT NOT NULL AUTO_INCREMENT,
         title TEXT,
 	description TEXT,
+	image_ref_id INT	DEFAULT NULL,
         parent_id INT		DEFAULT NULL,
 	layout_id INT		DEFAULT NULL,
 	type_id INT		DEFAULT NULL,
@@ -80,6 +83,7 @@ CREATE TABLE pages (
         allow_subpage INT	DEFAULT 1,
 	allow_change_style INT	DEFAULT 1,
 
+	FOREIGN KEY (image_ref_id) REFERENCES image_refs(id),
         FOREIGN KEY (parent_id) REFERENCES pages(id),
 	FOREIGN KEY (layout_id) REFERENCES layouts(id),
 	FOREIGN KEY (type_id) REFERENCES page_types(id),
@@ -209,6 +213,13 @@ CREATE TABLE resources (
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
+CREATE TABLE user_groups (
+	id INT NOT NULL AUTO_INCREMENT,
+	name TEXT,
+	description TEXT,
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
 CREATE TABLE users (
 	id INT NOT NULL AUTO_INCREMENT,
 	username TEXT,
@@ -219,6 +230,17 @@ CREATE TABLE users (
 
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
+
+CREATE TABLE user_group_members (
+	id INT NOT NULL AUTO_INCREMENT,
+	group_id INT,
+	user_id INT,
+
+	FOREIGN KEY (group_id) REFERENCES user_groups(id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
 
 CREATE TABLE permissions (
 	id INT NOT NULL AUTO_INCREMENT,
@@ -246,3 +268,5 @@ CREATE TABLE access_logs (
 	FOREIGN KEY (permission_id) REFERENCES permissions(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
+
+SET foreign_key_checks = 1;
