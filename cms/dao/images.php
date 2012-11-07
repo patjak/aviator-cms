@@ -3,6 +3,8 @@
 class DaoImage {
 	public	$id, 
 		$name,
+		$description,
+		$category_id,
 		$width,
 		$height,
 		$format;

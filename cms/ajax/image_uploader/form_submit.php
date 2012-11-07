@@ -3,6 +3,9 @@ require_once("../include.php");
 
 $image_ref_id = (int)$_POST['image_ref_id'];
 $image_name = $_POST['image_name'];
+$image_description = $_POST['image_description'];
+$image_category_id = (int)$_POST['image_category_id'];
+$image_category_name = $_POST['image_category_name'];
 $max_width = (int)$_POST['max_width'];
 $max_height = (int)$_POST['max_height'];
 $min_width = (int)$_POST['min_width'];
@@ -18,7 +21,9 @@ if (!isset($_FILES['file'])) {
 } else {
 	if ($image_name == "")
 		$image_name = $_FILES['file']['name'];
-	$image_id = ImageUploader::HandleUpload($_FILES['file'], $image_name, $error_msg);
+
+	$image_id = ImageUploader::HandleUpload($_FILES['file'], $image_name, $image_description,
+						$image_category_id, $image_category_name, $error_msg);
 	if ($image_id > 0) {
 		$update_refs = "UpdateImageRefs(".$image_ref_id.", ".$image_id.", ".$max_width.", ".$max_height.", ".$min_width.", ".$min_height.")";
 	} else {

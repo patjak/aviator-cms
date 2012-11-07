@@ -10,15 +10,15 @@ function ShowImageUploader(image_ref_id, max_width, max_height, min_width, min_h
 
 		if (json.status == 0) {
 			DialogSet(json.html);
-			UpdateImageArchive('', 0, image_ref_id, max_width, max_height, min_width, min_height);
+			UpdateImageArchive('', 0, 0, image_ref_id, max_width, max_height, min_width, min_height);
 			DialogShow();
 		}
 	});
 }
 
-function UpdateImageArchive(filter, page, image_ref_id, max_width, max_height, min_width, min_height) {
+function UpdateImageArchive(filter, category_id, page, image_ref_id, max_width, max_height, min_width, min_height) {
 	$.get("ajax/image_uploader/image_archive.php",
-	{filter: filter, page: page, image_ref_id: image_ref_id,
+	{filter: filter, category_id: category_id, page: page, image_ref_id: image_ref_id,
 	 max_width: max_width, max_height: max_height, min_width: min_width, min_height: min_height},
 	function(data) {
 		if (!IsJsonValid(data))

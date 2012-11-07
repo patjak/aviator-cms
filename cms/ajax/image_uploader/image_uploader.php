@@ -38,6 +38,17 @@ if ($image_ref->link_id != NULL) {
 <div class="Heading">Upload new image</div>
 <table>
 <tr><td>Name</td><td><input type="text" name="image_name"/></td></tr>
+<tr><td>Description</td><td><input type="text" name="image_description"/></td></tr>
+<tr><td>Category</td><td><select name="image_category_id" onchange="$('#image_category_name').fadeOut(200);">
+<option value="0" >- None -</option>
+<option value="-1" onclick="$('#image_category_name').fadeIn(200);">- Add new -</option>
+<?php
+$res_img_cat = DB::Query("SELECT id, name FROM image_categories ORDER BY name ASC");
+while ($row_img_cat = DB::Row($res_img_cat)) {
+	echo "<option value=\"".$row_img_cat[0]."\">".$row_img_cat[1]."</option>";
+}
+?>
+</select></td><td><input type="text" id="image_category_name" name="image_category_name" style="display: none;"/></td></tr>
 <tr><td>File</td>
 <td><div style="position: relative; width: 150px; margin: 0px; padding: 0px; height: 33px; overflow: hidden;">
 <button style="position: absolute; margin-top: 0px; width: 150px; height: 33px;" type="button" onclick="$('#image_upload_input').click();"><img src="pics/icons_24/image.png"/> Choose file</button>

@@ -67,7 +67,7 @@ class ImageUploader {
 		"</div>";
 	}
 
-	static public function HandleUpload($file, $image_name, &$error_msg)
+	static public function HandleUpload($file, $image_name, $image_description, $image_category_id, $image_category_name, &$error_msg)
 	{
 		if (!isset($file['tmp_name'])) {
 			$error_msg = "No file was uploaded";
@@ -111,6 +111,24 @@ class ImageUploader {
 		$image_vo->width = $info[0];
 		$image_vo->height = $info[1];
 		$image_vo->name = $image_name;
+		$image_vo->description = $image_description;
+
+		// Are we adding a new category
+		if ($image_category_id == -1) {
+			$image_category_name = mysql_real_escape_string($image_category_name);
+
+			// Check if category already exists
+			$res_cat = DB::Query("SELECT id FROM ".DB_PREFIX."image_categories WHERE LOWER(name)='".$image_category_name."'");
+			if ($row_cat = DB::Row($res_cat)) {
+				$image_vo->category_id = $row_cat[0];
+			} else {
+				// Create it
+				DB::Query("INSERT INTO ".DB_PREFIX."image_categories (name) VALUES('".$image_category_name."')");
+				$image_vo->category_id = DB::InsertID();
+			}
+		} else {
+			$image_vo->category_id = $image_category_id;
+		}
 
 		if ((($image_vo->width * $image_vo->height * 4) / (1024*1024)) > (Settings::Get("php_memory_limit") / 2)) {
 			$error_msg = "<p>Image dimensions are too big (".
