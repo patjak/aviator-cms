@@ -3,11 +3,22 @@
 define("MODULE_BACKEND", 1 << 0);
 define("MODULE_FRONTEND", 1 << 1);
 
+define("PAGETYPE_ALLOW_CONTENTS", 1 << 0);
+
+class PageType {
+	public	$plugin_id,
+		$module_id,
+		$type_id,
+		$name,
+		$flags;
+}
+
 class ModuleAPI extends ModuleCore {
 }
 
 class ModuleCore {
 	private static	$entries = array(); // List of all created content objects
+	private static	$page_types = array(); // List of added page types
 
 	protected	$internal_id;	// A plugin internally unique number for
 					// plugins with more than 1 module entry
@@ -148,6 +159,18 @@ class ModuleCore {
 		return "../plugins/".$this->plugin->GetDirectory()."/".$this->icon_64_filename;
 	}
 
+	public function AddPageType($name, $internal_id, $flags)
+	{
+		$type = new PageType();
+		$type->plugin_id = $this->plugin->GetId();
+		$type->module_id = $this->GetId();
+		$type->type_id = $internal_id;
+		$type->name = $name;
+		$type->flags = $flags;
+
+		ModuleCore::$page_types[] = $type;
+	}
+
 	// Used internally to set id when content container is created
 	public function SetId($id)
 	{
@@ -192,6 +215,11 @@ class ModuleCore {
 	public static function GetEntries()
 	{
 		return ModuleCore::$entries;
+	}
+
+	public static function GetPageTypes()
+	{
+		return ModuleCore::$page_types;
 	}
 
 }

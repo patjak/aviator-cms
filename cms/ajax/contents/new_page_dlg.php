@@ -53,14 +53,13 @@ $row = DB::Row($res);
 </select>
 
 <?php
-$res = DB::Query("SELECT * FROM page_types");
-$num = DB::NumRows($res);
-if ($num > 0) {
+
+if (count(ModuleCore::GetPageTypes()) > 0) {
 	echo "<div class=\"Heading\">Page type</div>".
 	"<select name=\"page_type\"><option value=\"0\">Normal</option>";
 
-	while ($page_type = DB::Obj($res, "DaoPageType")) {
-		echo "<option value=\"".$page_type->id."\">".$page_type->name."</option>";
+	foreach (ModuleCore::GetPageTypes() as $page_type) {
+		echo "<option value=\"".$page_type->type_id."\">".$page_type->name."</option>";
 	}
 
 	echo "</select>";
