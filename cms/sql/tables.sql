@@ -1,5 +1,6 @@
 SET foreign_key_checks = 0;
  
+# For storing general purpose CMS settings
 CREATE TABLE settings (
         id INT NOT NULL AUTO_INCREMENT,
         name TEXT,
@@ -8,21 +9,15 @@ CREATE TABLE settings (
         PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
-# The sections contain the width in percent (excluding the padding)
-CREATE TABLE layouts (
+CREATE TABLE plugins (
 	id INT NOT NULL AUTO_INCREMENT,
 	name TEXT,
-	header INT	DEFAULT 0,
-	column_1 INT	DEFAULT 0,
-	column_2 INT	DEFAULT 0,
-	column_3 INT	DEFAULT 0,
-	column_4 INT	DEFAULT 0,
-	footer INT	DEFAULT 0,
+	directory TEXT,
 
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
-CREATE TABLE plugins (
+CREATE TABLE themes (
 	id INT NOT NULL AUTO_INCREMENT,
 	name TEXT,
 	directory TEXT,
@@ -47,21 +42,10 @@ CREATE TABLE themes (
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
-CREATE TABLE page_types (
+CREATE TABLE languages (
 	id INT NOT NULL AUTO_INCREMENT,
 	name TEXT,
-	plugin_id INT,
 
-	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
-	PRIMARY KEY (id)
-) ENGINE=INNODB CHARACTER SET utf8;
-
-CREATE TABLE page_styles (
-	id INT NOT NULL AUTO_INCREMENT,
-	name TEXT,
-	theme_id INT,
-
-	FOREIGN KEY (theme_id) REFERENCES themes(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
@@ -72,8 +56,12 @@ CREATE TABLE pages (
 	image_ref_id INT	DEFAULT NULL,
         parent_id INT		DEFAULT NULL,
 	layout_id INT		DEFAULT NULL,
-	type_id INT		DEFAULT NULL,
-	style_id INT		DEFAULT NULL,
+	plugin_id INT		DEFAULT NULL, # If page is owned by a plugin
+	theme_id INT		DEFAULT NULL, # If page is assigned a theme style 
+	module_id INT		DEFAULT NULL, # If page is owned by a module
+	type_id INT		DEFAULT NULL, # Allows plugins / modules to set a type for the page
+	style_id INT		DEFAULT NULL, # Allows themes to set a particular style for the page
+	language_id INT		DEFAULT NULL,
         sort INT		DEFAULT 0,
         published INT		DEFAULT 0,
         in_menu INT		DEFAULT 1,
@@ -86,8 +74,8 @@ CREATE TABLE pages (
 	FOREIGN KEY (image_ref_id) REFERENCES image_refs(id),
         FOREIGN KEY (parent_id) REFERENCES pages(id),
 	FOREIGN KEY (layout_id) REFERENCES layouts(id),
-	FOREIGN KEY (type_id) REFERENCES page_types(id),
-	FOREIGN KEY (style_id) REFERENCES page_styles(id),
+	FOREIGN KEY (theme_id) REFERENCES themes(id),
+	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
         PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
@@ -152,13 +140,23 @@ CREATE TABLE links (
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
+CREATE TABLE image_categories (
+	id INT NOT NULL AUTO_INCREMENT,
+	name TEXT,
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
 CREATE TABLE images (
 	id INT NOT NULL AUTO_INCREMENT,
 	name TEXT,
+	description TEXT,
+	category_id INT,
+	
 	width INT,
 	height INT,
 	format INT,		# 1 = JPEG, 2 = PNG, 3 = GIF
 
+	FOREIGN KEY (category_id) REFERENCES image_categories(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
