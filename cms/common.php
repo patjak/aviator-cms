@@ -54,6 +54,34 @@ require_once("dao/access_logs.php");
 // Depends on dao/users.php
 require_once("lib/user.php");
 
+// Check for available themes 
+$dir = getcwd() ."/";
+$dir .= "../themes";
+$dir = SITE_PATH . "themes";
+$dir_res = opendir($dir);
+while ($dir_name = readdir($dir_res)) {
+	if (is_dir($dir."/".$dir_name) && $dir_name != "." && $dir_name != "..") {
+		$res = DB::Query("SELECT id FROM ".DB_PREFIX."themes WHERE name='".$dir_name."'");
+
+		// Add theme to database if it doesn't exist
+		if (DB::NumRows($res) == 0) {
+			DB::Query("INSERT INTO ".DB_PREFIX."themes (name) VALUES('".$dir_name."')");
+			$theme_id = DB::InsertID();
+		} else {
+			$row = DB::Row($res);
+			$theme_id = $row[0];
+		}
+
+		// FIXME: For now we just store the theme id in settings that matches the THEME_DIR
+		if ($dir_name."/" == THEME_DIR)
+			Settings::Set("theme_id", $theme_id);
+	}
+}
+closedir($dir_res);
+
+// Load theme configuration (needed for layouts)
+require_once(SITE_PATH."themes/".THEME_DIR."/config.php");
+
 // Load plugins
 PluginCore::FindAndLoadAll();
 
