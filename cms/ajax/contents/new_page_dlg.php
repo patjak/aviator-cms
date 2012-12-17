@@ -31,14 +31,14 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 	}
 }
 
-// We need to know the first id of layouts
-$res = DB::Query("SELECT id FROM ".DB_PREFIX."layouts ORDER BY id");
-$row = DB::Row($res);
+// We need to know the first id of layouts for initial js value
+$layouts = Layout::GetAll();
+$layout = reset($layouts);
 
 ?>
 <form onsubmit="InsertNewPage($(this), $(this).children('select[name=parent_id]').val()); return false;">
 <h2><img src="pics/icons_32/paper_new.png"/> Add new page</h2>
-<input type="hidden" id="layout_id" name="layout_id" value="<?php echo $row[0];?>"/>
+<input type="hidden" id="layout_id" name="layout_id" value="<?php echo $layout->id;?>"/>
 <div class="Heading">Page title</div>
 <input type="text" name="title" style="width: 200px;"/>
 <div class="Heading">Description</div>
@@ -88,8 +88,8 @@ if ($num > 0) {
 <table class="ChooseLayout"><tr>
 <?php
 $i = 0;
-$res = DB::Query("SELECT id FROM ".DB_PREFIX."layouts ORDER BY id");
-while ($row = DB::Row($res)) {
+$layouts = Layout::GetAll();
+foreach($layouts as $layout) {
 	if (!($i % 5)) // 4 layouts per row
 		echo "</tr><tr>";
 	if ($i == 0)
@@ -97,8 +97,8 @@ while ($row = DB::Row($res)) {
 	else
 		$sel_str = "";
 
-	echo "<td ".$sel_str." onclick=\"SetLayoutNewPage(".$row[0].", $(this));\">";
-	HtmlLayout(0, $row[0], 90, 80, 4);
+	echo "<td ".$sel_str." onclick=\"SetLayoutNewPage(".$layout->id.", $(this));\">";
+	HtmlLayout(0, $layout->id, 90, 80, 4);
 	echo "</td>";
 	$i++;
 }

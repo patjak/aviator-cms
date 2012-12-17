@@ -2,8 +2,7 @@
 
 function HtmlLayout($pid, $layout_id, $width, $height, $spacing, $with_links = false, $selected_section = 0)
 {
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."layouts WHERE id=".$layout_id);
-	$layout = DB::Obj($res, "DaoLayout");
+	$layout = Layout::Get($layout_id);
 
 	// Count number of columns
 	$columns = 0;

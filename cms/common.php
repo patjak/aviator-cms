@@ -38,6 +38,7 @@ require_once(SITE_PATH."api/contents.php");
 require_once(SITE_PATH."api/images.php");
 require_once(SITE_PATH."api/modules.php");
 require_once(SITE_PATH."api/themes.php");
+require_once(SITE_PATH."api/layouts.php");
 
 // Data access objects
 require_once("dao/page.php");

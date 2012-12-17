@@ -13,6 +13,7 @@ define('SECTION_ALL', SECTION_HEADER | SECTION_COLUMN_1 | SECTION_COLUMN_2 |
 
 /* The layout widths decides what kind of content you can put in it */
 
+// FIXME: This can be removed since we no longer store layouts in the database
 class DaoLayout {
 	public	$name,
 		$header,

@@ -221,10 +221,7 @@ class Theme {
 		if ($page_vo === false)
 			return false;
 
-		$res = DB::Query("SELECT * FROM layouts WHERE id=".$page_vo->layout_id);
-		$layout_vo = DB::Obj($res, "DaoLayout");
-
-		return $layout_vo;
+		return Layout::Get($page_vo->layout_id);
 	}
 
 	static public function GetStyleId()
@@ -283,31 +280,31 @@ class Theme {
 	{
 		// Get Layout for current page
 		if ($page_id == 0)
-			$layout_vo = Theme::GetLayout();
+			$layout = Theme::GetLayout();
 		else
-			$layout_vo = Theme::GetLayout($page_id);
+			$layout = Theme::GetLayout($page_id);
 
-		if ($layout_vo === false)
+		if ($layout === false)
 			return false;
 
 		switch ($section_id) {
 		case SECTION_HEADER:
-			$width = $layout_vo->header;
+			$width = $layout->header;
 			break;
 		case SECTION_COLUMN_1:
-			$width = $layout_vo->column_1;
+			$width = $layout->column_1;
 			break;
 		case SECTION_COLUMN_2:
-			$width = $layout_vo->column_2;
+			$width = $layout->column_2;
 			break;
 		case SECTION_COLUMN_3:
-			$width = $layout_vo->column_3;
+			$width = $layout->column_3;
 			break;
 		case SECTION_COLUMN_4:
-			$width = $layout_vo->column_4;
+			$width = $layout->column_4;
 			break;
 		case SECTION_FOOTER:
-			$width = $layout_vo->footer;
+			$width = $layout->footer;
 			break;
 		}
 		
