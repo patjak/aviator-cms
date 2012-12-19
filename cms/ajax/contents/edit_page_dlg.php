@@ -102,6 +102,7 @@ if (!PAGE_RULES_ENABLED || $page->allow_move == 1) {
 <?php
 }
 
+/* FIXME: Disable page styles for now
 if (!PAGE_RULES_ENABLED || $page->allow_change_style == 1) {
 
 	$res = DB::Query("SELECT * FROM page_styles");
@@ -121,9 +122,12 @@ if (!PAGE_RULES_ENABLED || $page->allow_change_style == 1) {
 	
 		echo "</select>";
 	} else {
+*/
 		echo "<input type=\"hidden\" name=\"page_style\" value=\"0\"/>";
+/*
 	}
 }
+*/
 ?>
 
 <div class="Heading"></div>

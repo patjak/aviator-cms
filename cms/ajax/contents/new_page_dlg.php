@@ -67,6 +67,7 @@ if (count(ModuleCore::GetPageTypes()) > 0) {
 	echo "<input type=\"hidden\" name=\"page_type\" value=\"0\"/>";
 }
 
+/* FIXME: Disable page styles for now
 $res = DB::Query("SELECT * FROM page_styles");
 $num = DB::NumRows($res);
 if ($num > 0) {
@@ -79,9 +80,11 @@ if ($num > 0) {
 
 	echo "</select>";
 } else {
+*/
 	echo "<input type=\"hidden\" name=\"page_style\" value=\"0\"/>";
+/*
 }
-
+*/
 ?>
 
 <div class="Heading">Select layout</div>
