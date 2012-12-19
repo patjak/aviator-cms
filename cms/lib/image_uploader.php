@@ -130,6 +130,9 @@ class ImageUploader {
 			$image_vo->category_id = $image_category_id;
 		}
 
+		if ($image_vo->category_id == 0)
+			$image_vo->category_id = NULL;
+
 		if ((($image_vo->width * $image_vo->height * 4) / (1024*1024)) > (Settings::Get("php_memory_limit") / 2)) {
 			$error_msg = "<p>Image dimensions are too big (".
 			round((($image_vo->width * $image_vo->height) / 1000000)).
