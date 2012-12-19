@@ -2,7 +2,8 @@
 
 class DaoTheme {
 	public	$id,
-		$name;
+		$name,
+		$directory;
 }
 
 ?>
