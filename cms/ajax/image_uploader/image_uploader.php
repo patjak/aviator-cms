@@ -39,9 +39,9 @@ if ($image_ref->link_id != NULL) {
 <table>
 <tr><td>Name</td><td><input type="text" name="image_name"/></td></tr>
 <tr><td>Description</td><td><input type="text" name="image_description"/></td></tr>
-<tr><td>Category</td><td><select name="image_category_id" onchange="$('#image_category_name').fadeOut(200);">
+<tr><td>Category</td><td><select name="image_category_id" onchange="$('#image_category_name').fadeOut(200); if ($(this).val() == -1) {$('#image_category_name').fadeIn(200);}">
 <option value="0" >- None -</option>
-<option value="-1" onclick="$('#image_category_name').fadeIn(200);">- Add new -</option>
+<option value="-1">- Add new -</option>
 <?php
 $res_img_cat = DB::Query("SELECT id, name FROM image_categories ORDER BY name ASC");
 while ($row_img_cat = DB::Row($res_img_cat)) {
