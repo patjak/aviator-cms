@@ -66,7 +66,6 @@ CREATE TABLE pages (
 
 	FOREIGN KEY (image_ref_id) REFERENCES image_refs(id),
         FOREIGN KEY (parent_id) REFERENCES pages(id),
-	FOREIGN KEY (layout_id) REFERENCES layouts(id),
 	FOREIGN KEY (theme_id) REFERENCES themes(id),
 	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
         PRIMARY KEY (id)
