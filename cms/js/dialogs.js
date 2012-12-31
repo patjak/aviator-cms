@@ -1,6 +1,10 @@
 function DialogSet(contents) {
-	$("#DialogContents").width(600);
-	$("#DialogClose").width(600 + 40);
+	DialogSet(contents, 600);
+}
+
+function DialogSet(contents, width) {
+	$("#DialogContents").width(width);
+	$("#DialogClose").width(width + 40);
 	$("#DialogContents").html(contents);
 	DialogShow();
 }
