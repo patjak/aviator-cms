@@ -17,6 +17,7 @@ require_once(SITE_PATH."api/themes.php");
 require_once(SITE_PATH."api/dashboard.php");
 require_once(SITE_PATH."api/modules.php");
 require_once(SITE_PATH."api/layouts.php");
+require_once(SITE_PATH."api/styles.php");
 
 // Data access objects
 require_once(CMS_PATH."dao/page.php");
