@@ -30,9 +30,7 @@ function ShowNewPage(parent_id) {
 		json = jQuery.parseJSON(data);
 
 		if (json.status == 0) {
-			// $("#DialogContents").html(json.html);
-			// DialogShow();
-			DialogSet(json.html);
+			DialogSet(json.html, 600);
 		}
 	});
 }
@@ -113,7 +111,7 @@ function ShowEditPage(pid) {
 		if (json.status == 0) {
 			// $("#DialogContents").html(json.html);
 			// DialogShow();
-			DialogSet(json.html);
+			DialogSet(json.html, 600);
 		}
 	});
 }
@@ -128,7 +126,7 @@ function ShowSelectStartPage() {
 		if (json.status == 0) {
 			// $("#DialogContents").html(json.html);
 			// DialogShow();
-			DialogSet(json.html);
+			DialogSet(json.html, 400);
 		}
 	});
 }
