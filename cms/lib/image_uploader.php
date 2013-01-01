@@ -56,8 +56,13 @@ class ImageUploader {
 			$no_image_str = "";
 		}
 
+		if ($this->thumb_min_height == $this->thumb_max_height)
+			$height_str = " height: ".$this->thumb_max_height.";";
+		else
+			$height_str = "";
+
 		echo "<div class=\"ImageUpload Button\" ".
-		"style=\"text-align: center; width: ".($this->thumb_max_width)."px; min-height: ".$this->thumb_min_height."\"".
+		"style=\"text-align: center; width: ".($this->thumb_max_width)."px; min-height: ".$this->thumb_min_height.";".$height_str."\"".
 		"onclick=\"ShowImageUploader(".$this->image_ref_vo->id.", ".$this->thumb_max_width.", ".$this->thumb_max_height.", ".$this->thumb_min_width.", ".$this->thumb_min_height.", ".$this->show_link.")\">".
 		$no_image_str.
 		"<span class=\"ImageRef_".$this->image_ref_vo->id."\">".$image->GetImgTag()."</span>".
