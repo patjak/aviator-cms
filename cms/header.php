@@ -1,4 +1,11 @@
-<?php require_once("secure.php"); ?>
+<?php
+require_once("secure.php");
+if (isset($_GET['page'])) {
+	$page_id = (int)$_GET['page'];
+} else {
+	$page_id = 0;
+}
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -9,8 +16,9 @@
 <script type="text/javascript" src="js/lib.js"></script>
 <script type="text/javascript" src="js/loading.js"></script>
 <script type="text/javascript" src="js/dialogs.js"></script>
-<script type="text/javascript" src="js/contents.js"></script>
-<script type="text/javascript" src="js/contents_edit.js"></script>
+<?php if ($page_id == PAGE_CONTENTS) { ?><script type="text/javascript" src="js/contents.js"></script><?php } ?>
+<?php if ($page_id == PAGE_CONTENTS_EDIT) { ?><script type="text/javascript" src="js/contents_edit.js"></script><?php } ?>
+<?php if ($page_id == PAGE_USERS) { ?><script type="text/javascript" src="js/users.js"></script><?php } ?>
 <script type="text/javascript" src="js/dashboard.js"></script>
 <script type="text/javascript" src="js/image_uploader.js"></script>
 <script type="text/javascript" src="js/link_picker.js"></script>
@@ -98,15 +106,15 @@ case PAGE_PROFILE:
 <a class="<?php echo $sel_contents;?>" href="?page=<?php echo PAGE_CONTENTS;?>"><img src="pics/icons_64/box.png"/><br/>Contents</a>
 </td><td>
 <a class="<?php echo $sel_modules;?>" href="?page=<?php echo PAGE_MODULES;?>"><img src="pics/icons_64/module.png"/><br/>Modules</a>
-</td><td>
+</td><!--<td>
 <a class="<?php echo $sel_themes;?>" href="?page=<?php echo PAGE_THEMES;?>"><img src="pics/icons_64/brush.png"/><br/>Themes</a>
 </td><td>
 <a class="<?php echo $sel_plugins;?>" href="?page=<?php echo PAGE_PLUGINS;?>"><img src="pics/icons_64/plugin.png"/><br/>Plugins</a>
-</td><td>
+</td>--><td>
 <a class="<?php echo $sel_users;?>" href="?page=<?php echo PAGE_USERS;?>"><img src="pics/icons_64/users.png"/><br/>Users</a>
-</td><td>
+</td><!--<td>
 <a class="<?php echo $sel_setup;?>" href="?page=<?php echo PAGE_SETUP;?>"><img src="pics/icons_64/settings.png"/><br/>Site setup</a>
-</td>
+</td>-->
 <!--<td><a class="<?php echo $sel_profile;?>" href="?page=<?php echo PAGE_PROFILE;?>"><img src="pics/icons_64/profile.png"/><br/>Your profile</a>
 </td>--><td>
 <a href="logout.php"><img src="pics/icons_64/power_off.png"/><br/>Log out</a>

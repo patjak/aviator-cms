@@ -5,7 +5,7 @@ body {
 	background-color: #444444;
 	padding: 0px;
 	margin: 0px;
-	font-family: sans-serif;
+	font-family: arial;
 	font-size: 11pt;
 	color: #444444;
 }
@@ -105,19 +105,49 @@ div.ModuleMenu a.MenuItem img {
 }
 
 table {
+	border-collapse: collapse;
 	font-size: 11pt;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
+table caption {
+	background-color: #ffffff;
+	border: 1px solid #aaaaaa;
+	text-align: left;
+	padding: 8px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #000000;
+}
+
+table.Minimizable caption {
+	cursor: pointer;
+}
+
 table th {
-	padding: 0px;
+	padding: 8px;
 	padding-right: 10px;
 	text-align: left;
 	border-bottom: 1px solid #aaaaaa;
-	font-family: 'Gudea', arial;
-	font-size: 12pt;
+	font-family: arial;
+	font-size: 10pt;
 	color: #000000;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-family: arial;
+}
+
+table.List {
+	margin-bottom: 20px;
+}
+
+table.List tr:nth-child(2n+3) {
+	background-color: #d0d0d0;
+}
+
+table.List td {
+	padding-left: 8px;
 }
 
 table td {
@@ -218,6 +248,7 @@ div.Content input[type=file] {
 
 .Button img {
 	vertical-align: middle;
+	margin: 4px 0 4px 0;
 }
 
 a {
@@ -228,6 +259,7 @@ a {
 
 a img {
 	vertical-align: middle;
+	border: 0px;
 }
 
 h1, h2, h3 {
@@ -250,7 +282,7 @@ h2 {
 }
 
 h3 {
-	font-size: 14pt;
+	font-size: 12pt;
 }
 
 button {
@@ -314,11 +346,15 @@ div.Box h3 {
 }
 
 div.Box div.Heading {
-	border-bottom: 1px solid #aaaaaa;
-	font-family: 'Gudea', arial;
 	font-size: 12pt;
 	margin-top: 10px;
 	color: #000000;
+	line-height: 32px;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding: 4px;
+	margin-left: -4px;
+	border-bottom: 1px solid #a0a0a0;
 }
 
 #SiteTree ul {
@@ -373,6 +409,7 @@ div.Box div.Heading {
 }
 
 table.Layout {
+	border-collapse: separate;
 	margin: 10px;
 	background-color: #ffffff;
 	border: 1px solid #888888;

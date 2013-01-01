@@ -85,6 +85,12 @@ function UpdateCommon() {
 		UpdateLinkVisibility();
 	});
 
+	$("table.Minimizable caption").click(function() {
+		if ($(this).next("tbody").is(":visible"))
+			$(this).next("tbody").fadeOut(250);
+		else
+			$(this).next("tbody").fadeIn(250);
+	});
 }
 
 // When cloning DOM elements the state can be lost. Because of that we make sure
@@ -130,7 +136,7 @@ $(document).ready(function() {
 			break;
 
 		case 4: // Notice
-			ErrorSet('<h2><img src="pics/icons_32/warning.png"/> Warning</h2>'+json.html, false);
+			ErrorSet('<h2><img src="pics/icons_32/warning.png"/> Notice</h2>'+json.html, false);
 			break;
 		}
 
