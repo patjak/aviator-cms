@@ -35,6 +35,10 @@ $max_width.", ".$max_height.", ".$min_width.", ".$min_height.");";
 <?php
 $res_cat = DB::Query("SELECT id, name FROM ".DB_PREFIX."image_categories ORDER BY name ASC");
 while ($row_cat = DB::Row($res_cat)) {
+	$res_cat_used = DB::Query("SELECT id FROM images WHERE category_id=".$row_cat[0]);
+	if (DB::NumRows($res_cat_used) == 0)
+		continue;
+
 	if ($row_cat[0] == $category_id)
 		$sel_str = "selected";
 	else
@@ -65,7 +69,18 @@ if (($page + 1) < $num_pages) {
 </div>
 <table class="ImageChooser"><tr>
 <?php
-$i = 1;
+if ($page == 0)
+	echo "<td onclick=\"UpdateImageRefs(".$image_ref_id.", null, 0, 0, 0, 0);\"><img src=\"".CMS_BASE."pics/icons/image.png\"/><div class=\"Name\">No image</div></td>";
+
+// Make room for the empty image
+if ($page == 0) {
+	$images_per_page--;
+	$i = 2;
+} else {
+	$offset--;
+	$i = 1;
+}
+
 $res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ORDER BY name LIMIT ".$offset.",".$images_per_page);
 while ($row = DB::Row($res)) {
 	$image_id = $row[0];

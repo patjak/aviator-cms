@@ -17,6 +17,9 @@ $image->SetMaxHeight($max_height);
 $image->SetMinWidth($min_width);
 $image->SetMinHeight($min_height);
 
-echo $image->GetImgTag();
+if ($image_id > 0)
+	echo $image->GetImgTag();
+else
+	echo "<img src=\"".CMS_BASE."pics/icons_64/image_white.png\" style=\"margin: 20px;\"/>";
 
 ?>

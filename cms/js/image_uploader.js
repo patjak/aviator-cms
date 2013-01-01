@@ -68,7 +68,10 @@ function UpdateImageRefs(image_ref_id, image_id, max_width, max_height, min_widt
 				$("#input_image_ref_id_"+image_ref_id).val(image_id);
 				$("img.ImageRefNoImage_"+image_ref_id).hide();
 				// DialogHide();
-				ShowCroppingDialog(image_ref_id, image_id);
+				if (image_id != null)
+					ShowCroppingDialog(image_ref_id, image_id);
+				else
+					DialogHide();
 			}
 		});
 	})
