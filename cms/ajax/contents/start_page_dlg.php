@@ -39,5 +39,5 @@ else
 </select>
 </p>
 <div class="Heading"></div>
-<div style="text-align: center;"><button type="submit"><img src="pics/icons_32/check.png"/> Save changes</button></div>
+<div style="text-align: center;"><button type="submit"><img src="pics/icons_24/check.png"/> Save changes</button></div>
 </form>
