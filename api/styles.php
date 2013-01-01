@@ -9,7 +9,11 @@ class Style {
 
 	public static function Add($style)
 	{
-		self::$entries[$style->id] = $style;
+		$s = new Style();
+		$s->id = $style->id;
+		$s->name = $style->name;
+
+		self::$entries[$s->id] = $s;
 	}
 
 	public static function Get($id)
