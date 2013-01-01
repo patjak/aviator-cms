@@ -45,7 +45,9 @@ if ($image_ref->link_id != NULL) {
 <?php
 $res_img_cat = DB::Query("SELECT id, name FROM image_categories ORDER BY name ASC");
 while ($row_img_cat = DB::Row($res_img_cat)) {
-	echo "<option value=\"".$row_img_cat[0]."\">".$row_img_cat[1]."</option>";
+	$res_num_cat_users = DB::Query("SELECT id FROM images WHERE category_id=".$row_img_cat[0]);
+	if (DB::NumRows($res_num_cat_users) > 0)
+		echo "<option value=\"".$row_img_cat[0]."\">".$row_img_cat[1]."</option>";
 }
 ?>
 </select></td><td><input type="text" id="image_category_name" name="image_category_name" style="display: none;"/></td></tr>
