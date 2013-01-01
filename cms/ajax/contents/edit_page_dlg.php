@@ -102,32 +102,27 @@ if (!PAGE_RULES_ENABLED || $page->allow_move == 1) {
 <?php
 }
 
-/* FIXME: Disable page styles for now
 if (!PAGE_RULES_ENABLED || $page->allow_change_style == 1) {
 
-	$res = DB::Query("SELECT * FROM page_styles");
-	$num = DB::NumRows($res);
-	if ($num > 0) {
+	$styles = Style::GetAll();
+	if (count($styles) > 0) {
 		echo "<div class=\"Heading\">Page style</div>".
 		"<select name=\"page_style\">";
 	
-		while ($page_style = DB::Obj($res, "DaoPageStyle")) {
-			if ($page_style->id == $page->style_id)
+		foreach ($styles as $style) {
+			if ($style->id == $page->style_id)
 				$sel_str = " selected";
 			else
 				$sel_str = "";
 	
-			echo "<option value=\"".$page_style->id."\" ".$sel_str.">".$page_style->name."</option>";
+			echo "<option value=\"".$style->id."\" ".$sel_str.">".$style->name."</option>";
 		}
 	
 		echo "</select>";
 	} else {
-*/
 		echo "<input type=\"hidden\" name=\"page_style\" value=\"0\"/>";
-/*
 	}
 }
-*/
 ?>
 
 <div class="Heading"></div>

@@ -67,24 +67,20 @@ if (count(ModuleCore::GetPageTypes()) > 0) {
 	echo "<input type=\"hidden\" name=\"page_type\" value=\"0\"/>";
 }
 
-/* FIXME: Disable page styles for now
-$res = DB::Query("SELECT * FROM page_styles");
-$num = DB::NumRows($res);
-if ($num > 0) {
+$styles = Style::GetAll();
+
+if (count($styles) > 0) {
 	echo "<div class=\"Heading\">Page style</div>".
 	"<select name=\"page_style\">";
 
-	while ($page_style = DB::Obj($res, "DaoPageStyle")) {
-		echo "<option value=\"".$page_style->id."\">".$page_style->name."</option>";
+	foreach ($styles as $style) {
+		echo "<option value=\"".$style->id."\">".$style->name."</option>";
 	}
 
 	echo "</select>";
 } else {
-*/
 	echo "<input type=\"hidden\" name=\"page_style\" value=\"0\"/>";
-/*
 }
-*/
 ?>
 
 <div class="Heading">Select layout</div>
