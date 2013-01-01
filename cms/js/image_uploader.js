@@ -9,7 +9,7 @@ function ShowImageUploader(image_ref_id, max_width, max_height, min_width, min_h
 		json = jQuery.parseJSON(data);
 
 		if (json.status == 0) {
-			DialogSet(json.html);
+			DialogSet(json.html, 600);
 			UpdateImageArchive('', 0, 0, image_ref_id, max_width, max_height, min_width, min_height);
 			DialogShow();
 		}
