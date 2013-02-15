@@ -54,12 +54,14 @@ $layout = reset($layouts);
 
 <?php
 
-if (count(ModuleCore::GetPageTypes()) > 0) {
+$page_types = PageType::GetAll();
+
+if (count($page_types) > 0) {
 	echo "<div class=\"Heading\">Page type</div>".
 	"<select name=\"page_type\"><option value=\"0\">Normal</option>";
 
-	foreach (ModuleCore::GetPageTypes() as $page_type) {
-		echo "<option value=\"".$page_type->type_id."\">".$page_type->name."</option>";
+	foreach ($page_types as $page_type) {
+		echo "<option value=\"".$page_type->id."\">".$page_type->name."</option>";
 	}
 
 	echo "</select>";
