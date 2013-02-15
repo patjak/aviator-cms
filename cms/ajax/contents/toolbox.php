@@ -17,9 +17,14 @@ if ($pid > 0) {
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
 	$page = DB::Obj($res, "DaoPage");
 
+	if (strlen($page->title) > 18)
+		$title_short = substr($page->title, 0, 16)."...";
+	else
+		$title_short = $page->title;
+
 	echo "<div class=\"Heading\" style=\"text-align: center;\">".
 	"<a href=\"".SITE_BASE."?page_id=".$page->id."\" target=\"_blank\" style=\"line-height: 24px;\">".
-	" ".$page->title."</a></div>".
+	" ".$title_short."</a></div>".
 	"<div style=\"text-align: center; margin-bottom: 20px;\">";
 	HtmlLayout($page->id, $page->layout_id, 120, 100, 4, true);
 

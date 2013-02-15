@@ -191,15 +191,17 @@ CREATE TABLE image_cache (
 
 CREATE TABLE resources (
 	id INT NOT NULL AUTO_INCREMENT,
-	name TEXT,	# A description of what the resource protects
 	page_id INT,
+	subpages INT,
 	plugin_id INT,
 	content_id INT,
 	internal_id INT,
+	group_id INT,
 
 	FOREIGN KEY (page_id) REFERENCES pages(id),
 	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
 	FOREIGN KEY (content_id) REFERENCES contents(id),
+	FOREIGN KEY (group_id) REFERENCES user_groups(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
@@ -217,7 +219,10 @@ CREATE TABLE users (
 	fullname TEXT,
 	email TEXT,
 	full_access INT, # Gives access to everything if == 1
+	start_page_id INT,
+	limited INT,
 
+	FOREIGN KEY (start_page) REFERENCES pages(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 

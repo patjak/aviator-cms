@@ -8,6 +8,26 @@ else
 
 $start_page = Settings::Get("site_start_page");
 
+$res_user = DB::Query("SELECT * FROM users WHERE id=".$_SESSION['user_id']);
+$user = DB::Obj($res_user, "DaoUser");
+
+function check_expand($page, $selected_id)
+{
+	$expand = false;
+
+	if ($page->id == $selected_id) {
+		return true;
+	}
+
+	$children = Theme::GetPageChildren($page->id);
+	foreach ($children as $child) {
+		if (check_expand($child, $selected_id))
+			$expand = true;
+	}
+
+	return $expand;
+}
+
 function print_leafs($parent_id, $selected_id)
 {
 	global $start_page;
@@ -52,19 +72,11 @@ function print_leafs($parent_id, $selected_id)
 		else
 			$pub_str = "";
 
-		if ($page->type_id > 0) {
-			$res_type = DB::Query("SELECT * FROM ".DB_PREFIX."page_types WHERE id=".$page->type_id);
-			$type = DB::Obj($res_type, "DaoPageType");
-			$type_str = "<img src=\"pics/icons_16/settings_no_circle.png\" ".
-			"alt=\"".$type->name."\" title=\"".$type->name."\"/>";
-		} else {
-			$type_str = "";
-		}
-
 		echo "<li><div class=\"Page ".$sel_str." ".$pub_class_str."\" ".
 		"onclick=\"LoadSiteTree(".$page->id."); LoadToolbox(".$page->id.");\">".$page->title." ".
-		"<span class=\"Attributes\">".$type_str." ".$in_menu_str." ".$pub_str." ".$start_str."</span></div>";
-		print_leafs($page->id, $selected_id);
+		"<span class=\"Attributes\"> ".$in_menu_str." ".$pub_str." ".$start_str."</span></div>";
+		if (check_expand($page, $selected_id))
+			print_leafs($page->id, $selected_id);
 		echo "</li>";
 	}
 
@@ -77,8 +89,18 @@ if ($pid == 0)
 else
 	$sel_str = "";
 
-$site_title = Settings::Get("site_title");
+if ($user->full_access == 1) {
+	$site_title = Settings::Get("site_title");
+} else {
+	$res_page = DB::Query("SELECT * FROM pages WHERE id=".$user->start_page_id);
+	$page = DB::Obj($res_page, "DaoPage");
+	$site_title = $page->title;
+}
+
 echo "<ul><li><div class=\"Page ".$sel_str."\" onclick=\"LoadSiteTree(0); LoadToolbox(0);\">".$site_title."</div>";
-print_leafs(NULL, $pid);
+if ($user->full_access == 1)
+	print_leafs(NULL, $pid);
+else
+	print_leafs($user->start_page_id, $pid);
 echo "</li></ul>";
 ?>

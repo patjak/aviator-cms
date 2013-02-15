@@ -11,9 +11,14 @@ $page = DB::Obj($res, "DaoPage");
 <h2><img src="pics/icons_32/box.png"/>Add contents</h2>
 <div id="ContentsToolbox">
 <div style="margin-bottom: 20px;">
-<div class="Heading">
-<a href="<?php echo SITE_BASE."?page_id=".$page->id;?>" target="_blank">
-<img src="pics/icons_24/visible.png" style="margin-bottom: 5px; margin-right: 10px;"/> <?php echo $page->title;?></a>
+<div class="Heading" style="text-align: center;">
+<?php
+if (strlen($page->title) > 18)
+	$title_short = substr($page->title, 0, 16)."...";
+else
+	$title_short = $page->title;
+?>
+<a href="<?php echo SITE_BASE."?page_id=".$page->id;?>" target="_blank"><?php echo $title_short;?></a>
 </div>
 <?php
 echo HtmlLayout($page->id, $page->layout_id, 120, 100, 4, true, $section_id);

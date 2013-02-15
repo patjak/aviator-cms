@@ -6,7 +6,9 @@ class DaoUser {
 		$password,
 		$fullname,
 		$email,
-		$full_access;
+		$full_access,
+		$start_page_id,
+		$limited;
 }
 
 class DaoUserGroup {

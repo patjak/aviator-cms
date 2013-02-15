@@ -2,11 +2,12 @@
 
 class DaoResource {
 	public	$id,
-		$name,
 		$page_id,
+		$subpages,
 		$plugin_id,
 		$content_id,
-		$internal_id;
+		$internal_id,
+		$group_id;
 }
 
 ?>
