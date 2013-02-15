@@ -42,6 +42,15 @@ class DB {
 		return mysql_fetch_row($result);
 	}
 
+	static function ObjById($class, $table, $id)
+	{
+		$res = DB::Query("SELECT * FROM ".$table." WHERE id=".$id);
+		if (DB::NumRows($res) > 0)
+			return DB::Obj($res, $class);
+		else
+			return false;
+	}
+
 	// Get row as a php object
 	static function Obj($result, $class = NULL)
 	{
