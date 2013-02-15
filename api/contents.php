@@ -276,6 +276,35 @@ class ContentCore {
 		DB::Query("DELETE FROM ".DB_PREFIX."links WHERE content_id=".$content_id." AND internal_id=".$internal_id);
 	}
 
+	public function GetLinkOpenTag($link)
+	{
+		if ($link->enabled != 1)
+			return "";
+
+		if ($link->in_new_window == 1)
+			$in_new_window_str = " target=\"_blank\"";
+		else
+			$in_new_window_str = "";
+
+			if ($link->is_internal == 1) {
+				$url = Theme::GetPageUrl($link->internal_page_id);
+			} else {
+				$url = $link->external_url;
+
+				if (strncmp($url, "http://", 7) != 0)
+					$url = "http://".$url;
+			}
+			return "<a href=\"".$url."\"".$in_new_window_str.">";
+	}
+
+	public function GetLinkCloseTag($link)
+	{
+		if ($link->enabled != 1)
+			return "";
+		else
+			return "</a>";
+	}
+
 	public function CreateImageRef($content_id, $internal_id)
 	{
 		DB::Query("INSERT INTO ".DB_PREFIX."links (name, enabled, sort) VALUES('', 0, 0)");
