@@ -89,7 +89,7 @@ if ($pid == 0)
 else
 	$sel_str = "";
 
-if ($user->full_access == 1) {
+if ($user->full_access == 1 || $user->start_page_id === NULL) {
 	$site_title = Settings::Get("site_title");
 } else {
 	$res_page = DB::Query("SELECT * FROM pages WHERE id=".$user->start_page_id);
