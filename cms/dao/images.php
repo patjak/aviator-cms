@@ -7,7 +7,8 @@ class DaoImage {
 		$category_id,
 		$width,
 		$height,
-		$format;
+		$format,
+		$user_id;
 }
 
 class DaoImageCache {

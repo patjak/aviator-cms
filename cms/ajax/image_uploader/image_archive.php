@@ -19,7 +19,9 @@ if ($category_id > 0)
 else
 	$cat_str = "";
 
-$res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str);
+$user_id_str = "AND user_id=".$_SESSION['user_id'];
+
+$res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str);
 $num_images = DB::NumRows($res);
 $num_pages = ceil($num_images / $images_per_page);
 
@@ -35,7 +37,7 @@ $max_width.", ".$max_height.", ".$min_width.", ".$min_height.");";
 <?php
 $res_cat = DB::Query("SELECT id, name FROM ".DB_PREFIX."image_categories ORDER BY name ASC");
 while ($row_cat = DB::Row($res_cat)) {
-	$res_cat_used = DB::Query("SELECT id FROM images WHERE category_id=".$row_cat[0]);
+	$res_cat_used = DB::Query("SELECT id FROM images WHERE category_id=".$row_cat[0]." ".$user_id_str);
 	if (DB::NumRows($res_cat_used) == 0)
 		continue;
 
@@ -81,7 +83,7 @@ if ($page == 0) {
 	$i = 1;
 }
 
-$res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ORDER BY name LIMIT ".$offset.",".$images_per_page);
+$res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str." ORDER BY name LIMIT ".$offset.",".$images_per_page);
 while ($row = DB::Row($res)) {
 	$image_id = $row[0];
 	$image = new Image($image_id);

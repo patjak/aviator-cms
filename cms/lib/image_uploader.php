@@ -145,6 +145,9 @@ class ImageUploader {
 			return 0;
 		}
 
+		// We should always have a user_id in the session
+		$image_vo->user_id = (int)$_SESSION['user_id'];
+
 		DB::Insert(DB_PREFIX."images", $image_vo);
 
 		$filename = MEDIA_PATH."images/".$image_vo->id.".";
