@@ -161,7 +161,10 @@ CREATE TABLE images (
 	height INT,
 	format INT,		# 1 = JPEG, 2 = PNG, 3 = GIF
 
+	user_id INT,
+
 	FOREIGN KEY (category_id) REFERENCES image_categories(id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
