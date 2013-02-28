@@ -214,6 +214,27 @@ class ContentCore {
 		DB::Query("DELETE FROM ".DB_PREFIX."integers WHERE content_id=".$content_id." AND internal_id=".$internal_id);
 	}
 
+	public function CreateBlob($content_id, $internal_id, $data = NULL)
+	{
+		$data = mysql_real_escape_string($data);
+		DB::Query("INSERT INTO ".DB_PREFIX."blobs (content_id, internal_id, sort, data) ".
+		"values(".$content_id.", ".$internal_id.", '".$data."')");
+
+		$insert_id = DB::InsertId();
+		DB::Query("UPDATE ".DB_PREFIX."blobs SET sort=id WHERE id=".$insert_id);
+	}
+
+	public function UpdateBlob($content_id, $internal_id, $data)
+	{
+		$data = mysql_real_escape_string($data);
+		DB::Query("UPDATE ".DB_PREFIX."blobs SET data='".$data."' WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+	}
+
+	public function DeleteBlob($content_id, $internal_id)
+	{
+		DB::Query("DELETE FROM ".DB_PREFIX."blobs WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+	}
+
 	public function CreateLink($content_id, $internal_id, $link = NULL)
 	{
 		if ($link == NULL) {

@@ -112,6 +112,19 @@ CREATE TABLE integers (
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
+CREATE TABLE blobs (
+	id INT NOT NULL AUTO_INCREMENT,
+	plugin_id INT,
+	content_id INT,
+	internal_id INT,
+	data MEDIUMBLOB,
+	sort INT,
+
+	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
+	FOREIGN KEY (content_id) REFERENCES contents(id),
+	PRIMARY KEY (id)
+) ENGINE=INNODB CHARACTER SET utf8;
+
 CREATE TABLE links (
 	id INT NOT NULL AUTO_INCREMENT,
 	name TEXT,
