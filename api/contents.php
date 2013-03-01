@@ -217,7 +217,7 @@ class ContentCore {
 	public function CreateBlob($content_id, $internal_id, $data = NULL)
 	{
 		$data = mysql_real_escape_string($data);
-		DB::Query("INSERT INTO ".DB_PREFIX."blobs (content_id, internal_id, sort, data) ".
+		DB::Query("INSERT INTO ".DB_PREFIX."blobs (content_id, internal_id, data) ".
 		"values(".$content_id.", ".$internal_id.", '".$data."')");
 
 		$insert_id = DB::InsertId();
