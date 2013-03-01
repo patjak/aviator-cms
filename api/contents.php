@@ -226,7 +226,7 @@ class ContentCore {
 
 	public function GetBlob($content_id, $internal_id)
 	{
-		$res = DB::Query("SELECT data FROM ".DB_PREFIX."blobs WHERE content_id=".$content_id." AND internal_id.".$internal_id);
+		$res = DB::Query("SELECT data FROM ".DB_PREFIX."blobs WHERE content_id=".$content_id." AND internal_id=".$internal_id);
 		$row = DB::Row($res);
 		if ($row)
 			return $row[0];
