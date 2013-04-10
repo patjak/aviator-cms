@@ -95,7 +95,7 @@ class PluginCore {
 		$dir_res = opendir($dir);
 		while ($dir_name = readdir($dir_res)) {
 			if (is_dir($dir."/".$dir_name) && $dir_name != "." && $dir_name != "..") {
-				Context::SetDirectory("plugins/".$dir_name."/");
+				Context::SetDirectory($dir_name."/");
 				if (file_exists($dir."/".$dir_name."/plugin.php"))
 					require_once($dir."/".$dir_name."/plugin.php");
 				else
