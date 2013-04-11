@@ -6,8 +6,8 @@ $DEBUG = TRUE;
 set_include_path(get_include_path().":../../");
 require_once("cms/common.php");
 
-// Try to figure out what relative path we're in
-Context::SetDirectory(dirname(substr($_SERVER['PHP_SELF'], strlen(SITE_PATH))));
+// Try to figure out what relative path we're in, we solve this by searching for the '/plugins/' directory
+Context::SetDirectory(substr(dirname($_SERVER['PHP_SELF']), strpos($_SERVER['PHP_SELF'], "/plugins/") + strlen("/plugins/")));
 
 function AjaxShutdown()
 {
