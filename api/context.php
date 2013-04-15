@@ -11,12 +11,12 @@ class Context {
 
 	static function GetBase()
 	{
-		return SITE_BASE."plugins/".Context::$directory;
+		return SITE_BASE."plugins/".Context::$directory."/";
 	}
 
 	static function GetPath()
 	{
-		return SITE_PATH."plugins/".Context::$directory;
+		return SITE_PATH."plugins/".Context::$directory."/";
 	}
 
 	static function SetDirectory($directory)
