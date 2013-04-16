@@ -34,7 +34,7 @@ $plugin_id = (int)$_GET['plugin'];
 $module_id = (int)$_GET['module'];
 $view_id = (int)$_GET['view'];
 $module = ModuleAPI::GetByPluginAndInternal($plugin_id, $module_id);
-Context::SetDirectory("plugins/".$module->plugin->GetDirectory()."/");
+Context::SetDirectory($module->plugin->GetDirectory());
 // $module->plugin->Install();
 ?>
 <div class="Box" style="margin-bottom: 20px">

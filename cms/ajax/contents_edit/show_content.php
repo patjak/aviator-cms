@@ -7,6 +7,7 @@ $internal_id = (int)$_GET['internal_id'];
 $content_id = (int)$_GET['content_id'];
 
 $content = ContentCore::GetByPluginAndInternal($plugin_id, $internal_id);
+Context::SetDirectory($content->plugin->GetDirectory());
 $content->Edit($content_id);
 ?>
 
