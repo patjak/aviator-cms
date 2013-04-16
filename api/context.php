@@ -23,6 +23,26 @@ class Context {
 	{
 		Context::$directory = $directory;
 	}
+
+	static function SetPlugin(&$plugin)
+	{
+		self::$plugin = $plugin;
+	}
+
+	static function GetPlugin()
+	{
+		return self::$plugin;
+	}
+
+	static function GetModule()
+	{
+		return self::$plugin;
+	}
+
+	static function SetModule(&$module)
+	{
+		self::$module = $module;
+	}
 }
 
 
