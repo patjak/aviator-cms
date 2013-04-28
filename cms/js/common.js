@@ -84,12 +84,19 @@ function UpdateCommon() {
 	$("#image_link_enabled").change(function() {
 		UpdateLinkVisibility();
 	});
+	$("table.Minimizable caption").each(function() {
+		$(this).unbind('click');
 
-	$("table.Minimizable caption").click(function() {
-		if ($(this).next("tbody").is(":visible"))
-			$(this).next("tbody").fadeOut(250);
-		else
-			$(this).next("tbody").fadeIn(250);
+		$(this).click(function() {
+			if ($(this).next("tbody").is(":visible"))
+				$(this).next("tbody").fadeOut(250);
+			else
+				$(this).next("tbody").fadeIn(250);
+		});
+	});
+
+	$("table.Minimized").each(function() {
+		$(this).children('tbody').hide();
 	});
 }
 
