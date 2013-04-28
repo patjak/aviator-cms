@@ -7,14 +7,24 @@ set_include_path(get_include_path().":../../");
 require_once("cms/common.php");
 
 // Try to figure out what relative path we're in, we solve this by searching for the '/plugins/' directory
-Context::SetDirectory(substr(dirname($_SERVER['PHP_SELF']), strpos($_SERVER['PHP_SELF'], "/plugins/") + strlen("/plugins/")));
+$plugin_dir = substr(dirname($_SERVER['PHP_SELF']), strpos($_SERVER['PHP_SELF'], "/plugins/") + strlen("/plugins/"));
+Context::SetDirectory($plugin_dir);
+
+$res = DB::Query("SELECT id FROM ".DB_PREFIX."plugins WHERE directory='".$plugin_dir."'");
+$row = DB::Row($res);
+$plugin = PluginAPI::GetById($row[0]);
+Context::SetPlugin($plugin);
 
 function AjaxShutdown()
 {
-	if (count(error_get_last()) > 0)
+	$error_last = error_get_last();
+
+	if (count($error_last) > 0) {
 		Ajax::SetStatus(AJAX_STATUS_ERROR);
-	else if (Ajax::GetStatus() == AJAX_STATUS_UNSET)
+		// var_dump($error_last);
+	} else if (Ajax::GetStatus() == AJAX_STATUS_UNSET) {
 		Ajax::SetStatus(AJAX_STATUS_SUCCESS);
+	}
 
 	echo Ajax::Stop();
 }
