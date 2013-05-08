@@ -9,6 +9,18 @@ $DEBUG = true;
 session_start();
 require_once("common.php");
 
+/*
+echo "<p>http://".$_SERVER['SERVER_NAME']."</p>";
+echo "<p>".$_SERVER['PHP_SELF']."</p>";
+echo "<p>".CMS_BASE."</p>";
+exit();
+*/
+
+if (strpos(CMS_BASE, "http://".$_SERVER['SERVER_NAME']) === false) {
+	header("Location: ".CMS_BASE."\n");
+	exit();
+}
+
 // Start session and check for login
 if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 	$res = DB::Query("SELECT id, username, password FROM ".DB_PREFIX."users");
@@ -20,7 +32,7 @@ if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 			$_SESSION['user_id'] = $row[0];
 
 			$site_base = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], "/")+1);
-			header("Location: ".$site_base."\n");
+			header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 			exit();
 		}
 	}

@@ -30,7 +30,7 @@ if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 </div>
 <div class="Box" style="width: 360px; margin-left: auto; margin-right: auto; text-align: center;">
 <h3><img src="pics/icons_32/key.png" style="margin: 10px;"/> Enter your log in information</h3>
-<form action="" method="POST" id="login_form" action="<?php echo SITE_BASE;?>">
+<form action="" method="POST" id="login_form" action="">
 <table style="margin-left: auto; margin-right: auto; text-align: left;">
 <tr><td>Username</td><td><input type="text" name="__user" value="<?php echo $username;?>"/></td></tr>
 <tr><td>Password</td><td><input type="password" name="__pass"/></td></tr>
