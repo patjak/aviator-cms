@@ -24,7 +24,7 @@ $content->Create($content_vo->id);
 // Return the new element (FIXME: Shouldn't duplicate page_contents.php here)
 ?>
 <form id="content_form_<?php echo $content_id;?>" action="" method="POST" onsubmit="return false;" enctype="multipart/form-data">
-<div class="Box Content" style="width: 590px;">
+<div class="Box Content" style="width: 790px;">
 <h2><span class="ContentButtons" style="float: right;">
 <span class="Button" onclick="MoveContentTop(<?php echo $content_id;?>)">
 <img alt="Move to top" title="Move to top" src="pics/icons_24/arrow_top.png"/></span>

@@ -10,7 +10,7 @@ while ($content_vo = DB::Obj($res, "DaoContent")) {
 	$content_id = $content_vo->id;
 ?>
 <form id="content_form_<?php echo $content_id;?>" action="" method="POST" onsubmit="return false;" enctype="multipart/form-data">
-<div class="Box Content" style="width: 590px;">
+<div class="Box Content" style="width: 790px;">
 <h2><span class="ContentButtons" style="float: right;">
 <span class="Button" onclick="MoveContentTop(<?php echo $content_id;?>)">
 <img alt="Move to top" title="Move to top" src="pics/icons_24/arrow_top.png"/></span>
