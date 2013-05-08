@@ -2,30 +2,27 @@
 
 require_once(SITE_PATH."secure.php");
 
-$con = 0;
-
 class DB {
-	function DB()
+	private static $con = 0;
+
+	function DB($host, $user, $pass)
 	{
-		global $con;
-		$con = mysql_connect(DB_HOST, DB_USER, DB_PASS);
-		if (!$con) {
+		self::$con = mysql_connect($host, $user, $pass);
+		if (!self::$con) {
 			echo "Couldn't connect to database<br/>";
-			return;
+			exit();
 		}
-		mysql_select_db(DB_NAME, $con);
+		mysql_select_db(DB_NAME, self::$con);
 	}
 
-	function __DB()
+	function __destruct()
 	{
-		global $con;
-		mysql_close($con);
+		mysql_close(self::$con);
 	}
 
 	static function Query($str)
 	{
-		global $con;
-		$result = mysql_query($str, $con);
+		$result = mysql_query($str, self::$con);
 		if (!$result) {
 			echo "<p>SQL Query failed: ".mysql_error()."</p>".
 			"<p>Query: {$str}</p>";
@@ -83,7 +80,6 @@ class DB {
 	// This function assumes there is a primary key called id
 	static function Insert($table, &$obj)
 	{
-		global $con;
 		$vars = get_object_vars($obj);
 		$keys = array_keys($vars);
 		$columns = "";
@@ -106,7 +102,7 @@ class DB {
 			$columns .= $key;
 
 			if (is_string($value) && ($value != 'null' || $value != 'NULL')) {
-				$value = mysql_real_escape_string($value, $con);
+				$value = mysql_real_escape_string($value, self::$con);
 				$values .= "'".$value."'";
 			} else {
 				if ($value === NULL)
@@ -124,7 +120,6 @@ class DB {
 	// Update object in table
 	static function Update($table, $obj)
 	{
-		global $con;
 		$vars = get_object_vars($obj);
 		$keys = array_keys($vars);
 		$updates = "";
@@ -147,7 +142,7 @@ class DB {
 			$updates .= $key."=";
 
 			if (is_string($value) && $value != 'null' && $value != 'NULL') {
-				$value = mysql_real_escape_string($value, $con);
+				$value = mysql_real_escape_string($value, self::$con);
 				$updates .= "'".$value."'";
 			} else {
 				if ($value === NULL)
@@ -180,8 +175,7 @@ class DB {
 
 	static function InsertID()
 	{
-		global $con;
-		return mysql_insert_id($con);
+		return mysql_insert_id(self::$con);
 	}
 
 	// Returns true if row exists, otherwise false
@@ -212,5 +206,5 @@ class DB {
 }
 
 // Connect to database
-$db = new DB();
+$db = new DB(DB_HOST, DB_USER, DB_PASS);
 ?>
