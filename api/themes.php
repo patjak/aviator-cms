@@ -126,7 +126,7 @@ class Theme {
 	static public function GetTopPages()
 	{
 		$array = array();
-		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id IS NULL AND in_menu=1 AND published=1 ORDER BY sort");
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id IS NULL AND published=1 ORDER BY sort");
 		while ($page_vo = DB::Obj($res, "DaoPage"))
 			$array[] = $page_vo;
 
@@ -154,6 +154,9 @@ class Theme {
 	// Check if a page is a parent, grand parent, etc... to a specified page
 	static public function IsParent($parent_id, $page_id = 0)
 	{
+		if ($page_id === NULL)
+			return false;
+
 		$page_vo = Theme::GetPage($page_id);
 
 		if ($page_vo->parent_id != NULL) {
