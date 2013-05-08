@@ -41,6 +41,7 @@ require_once(SITE_PATH."api/themes.php");
 require_once(SITE_PATH."api/layouts.php");
 require_once(SITE_PATH."api/styles.php");
 require_once(SITE_PATH."api/page_types.php");
+require_once(SITE_PATH."api/components.php");
 
 // Data access objects
 require_once("dao/page.php");
