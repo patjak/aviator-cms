@@ -258,7 +258,7 @@ class Image {
 			return;
 
 		// If no resizing or effects are needed we return the original
-		if ($this->width == $this->original_width && $this->height == $this->original_heigh && $this->effects == 0)
+		if ($this->width == $this->original_width && $this->height == $this->original_height && $this->effects == 0)
 			return $this->GetOriginalUrl();
 
 		// Load dimensions based on restrictions provided
