@@ -202,6 +202,16 @@ class Theme {
 		return $page_vo->title;
 	}
 
+	static public function GetPageDescription($page_id = 0)
+	{
+		$page = Theme::GetPage($page_id);
+
+		if ($page->description == "" && $page->parent_id != NULL)
+			return Theme::GetPageDescription($page->parent_id);
+		else
+			return $page->description;
+	}
+
 	static public function GetPageUrl($page_id = 0)
 	{
 		if ($page_id == 0)
