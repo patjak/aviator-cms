@@ -322,7 +322,7 @@ class ContentCore {
 			} else {
 				$url = $link->external_url;
 
-				if (strncmp($url, "http://", 7) != 0)
+				if (strncmp($url, "http://", 7) != 0 && strncmp($url, "https://", 8) != 0)
 					$url = "http://".$url;
 			}
 			return "<a href=\"".$url."\"".$in_new_window_str.">";
