@@ -43,8 +43,16 @@ class Context {
 	{
 		self::$module = $module;
 	}
+
+	static function GetContent()
+	{
+		return self::$content;
+	}
+
+	static function SetContent(&$content)
+	{
+		self::$content = $content;
+	}
 }
-
-
 
 ?>
