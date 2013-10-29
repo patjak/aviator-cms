@@ -24,14 +24,12 @@ class Theme {
 
 	static public function RenderContent($section_id, $content_vo)
 	{
-		echo "<div class=\"Content\">";
 		$width = Theme::GetSectionWidth($section_id, $content_vo->page_id);
 		$height = Theme::GetSectionHeight($section_id); // FIXME: Need to add page_id
 
 		$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
 		Context::SetDirectory($content->plugin->GetDirectory());
 		$content->Render($content_vo->id, $section_id, $width, $height);
-		echo "</div><!--Content-->";
 	}
 
 	static public function GetSectionContents($section_id, $page_id = 0)
