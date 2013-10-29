@@ -1,8 +1,7 @@
 <?php
 
-class DaoPage {
-	public	$id,
-		$title,
+class DaoPage extends DAO {
+	public	$title,
 		$description,
 		$image_ref_id,
 		$parent_id,
@@ -17,18 +16,23 @@ class DaoPage {
 		$allow_delete,
 		$allow_subpage,
 		$allow_change_style;
+
+	function __construct()
+	{
+		$this->table_name = "pages";
+	}
 }
 
-class DaoPageType {
-	public	$id,
-		$name,
+/*
+class DaoPageType extends DAO {
+	public	$name,
 		$module_id;
 }
 
-class DaoPageStyle {
-	public	$id,
-		$name,
+class DaoPageStyle extends DAO {
+	public	$name,
 		$theme_id;
 }
 
+*/
 ?>

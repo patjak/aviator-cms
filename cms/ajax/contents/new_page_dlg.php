@@ -12,14 +12,17 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 	$site_title = Settings::Get("site_title");
 	if ($parent_id == 0) {
 		$parent_str = "IS NULL";
+		$parent_array = array();
 		echo "<option value=\"0\">".$site_title."</option>";
 	} else {
-		$parent_str = "=".$parent_id;
+		$parent_str = "=:parent_id";
+		$parent_array = array("parent_id" => $parent_id);
 	}
 
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str);
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str, $parent_array);
 
-	while ($page = DB::Obj($res, "DaoPage")) {
+	foreach ($res as $row) {
+		$page = DB::RowToObj("DaoPage", $row);
 
 		if ($page->id == $selected)
 			$sel_str = "selected";

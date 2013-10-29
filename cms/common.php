@@ -23,6 +23,7 @@ if (file_exists("../config.php")) {
 }
 
 require_once("lib/db.php");
+DB::Connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 require_once("lib/url.php");
 require_once("lib/components.php");
 require_once("lib/pages.php");
@@ -44,6 +45,7 @@ require_once(SITE_PATH."api/page_types.php");
 require_once(SITE_PATH."api/components.php");
 
 // Data access objects
+require_once("lib/dao.php");
 require_once("dao/page.php");
 require_once("dao/layout.php");
 require_once("dao/theme.php");
@@ -65,15 +67,15 @@ $dir = SITE_PATH . "themes";
 $dir_res = opendir($dir);
 while ($dir_name = readdir($dir_res)) {
 	if (is_dir($dir."/".$dir_name) && $dir_name != "." && $dir_name != "..") {
-		$res = DB::Query("SELECT id FROM ".DB_PREFIX."themes WHERE name='".$dir_name."'");
+		$res = DB::Query("SELECT id FROM ".DB_PREFIX."themes WHERE name=:name", array("name" => $dir_name));
 
 		// Add theme to database if it doesn't exist
-		if (DB::NumRows($res) == 0) {
+		if (count($res) == 0) {
 			DB::Query("INSERT INTO ".DB_PREFIX."themes (name) VALUES('".$dir_name."')");
 			$theme_id = DB::InsertID();
 		} else {
-			$row = DB::Row($res);
-			$theme_id = $row[0];
+			$row = $res[0];
+			$theme_id = $row["id"];
 		}
 
 		// FIXME: For now we just store the theme id in settings that matches the THEME_DIR

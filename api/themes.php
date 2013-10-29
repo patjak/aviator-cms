@@ -43,7 +43,8 @@ class Theme {
 			return array();
 
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE page_id=".$page_vo->id." AND section_id=".$section_id." ORDER BY sort ASC");
-		while ($content_vo = DB::Obj($res, "DaoContent")) {
+		foreach ($res as $row) {
+			$content_vo = DB::RowToObj("DaoContent", $row);
 			$contents[] = $content_vo;
 		}
 
@@ -75,8 +76,8 @@ class Theme {
 	static public function GetPage($id = 0)
 	{
 		if ($id > 0) {
-			$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$id);
-			return DB::Obj($res, "DaoPage");
+			$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $id));
+			return DB::RowToObj("DaoPage", $res[0]);
 		} else {
 			if (Theme::$page_id == 0) {
 				if (isset($_GET['page_id']))
@@ -97,8 +98,8 @@ class Theme {
 			}
 	
 			if (Theme::$page_vo == false) {
-				$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".Theme::$page_id);
-				Theme::$page_vo = DB::Obj($res, "DaoPage");
+				$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => Theme::$page_id));
+				Theme::$page_vo = DB::RowToObj("DaoPage", $res[0]);
 				Theme::$page_id = Theme::$page_vo->id;
 			}
 
@@ -127,8 +128,10 @@ class Theme {
 	{
 		$array = array();
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id IS NULL AND published=1 ORDER BY sort");
-		while ($page_vo = DB::Obj($res, "DaoPage"))
-			$array[] = $page_vo;
+		foreach ($res as $row) {
+			$page = DB::RowToObj("DaoPage", $row);
+			$array[] = $page;
+		}
 
 		return $array;
 	}
@@ -179,7 +182,7 @@ class Theme {
 	static public function PageNumChildren($id)
 	{
 		$res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id=".$id);
-		return DB::NumRows($res);
+		return count($res);
 	}
 
 	static public function GetPageChildren($id = 0)
@@ -187,10 +190,10 @@ class Theme {
 		$parent_vo = Theme::GetPage($id);
 		$array = array();
 
-		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id=".$parent_vo->id." ORDER BY sort");
-		while ($page_vo = DB::Obj($res, "DaoPage")) {
-			if ($page_vo->published == 1)
-				$array[] = $page_vo;
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id=:parent_id ORDER BY sort", array("parent_id" => $parent_vo->id));
+		foreach ($res as $row) {
+			$page_vo = DB::RowToObj("DaoPage", $row);
+			$array[] = $page_vo;
 		}
 
 		return $array;

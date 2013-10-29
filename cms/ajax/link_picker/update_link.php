@@ -3,7 +3,7 @@ require_once("../include.php");
 
 $link_id = (int)$_POST['link_id'];
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE id=".$link_id);
-$vo = DB::Obj($res, "DaoLink");
+$vo = DB::RowToObj("DaoLink", $res[0]);
 
 $vo->name = $_POST['name'];
 $vo->is_internal = (int)$_POST['is_internal'];

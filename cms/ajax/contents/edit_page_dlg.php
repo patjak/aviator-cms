@@ -11,15 +11,17 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 	$site_title = Settings::Get("site_title");
 	if ($parent_id == 0) {
 		$parent_str = "IS NULL";
+		$parent_array = array();
 		echo "<option value=\"0\">".$site_title."</option>";
 	} else {
-		$parent_str = "=".$parent_id;
+		$parent_str = "=:parent_id";
+		$parent_array = array("parent_id" => $parent_id);
 	}
 
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort ASC");
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort ASC", $parent_array);
 
-	while ($page = DB::Obj($res, "DaoPage")) {
-
+	foreach ($res as $row) {
+		$page = DB::RowToObj("DaoPage", $row);
 		if ($page->id == $selected)
 			$sel_str = "selected";
 		else
@@ -31,7 +33,7 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 }
 
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
-$page = DB::Obj($res, "DaoPage");
+$page = DB::RowToObj("DaoPage", $res[0]);
 
 if ($page->in_menu == 1)
 	$in_menu_str = "checked";

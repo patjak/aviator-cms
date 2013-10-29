@@ -1,8 +1,7 @@
 <?php
 
-class DaoLink {
-	public	$id,
-		$name,
+class DaoLink extends DAO {
+	public	$name,
 		$is_internal,
 		$internal_page_id,
 		$external_url,
@@ -13,4 +12,8 @@ class DaoLink {
 		$content_id,
 		$internal_id,
 		$sort;
+
+	function __construct() {
+		$this->table_name = "links";
+	}
 }

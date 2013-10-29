@@ -27,9 +27,9 @@ if (isset($_POST['__user']) && isset($_POST['__pass'])) {
 	$username = $_POST['__user'];
 	$password = md5($_POST['__pass']);
 
-	while ($row = DB::Row($res)) {
-		if ($row[1] == $username && $row[2] == $password) {
-			$_SESSION['user_id'] = $row[0];
+	foreach ($res as $row) {
+		if ($row['username'] == $username && $row['password'] == $password) {
+			$_SESSION['user_id'] = $row['id'];
 
 			$site_base = substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], "/")+1);
 			header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);

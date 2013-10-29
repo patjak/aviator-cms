@@ -28,18 +28,19 @@ else
 	$bottom = false;
 
 $res = DB::Query("SELECT * FROM contents WHERE id=".$content_id);
-$content = DB::Obj($res, "DaoContent");
+$content = DB::RowToObj("DaoContent", $res[0]);
 
 function MoveUp(&$content)
 {
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE sort<".$content->sort." AND ".
 	"page_id=".$content->page_id." AND section_id=".$content->section_id." ORDER BY sort DESC");
-	if ($prev_content = DB::Obj($res)) {
+	if (count($res) > 0) {
+		$prev_content = DB::RowToObj("DaoContent", $res[0]);
 		$sort = $prev_content->sort;
 		$prev_content->sort = $content->sort;
 		$content->sort = $sort;
-		DB::Update(DB_PREFIX."contents", $content);
-		DB::Update(DB_PREFIX."contents", $prev_content);
+		DB::Update($content);
+		DB::Update($prev_content);
 		return true;
 	} else {
 		return false;
@@ -50,12 +51,13 @@ function MoveDown(&$content)
 {
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE sort>".$content->sort." AND ".
 	"page_id=".$content->page_id." AND section_id=".$content->section_id." ORDER BY sort");
-	if ($next_content = DB::Obj($res)) {
+	if (count($res) > 0) {
+		$next_content = DB::RowToObj("DaoContent", $res[0]);
 		$sort = $next_content->sort;
 		$next_content->sort = $content->sort;
 		$content->sort = $sort;
-		DB::Update(DB_PREFIX."contents", $content);
-		DB::Update(DB_PREFIX."contents", $next_content);
+		DB::Update($content);
+		DB::Update($next_content);
 		return true;
 	} else {
 		return false;

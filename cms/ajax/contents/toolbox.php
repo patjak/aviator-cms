@@ -1,5 +1,6 @@
 <?php
 require_once("../include.php");
+$user = User::Get();
 
 // This file generates contents for the contents toolbox
 
@@ -9,13 +10,13 @@ else
 	$pid = 0;
 
 // Page might have been deleted
-$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
-if (DB::NumRows($res) == 0)
+$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $pid));
+if (count($res) == 0)
 	$pid = 0;
 
 if ($pid > 0) {
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
-	$page = DB::Obj($res, "DaoPage");
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $pid));
+	$page = DB::RowToObj("DaoPage", $res[0]);
 
 	if (strlen($page->title) > 18)
 		$title_short = substr($page->title, 0, 16)."...";
@@ -50,18 +51,18 @@ if ((!PAGE_RULES_ENABLED || $allow_change_start_page) && $pid == 0) {
 }
 
 // Find image ref or create one if it doesn't exist
-if ($pid > 0) {
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
-	$page = DB::Obj($res, "DaoPage");
+if ($pid > 0 && $user->full_access == 1) {
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $pid));
+	$page = DB::RowToObj("DaoPage", $res[0]);
 
 	if ($page->image_ref_id == NULL) {
 		$image_ref = new DaoImageRef();
-		DB::Insert(DB_PREFIX."image_refs", $image_ref);
+		DB::Insert($image_ref);
 		$page->image_ref_id = $image_ref->id;
-		DB::Update(DB_PREFIX."pages", $page);
+		DB::Update($page);
 	} else {
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$page->image_ref_id);
-		$image_ref = DB::Obj($res, "DaoImageRef");
+		$image_ref = DB::RowToObj("DaoImageRef", $res[0]);
 	}
 
 	$img_uploader = new ImageUploader($image_ref);

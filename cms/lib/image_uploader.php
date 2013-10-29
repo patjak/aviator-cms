@@ -120,15 +120,17 @@ class ImageUploader {
 
 		// Are we adding a new category
 		if ($image_category_id == -1) {
-			$image_category_name = mysql_real_escape_string($image_category_name);
+			$image_category_name = $image_category_name;
 
 			// Check if category already exists
-			$res_cat = DB::Query("SELECT id FROM ".DB_PREFIX."image_categories WHERE LOWER(name)='".$image_category_name."'");
-			if ($row_cat = DB::Row($res_cat)) {
-				$image_vo->category_id = $row_cat[0];
+			$res_cat = DB::Query("SELECT id FROM ".DB_PREFIX."image_categories WHERE LOWER(name)=:image_category_name",
+					     array("image_category_name" => $image_category_name));
+			if (count($res_cat) > 0) {
+				$image_vo->category_id = $res_cat[0]['id'];
 			} else {
 				// Create it
-				DB::Query("INSERT INTO ".DB_PREFIX."image_categories (name) VALUES('".$image_category_name."')");
+				DB::Query("INSERT INTO ".DB_PREFIX."image_categories (name) VALUES(:image_category_name)",
+					  array("image_category_name" => $image_category_name));
 				$image_vo->category_id = DB::InsertID();
 			}
 		} else {
@@ -148,7 +150,7 @@ class ImageUploader {
 		// We should always have a user_id in the session
 		$image_vo->user_id = (int)$_SESSION['user_id'];
 
-		DB::Insert(DB_PREFIX."images", $image_vo);
+		DB::Insert($image_vo);
 
 		$filename = MEDIA_PATH."images/".$image_vo->id.".";
 
@@ -177,7 +179,7 @@ class ImageUploader {
 		}
 
 		if ($ret !== false) {
-			DB::Update(DB_PREFIX."images", $image_vo);
+			DB::Update($image_vo);
 			return $image_vo->id;
 		} else {
 			DB::Query("DELETE FROM ".DB_PREFIX."images WHERE id=".$image_vo->id);

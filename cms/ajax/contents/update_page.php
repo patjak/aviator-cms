@@ -17,12 +17,12 @@ if ($parent_id == 0)
 	$parent_id = NULL;
 
 if (isset($_POST['title']))
-	$title = mysql_real_escape_string($_POST['title']);
+	$title = $_POST['title'];
 else
 	$title = "";
 
 if (isset($_POST['description']))
-	$description = mysql_real_escape_string($_POST['description']);
+	$description = $_POST['description'];
 else
 	$description = "";
 
@@ -87,12 +87,12 @@ if (Theme::IsParent($pid, $parent_id)) {
 }
 
 // Fetch the actual page we're editing
-$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$pid);
-$page = DB::Obj($res, "DaoPage");
+$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $pid));
+$page = DB::RowToObj("DaoPage", $res[0]);
 
 // More validation
 $res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id IS NULL");
-$num_top_pages = DB::NumRows($res);
+$num_top_pages = count($res);
 $max_top_level_pages = Settings::Get("max_top_level_pages");
 
 if ($page->allow_move == 1 && $max_top_level_pages > 0 && $parent_id == NULL &&
@@ -122,6 +122,6 @@ if (!PAGE_RULES_ENABLED) {
 	$page->allow_change_style = $allow_change_style;
 }
 
-DB::Update(DB_PREFIX."pages", $page);
+DB::Update($page);
 
 ?>

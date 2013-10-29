@@ -8,8 +8,7 @@ else
 
 $start_page = Settings::Get("site_start_page");
 
-$res_user = DB::Query("SELECT * FROM users WHERE id=".$_SESSION['user_id']);
-$user = DB::Obj($res_user, "DaoUser");
+$user = User::Get(); 
 
 function check_expand($page, $selected_id)
 {
@@ -32,18 +31,23 @@ function print_leafs($parent_id, $selected_id)
 {
 	global $start_page;
 
-	if ($parent_id === NULL)
+	if ($parent_id === NULL) {
 		$parent_str = "IS NULL";
-	else
-		$parent_str = "=".$parent_id;
+		$parent_array = array();
+	} else {
+		$parent_str = "=:parent_id";
+		$parent_array = array("parent_id" => $parent_id);
+	}
 
-	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort");
-	$num = DB::NumRows($res);
+	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort", $parent_array);
+	$num = count($res);
 
 	if ($num > 0)
 		echo "<ul>";
 
-	while ($page = DB::Obj($res, "DaoPage")) {
+	foreach ($res as $row) {
+		$page = DB::RowToObj("DaoPage", $row);
+
 		if ($selected_id == $page->id)
 			$sel_str = "Selected";
 		else

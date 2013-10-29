@@ -4,7 +4,7 @@ $page_id = (int)$_GET['pid'];
 $section_id = (int)$_GET['section_id'];
 
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$page_id);
-$page = DB::Obj($res, "DaoPage");
+$page = DB::RowToObj("DaoPage", $res[0]);
 ?>
 
 <div class="Box" style="float: right; width: 200px;">

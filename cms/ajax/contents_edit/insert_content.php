@@ -13,9 +13,9 @@ $content_vo->page_id = $page_id;
 $content_vo->section_id = $section_id;
 $content_vo->internal_id = $internal_id;
 
-DB::Insert("contents", $content_vo);
+DB::Insert($content_vo);
 $content_vo->sort = $content_vo->id;
-DB::Update("contents", $content_vo);
+DB::Update($content_vo);
 
 $content = ContentCore::GetByPluginAndInternal($plugin_id, $internal_id);
 $content_id = $content_vo->id;

@@ -11,7 +11,8 @@ class PagesAPI {
 			$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id=".$parent_id." ORDER BY sort");
 		}
 
-		while ($page_vo = DB::Obj($res)) {
+		foreach ($res as $row) {
+			$page_vo = DB::RowToObj("DaoPage", $row);
 			$pages[] = $page_vo;
 			$sub_pages = PagesAPI::GetPagesAsArray($page_vo->id);
 			if (count($sub_pages) > 0)

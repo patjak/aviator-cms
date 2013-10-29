@@ -5,7 +5,8 @@ $page_id = (int)$_GET['pid'];
 $section_id = (int)$_GET['section_id'];
 
 $res = DB::Query("SELECT * FROM contents WHERE page_id=".$page_id." AND section_id=".$section_id." ORDER BY sort");
-while ($content_vo = DB::Obj($res, "DaoContent")) {
+foreach ($res as $row) {
+	$content_vo = DB::RowToObj("DaoContent", $row);
 	$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
 	$content_id = $content_vo->id;
 ?>

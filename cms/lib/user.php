@@ -16,7 +16,7 @@ class User {
 
 if (isset($_SESSION['user_id'])) {
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$_SESSION['user_id']);
-	$user_vo = DB::Obj($res, "DaoUser");
+	$user_vo = DB::RowToObj("DaoUser", $res[0]);
 	User::Set($user_vo);
 }
 

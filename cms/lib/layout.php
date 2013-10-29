@@ -62,22 +62,22 @@ function HtmlLayout($pid, $layout_id, $width, $height, $spacing, $with_links = f
 		$footer_class = "";
 
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_HEADER);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$header_class = "NotEmpty";
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_COLUMN_1);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$column_1_class = "NotEmpty";
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_COLUMN_2);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$column_2_class = "NotEmpty";
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_COLUMN_3);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$column_3_class = "NotEmpty";
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_COLUMN_4);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$column_4_class = "NotEmpty";
 		$res = DB::Query("SELECT id FROM contents WHERE page_id=".$pid." AND section_id=".SECTION_HEADER);
-		if (DB::NumRows($res) > 0)
+		if (count($res) > 0)
 			$header_class = "NotEmpty";
 	} else {
 		$header_class = "NotEmpty";

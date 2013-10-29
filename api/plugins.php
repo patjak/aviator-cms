@@ -123,12 +123,12 @@ class PluginCore {
 			PluginCore::$registered_entries++;
 
 			// Get id or install if neccessary
-			$res_plugin = DB::Query("SELECT id FROM ".DB_PREFIX."plugins WHERE directory='".$directory."'");
-			if (DB::NumRows($res_plugin) == 1) {
-				$row_plugin = DB::Row($res_plugin);
-				$entry->id = $row_plugin[0];
+			$res_plugin = DB::Query("SELECT id FROM ".DB_PREFIX."plugins WHERE directory=:directory", array("directory" => $directory));
+			if (count($res_plugin) == 1) {
+				$row_plugin = $res_plugin[0];
+				$entry->id = $row_plugin["id"];
 			} else {
-				DB::Query("INSERT INTO plugins (directory) values('".$directory."')");
+				DB::Query("INSERT INTO plugins (directory) values(:directory)", array("directory" => $directory));
 				$entry->id = DB::InsertID();
 				$entry->Install();
 			}

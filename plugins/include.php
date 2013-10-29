@@ -11,8 +11,7 @@ $plugin_dir = substr(dirname($_SERVER['PHP_SELF']), strpos($_SERVER['PHP_SELF'],
 Context::SetDirectory($plugin_dir);
 
 $res = DB::Query("SELECT id FROM ".DB_PREFIX."plugins WHERE directory='".$plugin_dir."'");
-$row = DB::Row($res);
-$plugin = PluginAPI::GetById($row[0]);
+$plugin = PluginAPI::GetById($res[0]['id']);
 Context::SetPlugin($plugin);
 
 function AjaxShutdown()

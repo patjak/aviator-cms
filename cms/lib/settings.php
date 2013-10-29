@@ -3,23 +3,20 @@
 class Settings {
 	public static function Get($name)
 	{
-		$res = DB::Query("SELECT value FROM ".DB_PREFIX."settings WHERE name='".$name."'");
-		if ($row = DB::Row($res))
-			return $row[0];
+		$res = DB::Query("SELECT value FROM ".DB_PREFIX."settings WHERE name=:name", array("name" => $name));
+		if (count($res) == 1)
+			return $res[0]['value'];
 		else
 			return false;
 	}
 
 	public static function Set($name, $value)
 	{
-		// We assume $name never comes from the user and thus doesn't need to be escaped
-		$value = mysql_real_escape_string($value);
-
-		$res = DB::Query("SELECT id FROM ".DB_PREFIX."settings WHERE name='".$name."'");
-		if (DB::NumRows($res) > 0)
-			DB::Query("UPDATE ".DB_PREFIX."settings SET value='".$value."' WHERE name='".$name."'");
+		$res = DB::Query("SELECT id FROM ".DB_PREFIX."settings WHERE name=:name", array("name" => $name));
+		if (count($res) > 0)
+			DB::Query("UPDATE ".DB_PREFIX."settings SET value=:value WHERE name=:name", array("value" => $value, "name" => $name));
 		else
-			DB::Query("INSERT INTO ".DB_PREFIX."settings (name, value) VALUES('".$name."', '".$value."')");
+			DB::Query("INSERT INTO ".DB_PREFIX."settings (name, value) VALUES(:name, :value)", array("name" => $name, "value" => $value));
 	}
 }
 

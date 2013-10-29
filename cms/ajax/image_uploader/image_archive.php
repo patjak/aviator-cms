@@ -1,7 +1,7 @@
 <?php
 require_once("../include.php");
 
-$filter = mysql_real_escape_string($_GET['filter']);
+$filter = $_GET['filter'];
 $category_id = (int)$_GET['category_id'];
 $page = (int)$_GET['page'];
 $image_ref_id = (int)$_GET['image_ref_id'];
@@ -22,7 +22,7 @@ else
 $user_id_str = "AND user_id=".$_SESSION['user_id'];
 
 $res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str);
-$num_images = DB::NumRows($res);
+$num_images = count($res);
 $num_pages = ceil($num_images / $images_per_page);
 
 ?>
@@ -36,17 +36,17 @@ $max_width.", ".$max_height.", ".$min_width.", ".$min_height.");";
 <option value="0">- Category -</option>
 <?php
 $res_cat = DB::Query("SELECT id, name FROM ".DB_PREFIX."image_categories ORDER BY name ASC");
-while ($row_cat = DB::Row($res_cat)) {
-	$res_cat_used = DB::Query("SELECT id FROM images WHERE category_id=".$row_cat[0]." ".$user_id_str);
-	if (DB::NumRows($res_cat_used) == 0)
+foreach ($res_cat as $row_cat) {
+	$res_cat_used = DB::Query("SELECT id FROM images WHERE category_id=".$row_cat['id']." ".$user_id_str);
+	if (count($res_cat_used) == 0)
 		continue;
 
-	if ($row_cat[0] == $category_id)
+	if ($row_cat['id'] == $category_id)
 		$sel_str = "selected";
 	else
 		$sel_str = "";
 
-	echo "<option value=\"".$row_cat[0]."\" ".$sel_str.">".$row_cat[1]."</option>";
+	echo "<option value=\"".$row_cat['id']."\" ".$sel_str.">".$row_cat['name']."</option>";
 }
 ?>
 </select> <input type="text" id="image_chooser_filter" value="<?php echo $filter;?>" style="margin: 0px; width: 200px;"/> 
@@ -84,8 +84,8 @@ if ($page == 0) {
 }
 
 $res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str." ORDER BY name LIMIT ".$offset.",".$images_per_page);
-while ($row = DB::Row($res)) {
-	$image_id = $row[0];
+foreach ($res as $row) {
+	$image_id = $row['id'];
 	$image = new Image($image_id);
 	$image->SetMaxWidth(116);
 	$image->SetMaxHeight(116);

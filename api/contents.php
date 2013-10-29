@@ -136,23 +136,22 @@ class ContentCore {
 
 	public function CreateString($content_id, $internal_id, $string = "")
 	{
-		mysql_real_escape_string($string);
-
-		DB::Query("INSERT INTO ".DB_PREFIX."strings (content_id, internal_id, string) ".
-		"VALUES(".$content_id.", ".$internal_id.", '".$string."')");
+		DB::Query("INSERT INTO ".DB_PREFIX."strings (content_id, internal_id, string) VALUES(:content_id, :internal_id, :string)",
+			  array("content_id" => $content_id, "internal_id" => $internal_id, "string" => $string));
 
 		$insert_id = DB::InsertId();
 		DB::Query("UPDATE ".DB_PREFIX."strings SET sort=id WHERE id=".$insert_id);
+
+		return $insert_id;
 	}
 
 	public function GetString($content_id, $internal_id)
 	{
-		$res = DB::Query("SELECT string FROM ".DB_PREFIX."strings WHERE ".
-		"content_id=".$content_id." AND internal_id=".$internal_id);
+		$res = DB::Query("SELECT string FROM ".DB_PREFIX."strings WHERE content_id=:content_id AND internal_id=:internal_id",
+				 array("content_id" => $content_id, "internal_id" => $internal_id));
 		
-		if (DB::NumRows($res) > 0) {
-			$row = DB::Row($res);
-			return stripslashes($row[0]);
+		if (count($res) > 0) {
+			return stripslashes($res[0]['string']);
 		} else {
 			return false;
 		}
@@ -160,14 +159,8 @@ class ContentCore {
 
 	public function UpdateString($content_id, $internal_id, $string)
 	{
-		$string = mysql_real_escape_string($string);
-		DB::Query("UPDATE ".DB_PREFIX."strings SET string='".$string."' WHERE ".
-		"content_id=".$content_id." AND internal_id=".$internal_id);
-
-		if (DB::AffectedRows() != 1)
-			return true;
-		else
-			return false;
+		DB::Query("UPDATE ".DB_PREFIX."strings SET string=:string WHERE content_id=:content_id AND internal_id=:internal_id",
+			  array("string" => $string, "content_id" => $content_id, "internal_id" => $internal_id));
 	} 
 
 	public function DeleteString($content_id, $internal_id)
@@ -186,12 +179,11 @@ class ContentCore {
 
 	public function GetInt($content_id, $internal_id)
 	{
-		$res = DB::Query("SELECT number FROM ".DB_PREFIX."integers WHERE content_id=".$content_id." AND ".
-		"internal_id=".$internal_id);
+		$res = DB::Query("SELECT number FROM ".DB_PREFIX."integers WHERE content_id=:content_id AND internal_id=:internal_id",
+				 array("content_id" => $content_id, "internal_id" => $internal_id));
 
-		if (DB::NumRows($res) > 0) {
-			$row = DB::Row($res);
-			return (int)$row[0];
+		if (count($res) > 0) {
+			return (int)$res[0]['number'];
 		} else {
 			return false;
 		}
@@ -200,49 +192,64 @@ class ContentCore {
 	public function UpdateInt($content_id, $internal_id, $number)
 	{
 		$number = (int)$number;
-		DB::Query("UPDATE ".DB_PREFIX."integers SET number=".$number." WHERE ".
-		"content_id=".$content_id." AND internal_id=".$internal_id);
-
-		if (DB::AffectedRows() != 1)
-			return true;
-		else
-			return false;
+		DB::Query("UPDATE ".DB_PREFIX."integers SET number=:number WHERE content_id=:content_id AND internal_id=:internal_id",
+			  array("number" => $number, "content_id" => $content_id, "internal_id" => $internal_id));
 	}
 
 	public function DeleteInt($content_id, $internal_id)
 	{
-		DB::Query("DELETE FROM ".DB_PREFIX."integers WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+		DB::Query("DELETE FROM ".DB_PREFIX."integers WHERE content_id=:content_id AND internal_id=:internal_id",
+			  array("content_id" => $content_id, "internal_id" => $internal_id));
 	}
 
 	public function CreateBlob($content_id, $internal_id, $data = NULL)
 	{
-		$data = mysql_real_escape_string($data);
-		DB::Query("INSERT INTO ".DB_PREFIX."blobs (content_id, internal_id, data) ".
-		"values(".$content_id.", ".$internal_id.", '".$data."')");
+		$blob = new DaoBlob();
+		$blob->content_id = $content_id;
+		$blob->internal_id = $internal_id;
+		$blob->data = $data;
+		DB::Insert($blob);
+		$blob->sort = $blob->id;
+		DB::Update($blob);
 
-		$insert_id = DB::InsertId();
-		DB::Query("UPDATE ".DB_PREFIX."blobs SET sort=id WHERE id=".$insert_id);
+		return $blob->id;
 	}
 
 	public function GetBlob($content_id, $internal_id)
 	{
-		$res = DB::Query("SELECT data FROM ".DB_PREFIX."blobs WHERE content_id=".$content_id." AND internal_id=".$internal_id);
-		$row = DB::Row($res);
-		if ($row)
-			return $row[0];
+		$res = DB::Query("SELECT data FROM ".DB_PREFIX."blobs WHERE content_id=:content_id AND internal_id=:internal_id",
+				 array("content_id" => $content_id, "internal_id" => $internal_id));
+		if (count($res) > 0)
+			return $res[0]['data'];
 		else
 			return false;
 	}
 
 	public function UpdateBlob($content_id, $internal_id, $data)
 	{
-		$data = mysql_real_escape_string($data);
-		DB::Query("UPDATE ".DB_PREFIX."blobs SET data='".$data."' WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+		DB::Query("UPDATE ".DB_PREFIX."blobs SET data=:data WHERE content_id=:content_id AND internal_id=:internal_id",
+			  array("data" => $data, "content_id" => $content_id, "internal_id" => $internal_id));
 	}
 
 	public function DeleteBlob($content_id, $internal_id)
 	{
-		DB::Query("DELETE FROM ".DB_PREFIX."blobs WHERE content_id=".$content_id." AND internal_id=".$internal_id);
+		DB::Query("DELETE FROM ".DB_PREFIX."blobs WHERE content_id=:content_id AND internal_id=:internal_id",
+			  array("content_id" => $content_id, "internal_id" => $internal_id));
+	}
+
+	public function GetAllBlobs($content_id)
+	{
+		$blobs = array();
+
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."blobs WHERE content_id=:content_id ORDER BY sort ASC",
+				 array("content_id" => $content_id));
+
+		foreach ($res as $row) {
+			$vo = DB::RowToObj("DaoBlob", $row);
+			$blobs[] = $vo;
+		}
+
+		return $blobs;
 	}
 
 	public function CreateLink($content_id, $internal_id, $link = NULL)
@@ -254,22 +261,24 @@ class ContentCore {
 
 			$link = $this->GetLink($content_id, $internal_id);
 			$link->sort = $link->id;
-			DB::Update(DB_PREFIX."links", $link);
+			DB::Update($link);
 		} else {
 			$link->content_id = $content_id;
 			$link->internal_id = $internal_id;
-			DB::Insert(DB_PREFIX."links", $link);
+			DB::Insert($link);
 
 			$link->sort = $link->id;
-			DB::Update(DB_PREFIX."links", $link);
+			DB::Update($link);
 		}
+
+		return $link->id;
 	}
 
 	public function GetLink($content_id, $internal_id)
 	{
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE content_id=".$content_id." AND internal_id=".$internal_id);
-		if (DB::NumRows($res) == 1)
-			return DB::Obj($res, "DaoLink");
+		if (count($res) == 1)
+			return DB::RowToObj("DaoLink", $res[0]);
 		else
 			return false;
 	}
@@ -279,7 +288,8 @@ class ContentCore {
 		$links = array();
 
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE content_id=".$content_id." ORDER BY sort ASC");
-		while ($vo = DB::Obj($res, "DaoLink")) {
+		foreach ($res as $row) {
+			$vo = DB::RowToObj("DaoLink", $row);
 			$links[] = $vo;
 		}
 
@@ -299,7 +309,7 @@ class ContentCore {
 		if ($link->internal_page_id == 0)
 			$link->internal_page_id = NULL;
 
-		DB::Update(DB_PREFIX."links", $link);
+		DB::Update($link);
 	}
 
 	public function DeleteLink($content_id, $internal_id)
@@ -356,8 +366,8 @@ class ContentCore {
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE ".
 		"content_id=".$content_id." AND internal_id=".$internal_id);
 		
-		if (DB::NumRows($res) > 0) {
-			return DB::Obj($res, "DaoImageRef");
+		if (count($res) > 0) {
+			return DB::RowToObj("DaoImageRef", $res[0]);
 		} else {
 			return false;
 		}
@@ -371,7 +381,8 @@ class ContentCore {
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE ".
 		"content_id=".$content_id." ORDER BY sort");
 		
-		while ($ref_vo = DB::Obj($res, "DaoImageRef")) {
+		foreach ($res as $row) {
+			$ref_vo = DB::RowToObj("DaoImageRef", $row);
 			$refs[] = $ref_vo;
 		}
 
@@ -384,12 +395,13 @@ class ContentCore {
 
 		// Delete all cached versions connected to this image_ref
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_cache WHERE image_ref_id=".$image_ref_vo->id);
-		while ($cache_vo = DB::Obj($res, "DaoImageCache")) {
+		foreach ($res as $row) {
+			$cache_vo = DB::RowToObj("DaoImageCache", $row);
 			$image = new Image($image_ref_vo->image_id);
 			$ext = $image->GetExtension();
 			unlink(MEDIA_PATH."images/".$image_ref_vo->image_id."-".$cache_vo->id."-".
 			$cache_vo->crop_horizontal."x".$cache_vo->crop_vertical."-".$cache_vo->effects.".".$ext);
-			DB::Query("DELETE FROM ".DB_PREFIX."image_cache WHERE id=".$cache_vo->id);
+			DB::Delete($cache_vo);
 		}
 
 		if (isset($_POST['image_id_'.$image_ref_vo->id]))
@@ -415,16 +427,11 @@ class ContentCore {
 		$image_ref_vo->image_id = $image_id;
 		$image_ref_vo->crop_horizontal = $crop_x;
 		$image_ref_vo->crop_vertical = $crop_y;
-		DB::Update(DB_PREFIX."image_refs", $image_ref_vo);
+		DB::Update($image_ref_vo);
 
 		// Try to delete old image if it's not in use by other image_refs
 		$image_old = new Image($old_image_id);
 		$image_old->Delete();
-
-		if (DB::AffectedRows() != 1)
-			return true;
-		else
-			return false;
 	} 
 
 	public function DeleteImageRef($content_id, $internal_id)
@@ -436,14 +443,15 @@ class ContentCore {
 
 		// Remove our reference to the image
 		$image_ref_vo->image_id = null;
-		DB::Update(DB_PREFIX."image_refs", $image_ref_vo);
+		DB::Update($image_ref_vo);
 
 		// Delete our part of the cache
 		if ($image_id > 0) {
 			$res_cache = DB::Query("SELECT * FROM ".DB_PREFIX."image_cache WHERE image_id=".$image_id." ".
 			"AND image_ref_id=".$image_ref_vo->id);
 
-			while ($cache_vo = DB::Obj($res_cache)) {
+			foreach ($res_cache as $row_cache) {
+				$cache_vo = DB::RowToObj("DaoImageCache", $row_cache);
 				$ext = $image->GetExtension();
 				unlink(MEDIA_PATH."images/".$image_id."-".$cache_vo->id."-".
 				$cache_vo->crop_horizontal."x".$cache_vo->crop_vertical."-".$cache_vo->effects.".".$ext);

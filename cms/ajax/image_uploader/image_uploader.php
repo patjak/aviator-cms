@@ -18,11 +18,11 @@ else
 	$show_link = false;
 
 $res_ref = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_id);
-$image_ref = DB::Obj($res_ref, "DaoImageRef");
+$image_ref = DB::RowToObj("DaoImageRef", $res_ref[0]);
 
 if ($image_ref->link_id != NULL) {
 	$res_link = DB::Query("SELECT * FROM ".DB_PREFIX."links WHERE id=".$image_ref->link_id);
-	$link_vo = DB::Obj($res_link, "DaoLink");
+	$link_vo = DB::RowToObj("DaoLink", $res_link[0]);
 } else {
 	$show_link = false;
 }
@@ -44,10 +44,10 @@ if ($image_ref->link_id != NULL) {
 <option value="-1">- Add new -</option>
 <?php
 $res_img_cat = DB::Query("SELECT id, name FROM image_categories ORDER BY name ASC");
-while ($row_img_cat = DB::Row($res_img_cat)) {
-	$res_num_cat_users = DB::Query("SELECT id FROM images WHERE category_id=".$row_img_cat[0]);
-	if (DB::NumRows($res_num_cat_users) > 0)
-		echo "<option value=\"".$row_img_cat[0]."\">".$row_img_cat[1]."</option>";
+foreach ($res_img_cat as $row_img_cat) {
+	$res_num_cat_users = DB::Query("SELECT id FROM images WHERE category_id=".$row_img_cat['id']);
+	if (count($res_num_cat_users) > 0)
+		echo "<option value=\"".$res_img_cat[0]['id']."\">".$res_img_cat[0]['name']."</option>";
 }
 ?>
 </select></td><td><input type="text" id="image_category_name" name="image_category_name" style="display: none;"/></td></tr>

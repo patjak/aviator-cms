@@ -1,210 +1,309 @@
 <?php
 
-require_once(SITE_PATH."secure.php");
-
+/**
+ * Database abstraction layer on top of PDO
+ */  
 class DB {
-	private static $con = 0;
+	static	$handle,
+		$last_affected_rows = 0;
 
-	function DB($host, $user, $pass)
+	/**
+	 * Connect to SQL server with specified credentials
+	 */
+	static function Connect($host, $user, $pass, $dbname)
 	{
-		self::$con = mysql_connect($host, $user, $pass);
-		if (!self::$con) {
-			echo "Couldn't connect to database<br/>";
-			exit();
+		try {
+			self::$handle = new PDO("mysql:host=".$host.";dbname=".$dbname."", $user, $pass);
+			self::$handle->exec("SET CHARACTER SET utf8");
+		} catch (PDOException $e) {
+			echo "<p>PDO error: ".$e->getMessage()."<p/>";
+			die();
 		}
-		mysql_select_db(DB_NAME, self::$con);
 	}
 
-	function __destruct()
+	/**
+	 * Disconnect from SQL server
+	 */
+	static function Disconnect()
 	{
-		mysql_close(self::$con);
+		self::$handle = NULL;
 	}
 
-	static function Query($str)
+	/**
+	 * Get internal PDO handle
+	 * FIXME: Make private?
+	 */
+	static function GetHandle()
 	{
-		$result = mysql_query($str, self::$con);
-		if (!$result) {
-			echo "<p>SQL Query failed: ".mysql_error()."</p>".
-			"<p>Query: {$str}</p>";
-			debug_print_backtrace();
-
-			// If we're in ajax mode, we mark status as error
-			Ajax::SetStatus(AJAX_STATUS_ERROR);
-		}
-		return $result;
+		return self::$handle;
 	}
 
-	static function Row($result)
+	/**
+	 * Begin SQL transaction
+	 */
+	static function Begin()
 	{
-		return mysql_fetch_row($result);
+		self::$handle->beginTransaction();
 	}
 
-	static function ObjById($class, $table, $id)
+	/**
+	 * Commit SQL transaction
+	 */
+	static function Commit()
 	{
-		$res = DB::Query("SELECT * FROM ".$table." WHERE id=".$id);
-		if (DB::NumRows($res) > 0)
-			return DB::Obj($res, $class);
-		else
+		self::$handle->commit();
+	}
+
+	/**
+	 * Rollback SQL transaction
+	 */
+	static function Rollback()
+	{
+		self::$handle->rollback();
+	}
+
+	/**
+	 * Returns the ID of last inserted row
+	 */
+	static function InsertID()
+	{
+		return self::$handle->lastInsertId();
+	}
+
+	static function AffectedRows()
+	{
+		return self::$last_affected_rows;
+	}
+
+	/**
+	 * Sanity check DAO to see whether it fits the abstracion layer requirements
+	 */
+	static function CheckDao($dao)
+	{
+		if (!isset($dao->table_name) || $dao->table_name == "" || $dao->table_name === NULL)
 			return false;
+		else
+			return true;
 	}
 
-	// Get row as a php object
-	static function Obj($result, $class = NULL)
+	/**
+	 * Insert DAO into database
+	 */
+	static function Insert(&$dao)
 	{
-		if ($class == NULL)
-			$obj = mysql_fetch_object($result);
-		else
-			$obj = mysql_fetch_object($result, $class);
-
-		if (!$obj)
-			return $obj;
-
-		// Strip slashes from strings
-		if (is_array($obj)) {
-			foreach ($obj as $var => $val) {
-				if (is_string($var))
-					$obj[$var] = stripslashes($val);
-			}
-		} else {
-			$vars = get_object_vars($obj);
-			foreach ($vars as $var => $val) {
-				if (is_string($val))
-					$obj->$var = stripslashes($val);
-			}
+		if (!self::CheckDao($dao)) {
+			echo "<p>Invalid DAO</p>";
+			debug_print_backtrace();
+			return false;
 		}
 
-		return $obj;
-	}
-
-	// Insert object into table
-	// This function assumes there is a primary key called id
-	static function Insert($table, &$obj)
-	{
-		$vars = get_object_vars($obj);
+		$vars = get_object_vars($dao);
 		$keys = array_keys($vars);
 		$columns = "";
 		$values = "";
 
-		$count = 0;
 		for ($i = 0; $i < count($keys); $i++) {
 			$key = $keys[$i];
 			$value = $vars[$key];
 
-			// Don't insert primary key
-			if ($key == "id")
+			// Don't insert primary key or table_name
+			if ($key == "id" || $key == "table_name")
 				continue;
 
-			if ($count > 0) {
+			if ($i > 0) {
 				$columns .= ", ";
 				$values .= ", ";
 			}
 
 			$columns .= $key;
-
-			if (is_string($value) && ($value != 'null' || $value != 'NULL')) {
-				$value = mysql_real_escape_string($value, self::$con);
-				$values .= "'".$value."'";
-			} else {
-				if ($value === NULL)
-					$value = 'null';
-				$values .= $value;
-			}
-			$count++;
+			$values .= ":".$key;
 		}
-		$query = "INSERT INTO ".$table. " (".$columns.") VALUES (".$values.")";
 
-		DB::Query($query);
-		$obj->id = DB::InsertID();
-	}
+		$query = "INSERT INTO ".$dao->table_name." (".$columns.") VALUES(".$values.")";
+		$stmt = self::$handle->prepare($query);
 
-	// Update object in table
-	static function Update($table, $obj)
-	{
-		$vars = get_object_vars($obj);
-		$keys = array_keys($vars);
-		$updates = "";
+		if ($stmt === false) {
+			echo "<p>Failed to prepare statement: ".$query."</p>";
+			return false;
+		}
 
-		$count = 0;
 		for ($i = 0; $i < count($keys); $i++) {
 			$key = $keys[$i];
 			$value = $vars[$key];
 
-			$key = strtolower($key);
-
-			// Don't insert primary key
-			if ($key == "id")
+			if ($key == "id" || $key == "table_name")
 				continue;
 
-			if ($count > 0) {
-				$updates .= ", ";
-			}
-
-			$updates .= $key."=";
-
-			if (is_string($value) && $value != 'null' && $value != 'NULL') {
-				$value = mysql_real_escape_string($value, self::$con);
-				$updates .= "'".$value."'";
-			} else {
-				if ($value === NULL)
-					$value = 'null';
-				$updates .= $value;
-			}
-			$count++;
-		}
-		$query = "UPDATE ".$table. " SET ".$updates." WHERE id=".$obj->id;
-
-		DB::Query($query);
-	}
-
-	static function NumRows($result)
-	{
-		$number_rows = mysql_num_rows($result);
-
-		if ($number_rows === false) {
-			$str_bt = GetBackTraceStr();
-			echo "<p>SQL num rows failed</p>". $str_bt;
+			$stmt->bindValue(":".$key, $value);
 		}
 
-		return $number_rows;
+		if ($stmt->execute() === false) {
+			echo "<p>Execute failed on query: ".$query."</p>";
+			return false;
+		}
+
+		$dao->id = self::InsertID();
+		return true;
 	}
 
-	static function AffectedRows()
+	/**
+	 * Delete DAO from database
+	 */
+	static function Delete(&$dao)
 	{
-		return mysql_affected_rows();
+		DB::Query("DELETE FROM ".$dao->table_name." WHERE id=:id", array("id" => $dao->id));
+		$dao->id = 0;
 	}
 
-	static function InsertID()
+	/**
+	 * Update row in database with ID and attributes specified in DAO
+	 */
+	static function Update($dao)
 	{
-		return mysql_insert_id(self::$con);
+		if (!self::CheckDao($dao)) {
+			echo "<p>Invalid DAO</p>";
+			debug_print_backtrace();
+			return false;
+		}
+
+		$vars = get_object_vars($dao);
+		$keys = array_keys($vars);
+		$params = array(); // For use by PrintErrors
+		$columns = "";
+
+		for ($i = 0; $i < count($keys); $i++) {
+			$key = $keys[$i];
+
+			// Don't update primary key
+			if ($key == "id" || $key == "table_name")
+				continue;
+			if ($i > 0)
+				$columns .= ", ";
+			$columns .= $key."=:".$key;
+		}
+
+		$sql = "UPDATE ".$dao->table_name." SET ".$columns." WHERE id=:id";
+		$stmt = self::$handle->prepare($sql);
+
+		$found_id = false;
+		for ($i = 0; $i < count($keys); $i++) {
+			$key = $keys[$i];
+			$value = $vars[$key];
+			// Safety check for an 'id' parameter
+			if ($key == "id")
+				$found_id = true;
+
+			// Always skip "table_name"
+			if ($key == "table_name")
+				continue;
+
+			$stmt->bindValue(":".$key, $value);
+			$params[$key] = $value;
+		}
+
+		if (!$found_id)
+			return false;
+
+		if ($stmt->execute() === false) {
+			self::PrintErrors($params, $stmt);
+			return false;
+		}
+
+		return $stmt->rowCount();
 	}
 
-	// Returns true if row exists, otherwise false
-	static function RowExists($id, $table)
+	static function PrintErrors($params = NULL, $stmt = NULL)
 	{
-		$res = DB::Query("SELECT id FROM {$table} WHERE id={$id}");
-		if (DB::NumRows($res) == 1)
-			return true;
+		if ($stmt == NULL)
+			$errors = self::$handle->errorInfo();
+		else
+			$errors = $stmt->errorInfo();
+
+		if ($stmt != NULL)
+			$sql = $stmt->queryString."<br/>";
+		else
+			$sql = "";
+
+		echo "<p><b>SQL Error:</b><br/>".$sql;
+		if ($params != NULL) {
+			$keys = array_keys($params);
+			for ($i = 0; $i < count($keys); $i++)
+				echo $keys[$i].": ".$params[$keys[$i]]."<br/>";
+		}
+		echo "</p><p>";
+		foreach ($errors as $error)
+			echo $error."<br/>";
+		echo "</p>";
+		debug_print_backtrace();
+	}
+
+	/**
+	 * Execute parameterized query with provided parameters
+	 */
+	static function Query($query, $params = NULL)
+	{
+		$stmt = self::$handle->prepare($query);
+
+		if (is_array($params)) {
+			$keys = array_keys($params);
+			foreach($keys as $key)
+				$stmt->bindValue(":".$key, $params[$key]);
+		}
+
+		if ($stmt->execute() === false) {
+			DB::PrintErrors($params);
+			return false;
+		}
+
+		self::$last_affected_rows = $stmt->rowCount();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	/**
+	 * Convert associative array row to object of specified class
+	 */
+	static function RowToObj($class, $row)
+	{
+		if (!is_array($row))
+			return false;
+
+		$obj = new $class;
+		$keys = array_keys($row);
+		
+		foreach ($keys as $key)
+			$obj->$key = $row[$key];
+
+		return $obj;
+	}
+
+	/**
+	 * Fetch an object with specified ID
+	 */
+	static function ObjByID($class, $id)
+	{
+		$obj = new $class; // Needed to figure out the table name
+		$res = DB::Query("SELECT * FROM ".$obj->table_name." WHERE id=:id", array("id" => $id));
+		if (count($res) == 1)
+			return self::RowToObj($class, $res[0]);
 		else
 			return false;
 	}
 
-	// Consistency functions
-	static function Begin()
+	/**
+	 * Delete the row with the specified id in the table corresponding to the specified class
+	 */
+	static function DeleteByID($class, $id)
 	{
-		DB::Query("BEGIN");
+		$obj = new $class; // Needed to figure out the table name
+		return DB::Query("DELETE FROM ".$obj->table_name." WHERE id=:id", array("id" => $id));
 	}
 
-	static function Rollback()
+	static function ConvertToEntities(&$obj)
 	{
-		DB::Query("ROLLBACK");
-	}
-
-	static function Commit()
-	{
-		DB::Query("COMMIT");
+		foreach ($obj as $var => $value) {
+			$obj->$var = htmlentities($value, ENT_QUOTES, "UTF-8");
+		}
 	}
 }
 
-// Connect to database
-$db = new DB(DB_HOST, DB_USER, DB_PASS);
 ?>

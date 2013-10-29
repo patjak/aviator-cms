@@ -27,8 +27,8 @@ if (isset($_GET['bottom']))
 else
 	$bottom = false;
 
-$res = DB::Query("SELECT * FROM pages WHERE id=".$pid);
-$page = DB::Obj($res, "DaoPage");
+$res = DB::Query("SELECT * FROM pages WHERE id=:id", array("id" => $pid));
+$page = DB::RowToObj("DaoPage", $res[0]);
 
 function MoveUp(&$page)
 {
@@ -38,12 +38,13 @@ function MoveUp(&$page)
 		$parent_str = "=".$page->parent_id;
 
 	$res = DB::Query("SELECT * FROM pages WHERE sort<".$page->sort." AND parent_id ".$parent_str." ORDER BY sort DESC");
-	if ($prev_page = DB::Obj($res)) {
+	if (count($res) > 0) {
+		$prev_page = DB::RowToObj("DaoPage", $res[0]);
 		$sort = $prev_page->sort;
 		$prev_page->sort = $page->sort;
 		$page->sort = $sort;
-		DB::Update(DB_PREFIX."pages", $page);
-		DB::Update(DB_PREFIX."pages", $prev_page);
+		DB::Update($page);
+		DB::Update($prev_page);
 		return true;
 	} else {
 		return false;
@@ -52,18 +53,23 @@ function MoveUp(&$page)
 
 function MoveDown(&$page)
 {
-	if ($page->parent_id == NULL)
-		$parent_str = "IS NULL";
-	else
-		$parent_str = "=".$page->parent_id;
+	$query_array = array("sort" => $page->sort);
 
-	$res = DB::Query("SELECT * FROM pages WHERE sort>".$page->sort." AND parent_id ".$parent_str." ORDER BY sort");
-	if ($next_page = DB::Obj($res)) {
+	if ($page->parent_id == NULL) {
+		$parent_str = "IS NULL";
+	} else {
+		$parent_str = ":parent_id";
+		$query_array = $query_array["parent_id"] = $page->parent_id;
+	}
+
+	$res = DB::Query("SELECT * FROM pages WHERE sort>:sort AND parent_id ".$parent_str." ORDER BY sort", $query_array);
+	if (count($res) > 0) {
+		$next_page = DB::RowToObj("DaoPage", $res[0]);
 		$sort = $next_page->sort;
 		$next_page->sort = $page->sort;
 		$page->sort = $sort;
-		DB::Update(DB_PREFIX."pages", $page);
-		DB::Update(DB_PREFIX."pages", $next_page);
+		DB::Update($page);
+		DB::Update($next_page);
 		return true;
 	} else {
 		return false;

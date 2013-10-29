@@ -8,7 +8,7 @@ else
 	$pid = 0;
 
 $res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id=".$pid);
-if (DB::NumRows($res)) {
+if (count($res)) {
 	echo "<p>Cannot delete a page with subpages. Delete them first.</p>";
 	Ajax::SetStatus(AJAX_STATUS_NOTICE);
 	exit();
@@ -16,7 +16,8 @@ if (DB::NumRows($res)) {
 
 // Delete all the page contents by issuing PageDelete and Delete on the contents
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE page_id=".$pid);
-while ($content_vo = DB::Obj($res, "DaoContent")) {
+foreach ($res as $row) {
+	$content_vo = DB::RowToObj("DaoContent", $row);
 	$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
 	$content->PageDelete($content_vo->id);
 	$content->Delete($content_vo->id);
@@ -31,6 +32,7 @@ if ($start_page == $pid)
 // Unreference all the links pointing to this page
 DB::Query("UPDATE ".DB_PREFIX."links SET internal_page_id=NULL, enabled=0 WHERE internal_page_id=".$pid);
 $affected_links = DB::AffectedRows();
+
 if ($affected_links > 0) {
 	echo "<p>".$affected_links." links pointed to this page. They have been disabled.</p>";
 	Ajax::SetStatus(AJAX_STATUS_NOTICE);

@@ -8,6 +8,7 @@ if (isset($DEBUG) && $DEBUG) {
 
 require_once("config.php");
 require_once(CMS_PATH."lib/db.php");
+DB::Connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 require_once(CMS_PATH."lib/settings.php");
 require_once(SITE_PATH."api/context.php");
 require_once(SITE_PATH."api/plugins.php");
@@ -22,6 +23,7 @@ require_once(SITE_PATH."api/page_types.php");
 require_once(SITE_PATH."api/components.php");
 
 // Data access objects
+require_once(CMS_PATH."lib/dao.php");
 require_once(CMS_PATH."dao/page.php");
 require_once(CMS_PATH."dao/layout.php");
 require_once(CMS_PATH."dao/theme.php");

@@ -274,10 +274,10 @@ class Image {
 		" AND width=".$this->width." AND height=".$this->height." AND effects=".$this->effects.
 		" AND crop_horizontal=".$this->crop_horizontal." AND crop_vertical=".$this->crop_vertical);
 
-		if (DB::NumRows($res) == 0)
+		if (count($res) == 0)
 			$cache_vo = $this->CreateCache();
 		else
-			$cache_vo = DB::Obj($res, "DaoImageCache");
+			$cache_vo = DB::RowToObj("DaoImageCache", $res[0]);
 
 		$ext = $this->GetExtension();
 		return MEDIA_BASE."images/".$this->image_vo->id."-".$cache_vo->id.
@@ -290,10 +290,10 @@ class Image {
 			$this->image_vo = false;
 		} else {
 			$res = DB::Query("SELECT * FROM ".DB_PREFIX."images WHERE id=".$image_id);
-			if (DB::NumRows($res) != 1) {
+			if (count($res) != 1) {
 				$this->image_vo = false;
 			} else {
-				$this->image_vo = DB::Obj($res, "DaoImage");
+				$this->image_vo = DB::RowToObj("DaoImage", $res[0]);
 				$this->original_width = $this->image_vo->width;
 				$this->original_height = $this->image_vo->height;
 			}
@@ -303,7 +303,7 @@ class Image {
 			$this->image_ref_vo = false;
 		} else {
 			$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_id);
-			$this->image_ref_vo = DB::Obj($res, "DaoImageRef");
+			$this->image_ref_vo = DB::RowToObj("DaoImageRef", $res[0]);
 			$this->crop_horizontal = $this->image_ref_vo->crop_horizontal;
 			$this->crop_vertical = $this->image_ref_vo->crop_vertical;
 		}
@@ -317,18 +317,19 @@ class Image {
 
 		// Don't delete if other references exists to this image
 		$res_refs = DB::Query("SELECT id FROM ".DB_PREFIX."image_refs WHERE image_id=".$this->image_vo->id);
-		if (DB::NumRows($res_refs) > 0)
+		if (count($res_refs) > 0)
 			return;
 
 		$ext = $this->GetExtension();
 		$res_cache = DB::Query("SELECT * FROM ".DB_PREFIX."image_cache WHERE image_id=".$this->image_vo->id);
 
 		// Delete any remaining cache (Shouldn't be any, but better play it safe)
-		while ($cache_vo = DB::Obj($res_cache)) {
+		foreach ($res_cache as $row_cache) {
+			$cache_vo = DB::RowToObj("DaoImageCache", $row_cache);
 			unlink(MEDIA_PATH."images/".$this->image_vo->id."-".$cache_vo->id."-".
 			$cache_vo->crop_horizontal."x".$cache_vo->crop_vertical."-".$cache_vo->effects.".".$ext);
 
-			DB::Query("DELETE FROM ".DB_PREFIX."image_cache WHERE id=".$cache_vo->id);
+			DB::Delete($cache_vo);
 		}
 
 		// Delete original
@@ -416,7 +417,7 @@ class Image {
 		$cache_vo->effects = $this->effects;
 		$cache_vo->crop_horizontal = $this->crop_horizontal;
 		$cache_vo->crop_vertical = $this->crop_vertical;
-		DB::Insert(DB_PREFIX."image_cache", $cache_vo);
+		DB::Insert($cache_vo);
 
 		// Handle effects
 		$this->ApplyEffects($image);

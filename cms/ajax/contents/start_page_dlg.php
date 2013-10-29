@@ -13,7 +13,8 @@ function EchoSiteTree($parent_id, $selected, $depth_str = "-")
 
 	$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id ".$parent_str." ORDER BY sort");
 
-	while ($page = DB::Obj($res, "DaoPage")) {
+	foreach ($res as $row) {
+		$page = DB::RowToObj("DaoPage", $row);
 
 		if ($page->id == $selected)
 			$sel_str = "selected";

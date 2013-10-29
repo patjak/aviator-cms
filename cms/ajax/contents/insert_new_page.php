@@ -17,12 +17,12 @@ else
 	$layout_id = 0;
 
 if (isset($_POST['title']))
-	$title = mysql_real_escape_string($_POST['title']);
+	$title = $_POST['title'];
 else
 	$title = "";
 
 if (isset($_POST['description']))
-	$description = mysql_real_escape_string($_POST['description']);
+	$description = $_POST['description'];
 else
 	$description = "";
 
@@ -54,7 +54,7 @@ if ($title == "") {
 }
 
 $res = DB::Query("SELECT id FROM ".DB_PREFIX."pages WHERE parent_id IS NULL");
-$num_top_pages = DB::NumRows($res);
+$num_top_pages = count($res);
 $max_top_level_pages = Settings::Get("max_top_level_pages");
 
 if ($max_top_level_pages > 0 && $parent_id == NULL && $num_top_pages >= $max_top_level_pages) {
@@ -93,9 +93,9 @@ $page->allow_change_style = 1;
 $page->type_id = $page_type;
 $page->style_id = $page_style;
 
-DB::Insert(DB_PREFIX."pages", $page);
+DB::Insert($page);
 
 $page->sort = $page->id;
-DB::Update(DB_PREFIX."pages", $page);
+DB::Update($page);
 
 ?>
