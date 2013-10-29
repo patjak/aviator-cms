@@ -36,7 +36,7 @@ class Context {
 
 	static function GetModule()
 	{
-		return self::$plugin;
+		return self::$module;
 	}
 
 	static function SetModule(&$module)
