@@ -410,5 +410,31 @@ class Theme {
 	{
 		return Theme::$image_margin;
 	}
+
+	static public function GetPageLanguageId($page_id = 0)
+	{
+		$page = Theme::GetPage($page_id);
+
+		if ($page->language_id != NULL) {
+			return $page->language_id;
+		} else if ($page->language_id == NULL && $page->parent_id == NULL) {
+			return false;
+		} else {
+			return Theme::GetPageLanguageId($page->parent_id);
+		}
+	}
+
+	static public function GetPageLanguage($page_id = 0)
+	{
+		$lang_id = Theme::GetPageLanguageId($page_id);
+
+		if ($lang_id === false)
+			return false;
+
+		$res = DB::Query("SELECT name FROM ".DB_PREFIX."languages WHERE id=".$lang_id);
+		$row = DB::Row($res);
+
+		return $row[0];
+	}
 }
 ?>
