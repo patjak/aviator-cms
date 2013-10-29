@@ -427,7 +427,7 @@ class ContentCore {
 			$crop_y = 50;
 
 		if ($image_id == 0)
-			$image_id = "NULL";
+			$image_id = NULL;
 
 		$old_image_id = $image_ref_vo->image_id;
 
