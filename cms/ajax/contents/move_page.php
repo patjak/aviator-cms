@@ -56,13 +56,13 @@ function MoveDown(&$page)
 	$query_array = array("sort" => $page->sort);
 
 	if ($page->parent_id == NULL) {
-		$parent_str = "IS NULL";
+		$parent_str = " IS NULL";
 	} else {
-		$parent_str = ":parent_id";
-		$query_array = $query_array["parent_id"] = $page->parent_id;
+		$parent_str = "=:parent_id";
+		$query_array["parent_id"] = $page->parent_id;
 	}
 
-	$res = DB::Query("SELECT * FROM pages WHERE sort>:sort AND parent_id ".$parent_str." ORDER BY sort", $query_array);
+	$res = DB::Query("SELECT * FROM pages WHERE sort>:sort AND parent_id".$parent_str." ORDER BY sort", $query_array);
 	if (count($res) > 0) {
 		$next_page = DB::RowToObj("DaoPage", $res[0]);
 		$sort = $next_page->sort;
