@@ -353,6 +353,11 @@ class ContentCore {
 			return "</a>";
 	}
 
+	public function GetLinkFullTag($link)
+	{
+		return self::GetLinkOpenTag($link).($link->name).self::GetLinkCloseTag($link);
+	}
+
 	public function CreateImageRef($content_id, $internal_id)
 	{
 		DB::Query("INSERT INTO ".DB_PREFIX."links (name, enabled, sort) VALUES('', 0, 0)");
