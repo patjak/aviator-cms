@@ -67,7 +67,8 @@ class Theme {
 	static public function SetPage($id)
 	{
 		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=".$id);
-		Theme::$page_vo = DB::Obj($res, "DaoPage");
+		$page = DB::ObjByID("DaoPage", $id);
+		Theme::$page_vo = $page;
 		Theme::$page_id = $id;
 	}
 
@@ -116,6 +117,7 @@ class Theme {
 
 	static public function GetPageDepth($id = 0)
 	{
+		// FIXME: This is wrong... should handle current page as well
 		if ($id == NULL)
 			return 0;
 
@@ -145,10 +147,11 @@ class Theme {
 	// Get a parent at a specific page depth
 	static public function GetPageParentAtDepth($depth)
 	{
-		if (Theme::GetPageDepth() <= $depth)
+		$page_vo = Theme::GetPage();
+
+		if (Theme::GetPageDepth($page_vo->id) <= $depth)
 			return false;
 
-		$page_vo = Theme::GetPage();
 		return Theme::FindPageParent($page_vo->parent_id, $depth);
 	}
 
