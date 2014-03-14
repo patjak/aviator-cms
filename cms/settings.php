@@ -4,8 +4,8 @@
 
 // Here are some default settings to use until we can autodetect or let
 // admin choose them in site settings
-Settings::Set("max_page_depth", 3);
-Settings::Set("max_top_level_pages", 5);
+Settings::Set("max_page_depth", 100);
+Settings::Set("max_top_level_pages", 100);
 
 // Parse memory_limit setting with ini_get()
 $val = ini_get("memory_limit");
