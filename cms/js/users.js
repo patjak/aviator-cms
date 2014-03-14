@@ -44,7 +44,7 @@ function ShowEditUserDlg(uid) {
 		json = jQuery.parseJSON(data);
 
 		if (json.status == 0)
-			DialogSet(json.html);
+			DialogSet(json.html, 600);
 	});
 }
 
@@ -118,9 +118,42 @@ function ShowEditGroupDlg(gid) {
 		json = jQuery.parseJSON(data);
 
 		if (json.status == 0)
-			DialogSet(json.html);
+			DialogSet(json.html, 600);
 	});
 }
+
+function InsertGroupPagePermission(form) {
+	$.post("ajax/users/insert_group_page_permission.php", form.serialize(), function(data) {
+		if (!IsJsonValid(data))
+			return;
+
+		json = jQuery.parseJSON(data);
+
+		if (json.status == 0)
+			DialogSet(json.html, 600);
+	});
+}
+
+function DeleteGroup(gid) {
+	$.post("ajax/users/delete_group.php", {gid: gid}, function(data) {
+		if (!IsJsonValid(data))
+			return;
+
+		json = jQuery.parseJSON(data);
+
+		DialogHide();
+
+		if (json.status == 0) {
+			LoadUsersMain();
+		}
+	});
+
+}
+
+function AskDeleteGroup(gid) {
+	AskDialogSet("Are you sure?", "Really delete group?", "DeleteGroup("+gid+")");
+}
+
 
 $(document).ready(function() {
 	LoadUsersMain();
