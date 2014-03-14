@@ -238,7 +238,7 @@ CREATE TABLE users (
 	start_page_id INT,
 	limited INT,
 
-	FOREIGN KEY (start_page) REFERENCES pages(id),
+	FOREIGN KEY (start_page_id) REFERENCES pages(id),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB CHARACTER SET utf8;
 
