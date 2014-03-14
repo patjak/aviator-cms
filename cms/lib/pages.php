@@ -3,6 +3,11 @@
 class PagesAPI {
 	static function GetPagesAsArray($parent_id = 0)
 	{
+		$user = User::Get();
+		// FIXME: Think some more about security. Should be safe now though.
+		if ($parent_id == 0 && $user->full_access != 1)
+			$parent_id = $user->start_page_id;
+
 		$pages = array();
 
 		if ($parent_id == 0) {
@@ -24,6 +29,9 @@ class PagesAPI {
 
 	static function GetPagesAsOptions($selected_page = 0, $pages = false, $depth = 0)
 	{
+
+		$user = User::Get();
+
 		if ($pages == false)
 			$pages = PagesAPI::GetPagesAsArray();
 
