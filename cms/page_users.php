@@ -6,7 +6,7 @@
 </div><!--UsersToolbox-->
 </div>
 
-<div class="Box" style="width: 590px;">
+<div class="Box" style="width: 790px;">
 <h2><img src="pics/icons_32/users.png"/>Users, groups and permissions</h2>
 <div id="UsersMain">
 </div><!--UsersMain-->
