@@ -81,10 +81,13 @@ if ($pid > 0 && $user->full_access == 1) {
 	"</form>".
 	"</div>";
 }
+if ($user->full_access == 1) {
 ?>
 <span class="Button" onclick="ShowNewPage(<?php echo $pid;?>);"><img src="pics/icons_32/page.png"/> New subpage</span><br/>
 <?php
-if ($pid > 0) {
+}
+
+if ($pid > 0 && $user->full_access == 1) {
 ?>
 <a href="<?php echo SITE_BASE."?page_id=".$page->id;?>" target="_blank"><img src="pics/icons_32/visible.png"/> View page</a><br/>
 <span class="Button" onclick="ShowEditPage(<?php echo $pid;?>);"><img src="pics/icons_32/edit.png"/> Edit settings</span><br/>
