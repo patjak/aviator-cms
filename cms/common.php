@@ -56,6 +56,7 @@ require_once("dao/users.php");
 require_once("dao/resources.php");
 require_once("dao/permissions.php");
 require_once("dao/access_logs.php");
+require_once("dao/strings.php");
 
 // Depends on dao/users.php
 require_once("lib/user.php");

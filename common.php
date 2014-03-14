@@ -31,6 +31,7 @@ require_once(CMS_PATH."dao/contents.php");
 require_once(CMS_PATH."dao/images.php");
 require_once(CMS_PATH."dao/links.php");
 require_once(CMS_PATH."dao/users.php");
+require_once(CMS_PATH."dao/strings.php"); // Also DaoBlob
 
 // Load plugins
 PluginCore::FindAndLoadAll();
