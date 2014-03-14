@@ -8,9 +8,6 @@ $max_height = (int)$_GET['max_height'];
 $min_width = (int)$_GET['min_width'];
 $min_height = (int)$_GET['min_height'];
 
-$res = DB::Query("SELECT image_id FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_id);
-$row = DB::Row($res);
-
 $image = new Image($image_id);
 $image->SetMaxWidth($max_width);
 $image->SetMaxHeight($max_height);

@@ -19,7 +19,8 @@ if ($category_id > 0)
 else
 	$cat_str = "";
 
-$user_id_str = "AND user_id=".$_SESSION['user_id'];
+$user = User::Get();
+$user_id_str = "AND user_id=".$user->id;
 
 $res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str);
 $num_images = count($res);
@@ -92,8 +93,8 @@ foreach ($res as $row) {
 	$image->SetMinWidth(116);
 	$image->SetMinHeight(116);
 
-	echo "<td onclick=\"UpdateImageRefs(".$image_ref_id.", ".$image_id.", ".$max_width.", ".$max_height.", ".$min_width.", ".
-	$min_height.");\">".$image->GetImgTag()."<div class=\"Name\">".$image->GetName()."</div></td>";
+	echo "<td><img onclick=\"UpdateImageRefs(".$image_ref_id.", ".$image_id.", ".$max_width.", ".$max_height.", ".$min_width.", ".$min_height.");\" src=\"".$image->GetUrl()."\"/>".
+	"<div class=\"Name\" onclick=\"ShowImageInfo(".$image_id.");\">".$image->GetName()."</div></td>";
 
 	if (!($i % 4))
 		echo "</tr><tr>";

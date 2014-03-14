@@ -165,3 +165,20 @@ function UpdateLinkVisibility() {
 		checkbox.parent().parent().siblings().last().show();
 	}
 }
+
+function ShowImageInfo(image_id) {
+	$.post("ajax/image_uploader/image_info.php",
+	{image_id: image_id }, function(data) {
+
+		if (!IsJsonValid(data))
+			return;
+
+		json = jQuery.parseJSON(data);
+
+		if (json.status == 0) {
+			DialogSet(json.html, 600);
+			UpdateCommon();
+		}
+	});
+
+}

@@ -47,7 +47,7 @@ $res_img_cat = DB::Query("SELECT id, name FROM image_categories ORDER BY name AS
 foreach ($res_img_cat as $row_img_cat) {
 	$res_num_cat_users = DB::Query("SELECT id FROM images WHERE category_id=".$row_img_cat['id']);
 	if (count($res_num_cat_users) > 0)
-		echo "<option value=\"".$res_img_cat[0]['id']."\">".$res_img_cat[0]['name']."</option>";
+		echo "<option value=\"".$row_img_cat['id']."\">".$row_img_cat['name']."</option>";
 }
 ?>
 </select></td><td><input type="text" id="image_category_name" name="image_category_name" style="display: none;"/></td></tr>
