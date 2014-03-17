@@ -3,7 +3,7 @@ require_once("../include.php");
 
 $image_ref_id = (int)$_POST['image_ref_id'];
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_id);
-$image_ref = DB::Obj($res, "DaoImageRef");
+$image_ref = DB::RowToObj("DaoImageRef", $res[0]);
 
 $image_id = (int)$_POST['image_id_'.$image_ref_id];
 $crop_x = (int)$_POST['crop_horizontal_'.$image_ref_id];

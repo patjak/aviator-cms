@@ -120,7 +120,7 @@ if (!file_exists("config.php")) {
 	
 		// FIXME: Let user specify credentials for the admin account
 		$res = DB::Query("SELECT id FROM ".DB_PREFIX."users WHERE username='admin'");
-		if (DB::NumRows($res) == 0) {
+		if (count($res) == 0) {
 			$admin_vo = new DaoUser();
 			$admin_vo->username = $admin_user;
 			$admin_vo->password = md5($admin_pass);
