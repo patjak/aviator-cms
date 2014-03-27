@@ -16,6 +16,6 @@ $image_ref->crop_horizontal = $crop_x;
 $image_ref->crop_vertical = $crop_y;
 $image_ref->image_id = $image_id;
 
-DB::Update(DB_PREFIX."image_refs", $image_ref);
+DB::Update($image_ref);
 
 ?>
