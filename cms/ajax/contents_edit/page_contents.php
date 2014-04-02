@@ -8,22 +8,22 @@ $res = DB::Query("SELECT * FROM contents WHERE page_id=".$page_id." AND section_
 foreach ($res as $row) {
 	$content_vo = DB::RowToObj("DaoContent", $row);
 	$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
-	$content_id = $content_vo->id;
+	$content->id = $content_vo->id;
 ?>
-<form id="content_form_<?php echo $content_id;?>" action="" method="POST" onsubmit="return false;" enctype="multipart/form-data">
+<form id="content_form_<?php echo $content->id;?>" action="" method="POST" onsubmit="return false;" enctype="multipart/form-data">
 <div class="Box Content" style="width: 790px;">
 <h2><span class="ContentButtons" style="float: right;">
-<span class="Button" onclick="MoveContentTop(<?php echo $content_id;?>)">
+<span class="Button" onclick="MoveContentTop(<?php echo $content->id;?>)">
 <img alt="Move to top" title="Move to top" src="pics/icons_24/arrow_top.png"/></span>
-<span class="Button" onclick="MoveContentUp(<?php echo $content_id;?>)">
+<span class="Button" onclick="MoveContentUp(<?php echo $content->id;?>)">
 <img alt="Move up" title="Move up" src="pics/icons_24/arrow_up.png"/></span>
-<span class="Button" onclick="MoveContentDown(<?php echo $content_id;?>)">
+<span class="Button" onclick="MoveContentDown(<?php echo $content->id;?>)">
 <img alt="Move down" title="Move down" src="pics/icons_24/arrow_down.png"/></span>
-<span class="Button" onclick="MoveContentBottom(<?php echo $content_id;?>)">
+<span class="Button" onclick="MoveContentBottom(<?php echo $content->id;?>)">
 <img alt="Move to bottom" title="Move to bottom" src="pics/icons_24/arrow_bottom.png"/></span>
 <span class="Button" onclick="AskDeleteContent(<?php echo $content_vo->plugin_id.", ".
 						$content->GetId().", ".
-						$content_id;?>)">
+						$content->id;?>)">
 <img alt="Delete" title="Delete" src="pics/icons_24/trash.png"/></span>
 
 </span><img src="<?php echo $content->GetIcon32();?>" alt="<?php echo $content->GetTitle();?>" title="<?php echo $content->GetTitle();?>"/> 

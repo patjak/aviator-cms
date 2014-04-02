@@ -28,6 +28,7 @@ class Theme {
 		$height = Theme::GetSectionHeight($section_id); // FIXME: Need to add page_id
 
 		$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
+		$content->id = $content_vo->id;
 		Context::SetDirectory($content->plugin->GetDirectory());
 		$content->Render($content_vo->id, $section_id, $width, $height);
 	}

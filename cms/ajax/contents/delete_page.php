@@ -19,6 +19,7 @@ $res = DB::Query("SELECT * FROM ".DB_PREFIX."contents WHERE page_id=".$pid);
 foreach ($res as $row) {
 	$content_vo = DB::RowToObj("DaoContent", $row);
 	$content = ContentCore::GetByPluginAndInternal($content_vo->plugin_id, $content_vo->internal_id);
+	$content->id = $content_vo->id;
 	$content->PageDelete($content_vo->id);
 	$content->Delete($content_vo->id);
 	DB::Query("DELETE FROM ".DB_PREFIX."contents WHERE id=".$content_vo->id);

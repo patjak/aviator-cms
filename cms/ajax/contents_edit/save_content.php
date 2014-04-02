@@ -12,5 +12,6 @@ $content_vo->name = $content_name;
 DB::Update($content_vo);
 
 $content = ContentCore::GetByPluginAndInternal($plugin_id, $internal_id);
+$content->id = $content_vo->id;
 
-$content->Save($content_id);
+$content->Save($content->id);
