@@ -19,7 +19,7 @@ DB::Update($content_vo);
 
 $content = ContentCore::GetByPluginAndInternal($plugin_id, $internal_id);
 $content->id = $content_vo->id;
-$content->Create($content_vo->id);
+$content->Create();
 
 // Return the new element (FIXME: Shouldn't duplicate page_contents.php here)
 ?>

@@ -14,22 +14,22 @@ define("CONTENT_WIDTH_ALL", CONTENT_WIDTH_100 | CONTENT_WIDTH_75 | CONTENT_WIDTH
 
 class ContentAPI extends ContentCore {
 	/* Called when content is added to a page. */
-	public function Create($content_id)
+	public function Create()
 	{
 	}
 
 	/* Generate the HTML shown when editing the content here. */
-	public function Edit($content_id)
+	public function Edit()
 	{
 	}
 
 	/* Called when user hits the "Save" button. Update database here. */
-	public function Save($content_id)
+	public function Save()
 	{
 	}
 
 	/* Called when user deletes a "Content". Clean up database here. */
-	public function Delete($content_id)
+	public function Delete()
 	{
 	}
 
@@ -37,12 +37,12 @@ class ContentAPI extends ContentCore {
 	   for deletion. Take care of database consistencies here.
 	   E.g. if other templates of this type needs updating because this
 	   page is going to be removed, you can fix those here. */
-	public function PageDelete($content_id)
+	public function PageDelete()
 	{
 	}
 
 	/* Called by the theme to render the contents onto screen */
-	public function Render($content_id, $section_id, $width, $height)
+	public function Render($section_id, $width, $height)
 	{
 		/* FIXME: We need pre and post rendering hooks */
 	}
@@ -67,7 +67,7 @@ class ContentCore {
 			$js_backend = array(),
 			$js_frontend = array();
 
-	public		$id,
+	public		$id,		// The ID of the DAO in Database
 			$plugin;
 
 	public function ContentCore(&$plugin, $internal_id = 1)
