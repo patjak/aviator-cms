@@ -10,8 +10,7 @@ if (isset($_GET['page'])) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <link rel="stylesheet" href="style/style.css"/>
-<script type="text/javascript" src="jquery/js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="jquery/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/lib.js"></script>
 <script type="text/javascript" src="js/loading.js"></script>
