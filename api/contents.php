@@ -260,7 +260,7 @@ class ContentCore {
 			"values(".$this->id.", ".$internal_id.")");
 			$id = DB::InsertID();
 
-			$link = $this->GetLink($this->id, $internal_id);
+			$link = $this->GetLink($internal_id);
 			$link->sort = $link->id;
 			DB::Update($link);
 		} else {
@@ -371,7 +371,7 @@ class ContentCore {
 		$last_id = DB::InsertID();
 		DB::Query("UPDATE ".DB_PREFIX."image_refs SET sort=id WHERE id=".$last_id);
 
-		return $this->GetImageRef($this->id, $internal_id);
+		return $this->GetImageRef($internal_id);
 	}
 
 	public function GetImageRef($internal_id)
