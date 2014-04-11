@@ -12,5 +12,6 @@ define("PAGE_USERS", $i++);
 define("PAGE_PROFILE", $i++);
 define("PAGE_SETUP", $i++);
 define("PAGE_LOGOUT", $i++);
+define("PAGE_IMAGE_ARCHIVE", $i++);
 
 ?>

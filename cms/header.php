@@ -21,6 +21,7 @@ if (isset($_GET['page'])) {
 <script type="text/javascript" src="js/dashboard.js"></script>
 <script type="text/javascript" src="js/image_uploader.js"></script>
 <script type="text/javascript" src="js/link_picker.js"></script>
+<script type="text/javascript" src="js/image_archive.js"></script>
 <?php
 foreach (ModuleCore::GetEntries() as $entry) {
 	$module_id = $entry->GetId();
@@ -70,6 +71,7 @@ $sel_site = "";
 $sel_users = "";
 $sel_profile = "";
 $sel_setup = "";
+$sel_image_archive = "";
 
 switch ($page) {
 case PAGE_HOME:
@@ -96,6 +98,9 @@ case PAGE_USERS:
 case PAGE_PROFILE:
 	$sel_profile = "Selected";
 	break;
+case PAGE_IMAGE_ARCHIVE:
+	$sel_image_archive = "Selected";
+	break;
 }
 ?>
 <table><tr>
@@ -105,6 +110,8 @@ case PAGE_PROFILE:
 <a class="<?php echo $sel_contents;?>" href="?page=<?php echo PAGE_CONTENTS;?>"><img src="pics/icons_64/box.png"/><br/>Contents</a>
 </td><td>
 <a class="<?php echo $sel_modules;?>" href="?page=<?php echo PAGE_MODULES;?>"><img src="pics/icons_64/module.png"/><br/>Modules</a>
+</td><td>
+<a class="<?php echo $sel_image_archive;?>" href="?page=<?php echo PAGE_IMAGE_ARCHIVE;?>"><img src="pics/icons_64/image.png"/><br/>Image Archive</a>
 </td><!--<td>
 <a class="<?php echo $sel_themes;?>" href="?page=<?php echo PAGE_THEMES;?>"><img src="pics/icons_64/brush.png"/><br/>Themes</a>
 </td><td>

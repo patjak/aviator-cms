@@ -75,6 +75,9 @@ case PAGE_USERS:
 case PAGE_PROFILE:
 	require_once("page_profile.php");
 	break;
+case PAGE_IMAGE_ARCHIVE:
+	require_once("page_image_archive.php");
+	break;
 }
 
 require_once("footer.php");
