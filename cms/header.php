@@ -55,7 +55,7 @@ if (URL::GetPage() == PAGE_CONTENTS_EDIT) {
 </head>
 <body>
 <div id="Header">
-<img src="pics/logo.png" style="float: left; margin: 20px;"/>
+<!--<img src="pics/logo.png" style="float: left; margin: 20px;"/>-->
 <div id="TopMenu">
 <?php
 $page = URL::GetPage();
