@@ -3,13 +3,14 @@ require_once("../include.php");
 
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."user_groups ORDER BY name ASC");
 
-if (DB::NumRows($res) > 0) {
+if (count($res) > 0) {
 ?>
 <table id="UserGroupsTable" style="margin-bottom: 40px; width: 100%;" class="List Minimizable">
 <caption>Groups</caption>
 <tr><th>Name</th><th style="text-align: center;">Members</th><th></th></tr>
 <?php
-	while ($group_vo = DB::Obj($res, "DaoUserGroup")) {
+	foreach ($res as $row) {
+		$group_vo = DB::RowToObj("DaoUserGroup", $row);
 		$res_count = DB::Query("SELECT id FROM ".DB_PREFIX."user_group_members WHERE group_id=".$group_vo->id);
 		$num_members = DB::NumRows($res_count);
 		echo "<tr><td>".$group_vo->name."</td><td style=\"text-align: center;\">".$num_members."</td>".
@@ -34,7 +35,8 @@ if (DB::NumRows($res) > 0) {
 <tr><th>Username</th><th>Name</th><th>Groups</th><th></th></tr>
 <?php
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."users ORDER BY username ASC");
-while ($user_vo = DB::Obj($res, "DaoUser")) {
+foreach ($res as $row) {
+	$user_vo = DB::RowToObj("DaoUser", $row);
 	if ($user_vo->full_access == 1)
 		$full_access = "Yes";
 	else

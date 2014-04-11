@@ -3,11 +3,10 @@ require_once("../include.php");
 
 $uid = (int)$_POST['uid'];
 
-$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$uid);
-if (DB::NumRows($res) == 0)
+if (count($res) == 0)
 	exit();
 
-$user_vo = DB::Obj($res, "DaoUser");
+$user_vo = DB::ObjByID("DaoUser", $uid);
 
 if ($user_vo->full_access != 0) {
 	echo "<p>You cannot delete an administrator!</p>";

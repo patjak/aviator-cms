@@ -28,8 +28,9 @@ function BuildLocation($page_vo, $list = false) {
 }
 
 $res = DB::Query("SELECT * FROM ".DB_PREFIX."resources WHERE group_id=".$group_id." AND page_id != NULL ORDER BY id");
-while ($resource_vo = DB::Obj($res, "DaoResource")) {
-	$page_vo = DB::ObjById("DaoPage", DB_PREFIX."pages", $resource_vo->page_id);
+foreach ($res as $row) {
+	$resource_vo = DB::RowToObj("DaoResource", $row);
+	$page_vo = DB::ObjById("DaoPage", $resource_vo->page_id);
 	if ($resource_vo->subpages == 1)
 		$subpages_str = "Yes";
 	else

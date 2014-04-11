@@ -15,15 +15,9 @@ if ($username == "") {
 	$err = true;
 }
 
-$username_safe = mysql_real_escape_string($username);
-if ($username_safe != $username) {
-	echo "<p>Invalid username</p>";
-	$err = true;
-}
-
-$res = DB::Query("SELECT id FROM ".DB_PREFIX."users WHERE username='".$username_safe."' LIMIT 1");
-if (DB::NumRows($res) > 0) {
-	$row = DB::Row($res);
+$res = DB::Query("SELECT id FROM ".DB_PREFIX."users WHERE username='".$username."' LIMIT 1");
+if (count($res) > 0) {
+	$row = $res[0];
 
 	if ($row[0] != $uid) {
 		echo "<p>A user with that username already exists</p>";
@@ -31,8 +25,7 @@ if (DB::NumRows($res) > 0) {
 	}
 }
 
-$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$uid);
-$user = DB::Obj($res, "DaoUser");
+$user = DB::ObjByID("DaoUser", $uid);
 
 if ($user->full_access != 0) {
 	echo "<p>You cannot change administrator accounts</p>";

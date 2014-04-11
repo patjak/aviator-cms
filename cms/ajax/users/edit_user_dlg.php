@@ -6,8 +6,7 @@ $uid = (int)$_POST['uid'];
 if ($uid == 0)
 	exit();
 
-$res = DB::Query("SELECT * FROM ".DB_PREFIX."users WHERE id=".$uid);
-$user = DB::Obj($res, "DaoUser");
+$user = DB::ObjByID("DaoUser", $uid);
 
 ?>
 <h2>Edit user</h2>
