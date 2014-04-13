@@ -2,7 +2,7 @@
 <h2><img src="pics/icons_32/image.png"/>Image Archive</h2>
 <h1>Under construction</h1>
 <button onclick="ImageArchiveClearCache();">Clear image cache</button>
- <!-- <button>Delete unused</button> -->
+ <button onclick="ImageArchiveDeleteUnused();">Delete unused images</button>
 <table><tr>
 </tr>
 </table>

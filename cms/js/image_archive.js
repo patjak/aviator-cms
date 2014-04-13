@@ -10,8 +10,8 @@ function ImageArchiveClearCache() {
 	});
 }
 
-function ImageArchiveRemoveUnused() {
-	$.post("ajax/image_archive/clear_cache.php", function(data) {
+function ImageArchiveDeleteUnused() {
+	$.post("ajax/image_archive/delete_unused.php", function(data) {
 		if (!IsJsonValid(data))
 			return;
 
