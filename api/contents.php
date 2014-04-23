@@ -135,6 +135,39 @@ class ContentCore {
 		return ContentCore::$js_frontend;
 	}
 
+	public function AutoDelete()
+	{
+		// Delete all image refs
+		$res = DB::Query("SELECT internal_id FROM image_refs WHERE content_id=:content_id",
+				 array("content_id" => $this->id));
+		foreach ($res as $row)
+			$this->DeleteImageRef($row['internal_id']);
+
+		// Delete all links
+		$res = DB::Query("SELECT internal_id FROM links WHERE content_id=:content_id",
+				 array("content_id" => $this->id));
+		foreach ($res as $row)
+			$this->DeleteLink($row['internal_id']);
+
+		// Delete all strings
+		$res = DB::Query("SELECT internal_id FROM strings WHERE content_id=:content_id",
+				 array("content_id" => $this->id));
+		foreach ($res as $row)
+			$this->DeleteString($row['internal_id']);
+
+		// Delete all integers
+		$res = DB::Query("SELECT internal_id FROM integers WHERE content_id=:content_id",
+				 array("content_id" => $this->id));
+		foreach ($res as $row)
+			$this->DeleteInt($row['internal_id']);
+
+		// Delete all blobs
+		$res = DB::Query("SELECT internal_id FROM blobs WHERE content_id=:content_id",
+				 array("content_id" => $this->id));
+		foreach ($res as $row)
+			$this->DeleteBlob($row['internal_id']);
+	}
+
 	public function CreateString($internal_id, $string = "")
 	{
 		DB::Query("INSERT INTO ".DB_PREFIX."strings (content_id, internal_id, string) VALUES(:content_id, :internal_id, :string)",
