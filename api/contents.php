@@ -213,7 +213,7 @@ class ContentCore {
 		DB::Query("DELETE FROM ".DB_PREFIX."strings WHERE content_id=".$this->id." AND internal_id=".$internal_id);
 	}
 
-	public function CreateInt($internal_id, $number = NULL)
+	public function CreateInt($internal_id, $number = 0)
 	{
 		DB::Query("INSERT INTO ".DB_PREFIX."integers (content_id, internal_id, number) ".
 		"VALUES(".$this->id.", ".$internal_id.", ".$number.")");
