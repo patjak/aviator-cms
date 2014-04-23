@@ -158,6 +158,17 @@ class ContentCore {
 		}
 	}
 
+	public function GetOrCreateString($internal_id)
+	{
+		$string = $this->GetString($internal_id);
+
+		if ($string === FALSE) {
+			$this->CreateString($internal_id);
+			$string = $this->GetString($internal_id);
+		}
+		return $string;
+	}
+
 	public function UpdateString($internal_id, $string)
 	{
 		DB::Query("UPDATE ".DB_PREFIX."strings SET string=:string WHERE content_id=:content_id AND internal_id=:internal_id",
@@ -188,6 +199,17 @@ class ContentCore {
 		} else {
 			return false;
 		}
+	}
+
+	public function GetOrCreateInt($internal_id)
+	{
+		$number = $this->GetInt($internal_id);
+
+		if ($number === FALSE) {
+			$this->CreateInt($internal_id);
+			$number = $this->GetInt($internal_id);
+		}
+		return $number;
 	}
 
 	public function UpdateInt($internal_id, $number)
@@ -224,6 +246,17 @@ class ContentCore {
 			return $res[0]['data'];
 		else
 			return false;
+	}
+
+	public function GetOrCreateBlob($internal_id)
+	{
+		$blob = $this->GetBlob($internal_id);
+
+		if ($blob === FALSE) {
+			$this->CreateBlob($internal_id);
+			$blob = $this->GetBlob($internal_id);
+		}
+		return $blob;
 	}
 
 	public function UpdateBlob($internal_id, $data)
@@ -282,6 +315,17 @@ class ContentCore {
 			return DB::RowToObj("DaoLink", $res[0]);
 		else
 			return false;
+	}
+
+	public function GetOrCreateLink($internal_id)
+	{
+		$link = $this->GetLink($internal_id);
+
+		if ($link === FALSE) {
+			$this->CreateLink($internal_id);
+			$link = $this->GetLink($internal_id);
+		}
+		return $link;
 	}
 
 	public function GetAllLinks()
@@ -384,6 +428,17 @@ class ContentCore {
 		} else {
 			return false;
 		}
+	}
+
+	public function GetOrCreateImageRef($internal_id)
+	{
+		$ref = $this->GetImageRef($internal_id);
+
+		if ($ref === FALSE) {
+			$this->CreateImageRef($internal_id);
+			$ref = $this->GetImageRef($internal_id);
+		}
+		return $ref;
 	}
 
 	// Returns an array with all the image refs assigned to this content
