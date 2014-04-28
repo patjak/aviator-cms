@@ -6,7 +6,8 @@ class DaoContent extends DAO {
 		$name,
 		$sort,
 		$section_id,
-		$internal_id;
+		$internal_id,
+		$published;
 
 	function __construct() {
 		$this->table_name = "contents";

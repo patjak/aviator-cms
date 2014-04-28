@@ -79,6 +79,7 @@ CREATE TABLE contents (
 	internal_id INT,
 	name TEXT,
 	sort INT,
+	published INT DEFAULT 0,
 
 	FOREIGN KEY (plugin_id) REFERENCES plugins(id),
 	FOREIGN KEY (page_id) REFERENCES pages(id),
