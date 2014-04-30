@@ -4,6 +4,12 @@ define("MODULE_BACKEND", 1 << 0);
 define("MODULE_FRONTEND", 1 << 1);
 
 class ModuleAPI extends ModuleCore {
+	/**
+	 * Lets a module render additional content to the head of a page.
+	 */
+	public function RenderHead()
+	{
+	}
 }
 
 class ModuleCore {
