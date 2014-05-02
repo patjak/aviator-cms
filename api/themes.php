@@ -107,6 +107,18 @@ class Theme {
 		}
 	}
 
+	static public function GetPageByName($name)
+	{
+		$pages = array();
+		$res = DB::Query("SELECT * FROM pages WHERE title=:name",
+				 array("name" => $name));
+
+		foreach ($res as $row)
+			$pages[] = DB::RowToObj("DaoPage", $row);
+
+		return $pages;
+	}
+
 	/* Private function for recursion */
 	static private function FindPageDepth($page_vo, $depth = 0)
 	{
