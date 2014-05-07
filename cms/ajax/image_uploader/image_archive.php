@@ -23,7 +23,7 @@ $user = User::Get();
 $user_id_str = "AND user_id=".$user->id;
 
 $res = DB::Query("SELECT id FROM images WHERE name LIKE '%".$filter."%' ".$cat_str." ".$user_id_str);
-$num_images = count($res);
+$num_images = count($res) + 1;
 $num_pages = ceil($num_images / $images_per_page);
 
 ?>
