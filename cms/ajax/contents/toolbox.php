@@ -23,6 +23,8 @@ if ($pid > 0) {
 	else
 		$title_short = $page->title;
 
+	$title_short = htmlentities($title_short, ENT_QUOTES, "UTF-8");
+
 	echo "<div class=\"Heading\" style=\"text-align: center;\">".
 	"<a href=\"".SITE_BASE."?page_id=".$page->id."\" target=\"_blank\" style=\"line-height: 24px;\">".
 	" ".$title_short."</a></div>".
