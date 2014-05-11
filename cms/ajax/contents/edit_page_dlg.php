@@ -53,6 +53,17 @@ else
 <input type="text" name="title" value="<?php echo htmlentities($page->title, ENT_QUOTES, "UTF-8");?>" style="width: 200px;"/>
 <div class="Heading">Description</div>
 <input type="text" name="description" value="<?php echo htmlentities($page->description, ENT_QUOTES, "UTF-8");?>" style="width: 600px;"/>
+
+<div class="Heading">Permalink</div>
+<?php
+$permalink_absolute_str = ($page->permalink_absolute == 1) ? "checked" : "";
+$permalink_hide_str = ($page->permalink_hide_in_tree == 1) ? "checked" : "";
+?>
+<input type="text" name="permalink" value="<?php echo $page->permalink;?>"/> <i>(Leave empty for default)</i><br/>
+Default: <?php echo $page->permalink_assigned;?><br/>
+<input type="checkbox" name="permalink_absolute" <?php echo $permalink_absolute_str;?>/> Absolute permalink<br/>
+<input type="checkbox" name="permalink_hide_in_tree" <?php echo $permalink_hide_str;?>/> Hide in tree<br/>
+
 <div class="Heading">Attributes</div>
 <input type="checkbox" name="published" <?php echo $published_str;?>/>Published<br/>
 <input type="checkbox" name="in_menu" <?php echo $in_menu_str;?>/>Visible in menu
