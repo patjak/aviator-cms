@@ -3,6 +3,10 @@
 class DaoPage extends DAO {
 	public	$title,
 		$description,
+		$permalink,
+		$permalink_assigned,
+		$permalink_absolute,
+		$permalink_hide_in_tree,
 		$image_ref_id,
 		$parent_id,
 		$layout_id,
