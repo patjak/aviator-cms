@@ -15,6 +15,7 @@ session_start();
 require_once(CMS_PATH."lib/dao.php");
 require_once(CMS_PATH."dao/users.php");
 require_once(CMS_PATH."lib/user.php");
+require_once(CMS_PATH."lib/permalink.php");
 
 require_once(CMS_PATH."lib/settings.php");
 require_once(SITE_PATH."api/context.php");

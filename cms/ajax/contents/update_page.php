@@ -26,10 +26,6 @@ if (isset($_POST['description']))
 else
 	$description = "";
 
-$permalink = isset($_POST['permalink']) ? $_POST['permalink'] : "";
-$permalink_absolute = isset($_POST['permalink_absolute']) ? 1 : 0;
-$permalink_hide_in_tree = isset($_POST['permalink_hide_in_tree']) ? 1 : 0;
-
 if (isset($_POST['published']))
 	$published = 1;
 else
@@ -106,6 +102,10 @@ if ($page->allow_move == 1 && $max_top_level_pages > 0 && $parent_id == NULL &&
 	exit();
 }
 
+$permalink = isset($_POST['permalink']) ? $_POST['permalink'] : "";
+$permalink_absolute = isset($_POST['permalink_absolute']) ? 1 : 0;
+$permalink_hide_in_tree = isset($_POST['permalink_hide_in_tree']) ? 1 : 0;
+
 $page->title = $title;
 $page->description = $description;
 $page->permalink = $permalink;
@@ -113,6 +113,8 @@ $page->permalink_absolute = $permalink_absolute;
 $page->permalink_hide_in_tree = $permalink_hide_in_tree;
 $page->published = $published;
 $page->in_menu = $in_menu;
+// Must be last since it reads the page attributes
+$page->permalink_assigned = Permalink::GetDefaultFromPage($page);
 
 if (!PAGE_RULES_ENABLED || $page->allow_move == 1)
 	$page->parent_id = $parent_id;
