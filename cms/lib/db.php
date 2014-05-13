@@ -5,7 +5,11 @@
  */  
 class DB {
 	static	$handle,
-		$last_affected_rows = 0;
+		$last_affected_rows = 0,
+		$perf_queries = 0,
+		$perf_inserts = 0,
+		$perf_deletes = 0,
+		$perf_updates = 0;
 
 	/**
 	 * Connect to SQL server with specified credentials
@@ -143,6 +147,10 @@ class DB {
 		}
 
 		$dao->id = self::InsertID();
+
+		// Increase the performance counter
+		self::$perf_inserts++;
+
 		return true;
 	}
 
@@ -153,6 +161,9 @@ class DB {
 	{
 		DB::Query("DELETE FROM ".$dao->table_name." WHERE id=:id", array("id" => $dao->id));
 		$dao->id = 0;
+
+		// Increase the performance counter
+		self::$perf_deletes++;
 	}
 
 	/**
@@ -209,6 +220,9 @@ class DB {
 			return false;
 		}
 
+		// Increase the performance counter
+		self::$perf_updates++;
+
 		return $stmt->rowCount();
 	}
 
@@ -255,6 +269,9 @@ class DB {
 			return false;
 		}
 
+		// Increase the performance counter
+		self::$perf_queries++;
+
 		self::$last_affected_rows = $stmt->rowCount();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -295,6 +312,10 @@ class DB {
 	static function DeleteByID($class, $id)
 	{
 		$obj = new $class; // Needed to figure out the table name
+
+		// Increase the performance counter
+		self::$perf_deletes++;
+
 		return DB::Query("DELETE FROM ".$obj->table_name." WHERE id=:id", array("id" => $id));
 	}
 
