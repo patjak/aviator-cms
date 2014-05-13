@@ -195,9 +195,18 @@ class Theme {
 		}
 	}
 
+	static public function GetStartPageID()
+	{
+		static $page_id = NULL;
+
+		if ($page_id == NULL)
+			$page_id = Settings::Get("site_start_page");
+		return $page_id;
+	}
+
 	static public function GetStartPage()
 	{
-		$page_id = Settings::Get("site_start_page");
+		$page_id = Theme::GetStartPageID();
 		return Theme::GetPage($page_id);
 	}
 
