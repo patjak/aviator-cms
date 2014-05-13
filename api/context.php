@@ -9,6 +9,8 @@ class Context {
 		$module,
 		$content;
 
+	private static	$is_frontend = FALSE;
+
 	static function GetBase()
 	{
 		return SITE_BASE."plugins/".Context::$directory."/";
@@ -52,6 +54,26 @@ class Context {
 	static function SetContent(&$content)
 	{
 		self::$content = $content;
+	}
+
+	static function SetFrontend()
+	{
+		self::$is_frontend = TRUE;
+	}
+
+	static function SetBackend()
+	{
+		self::$is_frontend = FALSE;
+	}
+
+	static function IsFrontend()
+	{
+		return self::$is_frontend;
+	}
+
+	static function IsBackend()
+	{
+		return !self::$is_frontend;
 	}
 }
 

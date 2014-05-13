@@ -221,9 +221,13 @@ class Theme {
 		$parent_vo = Theme::GetPage($id);
 		$array = array();
 
-		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id=:parent_id ORDER BY sort", array("parent_id" => $parent_vo->id));
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE parent_id=:parent_id ORDER BY sort",
+				 array("parent_id" => $parent_vo->id));
 		foreach ($res as $row) {
 			$page_vo = DB::RowToObj("DaoPage", $row);
+			if (Context::IsFrontend() && $page_vo->published == 0)
+				continue;
+
 			$array[] = $page_vo;
 		}
 

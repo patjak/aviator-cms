@@ -1,6 +1,7 @@
 <?php
 $SECURE = true; // Mark this a valid entry point
 require_once("common.php");
+Context::SetFrontend();
 
 $base_path = substr(SITE_BASE, (strpos(SITE_BASE, $_SERVER['HTTP_HOST']) +
 			        strlen($_SERVER['HTTP_HOST'])));
