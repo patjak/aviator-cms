@@ -75,9 +75,16 @@ class Theme {
 
 	static public function GetPage($id = 0)
 	{
+		static $page_cache = array();
+
 		if ($id > 0) {
+			if (isset($page_cache[$id]))
+				return $page_cache[$id];
+
 			$res = DB::Query("SELECT * FROM ".DB_PREFIX."pages WHERE id=:id", array("id" => $id));
-			return DB::RowToObj("DaoPage", $res[0]);
+			$page = DB::RowToObj("DaoPage", $res[0]);
+			$page_cache[$id] = $page;
+			return $page;
 		} else {
 			if (Theme::$page_id == 0) {
 				if (isset($_GET['page_id']))
@@ -103,6 +110,7 @@ class Theme {
 				Theme::$page_id = Theme::$page_vo->id;
 			}
 
+			$page_cache[0] = Theme::$page_vo;
 			return Theme::$page_vo;
 		}
 	}
