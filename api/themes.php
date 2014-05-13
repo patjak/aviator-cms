@@ -246,12 +246,61 @@ class Theme {
 			return $page->description;
 	}
 
+	static public function GetPagePermalink($page_id)
+	{
+		$page = Theme::GetPage($page_id);
+
+		if ($page->permalink_hide_in_tree == 1) {
+			if ($page->parent_id > 0)
+				return Theme::GetPagePermalink($page->parent_id);
+			else
+				return "";
+		}
+
+		$permalink = ($page->permalink != "") ? $page->permalink :
+							$page->permalink_assigned;
+
+		// Fixup empty permalinks
+		if ($permalink == "") {
+			$page->permalink_assigned = Permalink::TitleToLink($page->title);
+			DB::Update($page);
+		}
+
+		if ($page->parent_id > 0) {
+			$parent_link = Theme::GetPagePermalink($page->parent_id);
+			if ($parent_link != "")
+				$permalink = $parent_link."/".$permalink;
+		}
+
+		return $permalink;
+	}
+
 	static public function GetPageUrl($page_id = 0)
 	{
 		if ($page_id == 0)
-			Theme::GetPage()->id;
+			$page_id == Theme::GetPage()->id;
 
-		return SITE_BASE."?page_id=".$page_id;
+		$start_page_id = Theme::GetStartPageID();
+		if ($start_page_id == $page_id)
+			return SITE_BASE;
+
+		// If this page is hidden in permalink tree we link to the first child
+		$page = Theme::GetPage($page_id);
+		if ($page->permalink_hide_in_tree) {
+			$children = Theme::GetPageChildren($page_id);
+
+			// If no child exists, we link to this page but without permalink
+			if (count($children) > 0)
+				$page_id = $children[0]->id;
+			else
+				return SITE_BASE."?page_id=".$page_id;
+		}
+
+		$permalink = Theme::GetPagePermalink($page_id);
+		if ($permalink === FALSE)
+			return SITE_BASE."?page_id=".$page_id;
+		else
+			return SITE_BASE.$permalink;
 	}
 
 	static public function GetLayout($page_id = 0)
