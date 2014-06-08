@@ -22,6 +22,7 @@ require_once(SITE_PATH."api/context.php");
 require_once(SITE_PATH."api/plugins.php");
 require_once(SITE_PATH."api/contents.php");
 require_once(SITE_PATH."api/images.php");
+require_once(SITE_PATH."api/pages.php");
 require_once(SITE_PATH."api/themes.php");
 require_once(SITE_PATH."api/dashboard.php");
 require_once(SITE_PATH."api/modules.php");
@@ -39,6 +40,9 @@ require_once(CMS_PATH."dao/images.php");
 require_once(CMS_PATH."dao/links.php");
 require_once(CMS_PATH."dao/users.php");
 require_once(CMS_PATH."dao/strings.php"); // Also DaoBlob
+
+// Initialize API
+Pages::Init();
 
 // Load plugins
 PluginCore::FindAndLoadAll();

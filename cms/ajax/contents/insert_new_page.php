@@ -65,14 +65,14 @@ if ($max_top_level_pages > 0 && $parent_id == NULL && $num_top_pages >= $max_top
 
 $max_page_depth = Settings::Get("max_page_depth");
 
-if (Theme::GetPageDepth($parent_id) >= ($max_page_depth - 1)) {
+if (Pages::GetDepth($parent_id) >= ($max_page_depth - 1)) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>You are not allowed to have pages nested this deep</p>";
 	exit();
 }
 
-$parent_vo = Theme::GetPage($parent_id);
-if ($parent_vo != false && $parent_vo->allow_subpage == 0) {
+$parent = Pages::Get($parent_id);
+if ($parent != false && $parent->allow_subpage == 0) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>This page cannot have sub pages</p>";
 	exit();

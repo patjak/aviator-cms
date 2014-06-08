@@ -80,7 +80,7 @@ if ($pid == $parent_id) {
 	exit();
 }
 
-if (Theme::IsParent($pid, $parent_id)) {
+if (Pages::IsAncestor($pid, $parent_id)) {
 	Ajax::SetStatus(AJAX_STATUS_WARNING);
 	echo "<p>Cannot move a page into one of it's sub pages</p>";
 	exit();

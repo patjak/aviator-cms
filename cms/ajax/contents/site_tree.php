@@ -18,7 +18,7 @@ function check_expand($page, $selected_id)
 		return true;
 	}
 
-	$children = Theme::GetPageChildren($page->id);
+	$children = Pages::GetChildren($page->id);
 	foreach ($children as $child) {
 		if (check_expand($child, $selected_id))
 			$expand = true;

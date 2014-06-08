@@ -37,6 +37,7 @@ if (!isset($_GET['page_id']) && $perma_path != "") {
 		exit();
 	} else {
 		$_GET['page_id'] = $page_id;
+		Pages::SetID($page_id);
 	}
 }
 

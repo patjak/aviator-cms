@@ -42,9 +42,9 @@ class Permalink {
 	static function Search($permalink, $parent_id = NULL)
 	{
 		if ($parent_id == NULL)
-			$pages = Theme::GetTopPages();
+			$pages = Pages::GetTopPages();
 		else
-			$pages = Theme::GetPageChildren($parent_id);
+			$pages = Pages::GetChildren($parent_id);
 
 		foreach ($pages as $page) {
 			// First try pages at this depth, so skip hidden

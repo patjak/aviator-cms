@@ -398,7 +398,7 @@ class ContentCore {
 	public function GetLinkUrl($link)
 	{
 		if ($link->is_internal == 1) {
-			$url = Theme::GetPageUrl($link->internal_page_id);
+			$url = Pages::GetURL($link->internal_page_id);
 		} else {
 			$url = $link->external_url;
 

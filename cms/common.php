@@ -45,6 +45,7 @@ require_once(SITE_PATH."api/plugins.php");
 require_once(SITE_PATH."api/dashboard.php");
 require_once(SITE_PATH."api/contents.php");
 require_once(SITE_PATH."api/images.php");
+require_once(SITE_PATH."api/pages.php");
 require_once(SITE_PATH."api/modules.php");
 require_once(SITE_PATH."api/themes.php");
 require_once(SITE_PATH."api/layouts.php");
@@ -68,6 +69,9 @@ require_once("dao/strings.php");
 
 // Depends on dao/users.php
 require_once("lib/user.php");
+
+// Initialize API
+Pages::Init();
 
 // Check for available themes 
 $dir = getcwd() ."/";

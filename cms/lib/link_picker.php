@@ -58,7 +58,7 @@ class LinkPicker {
 		"<tr><td></td><td>New window:</td><td>".$in_new_window_str."</td></tr>";
 
 		if ($link->is_internal == 1) {
-			echo "<tr><td></td><td>Internal link:</td><td>".Theme::GetPage($link->internal_page_id)->title."</td></tr>";
+			echo "<tr><td></td><td>Internal link:</td><td>".Pages::Get($link->internal_page_id)->title."</td></tr>";
 		} else {
 			echo "<tr><td></td><td>External URL:</td><td>".$link->external_url."</td></tr>";
 		}
