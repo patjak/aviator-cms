@@ -8,17 +8,24 @@ if (isset($DEBUG) && $DEBUG) {
 
 require_once("defines.php");
 
-// FIXME: This is an ugly hack
-if (file_exists("../config.php")) {
-	require_once("../config.php");
-} else if (file_exists("../../config.php")) {
-	require_once("../../config.php");
-} else if (file_exists("../../../config.php")) {
-	require_once("../../../config.php");
-} else if (file_exists("../../../../config.php")) {
-	require_once("../../../../config.php");
-} else {
+// Try to find the config file
+$config_path = "../config.php";
+for ($depth = 0; $depth < 5; $depth++) {
+	if (file_exists($config_path))
+		break;
+	$config_path = "../".$config_path;
+}
+
+if ($depth >= 5) {
 	echo "Fatal error: Cannot find config file!";
+	exit();
+}
+
+require_once($config_path);
+// Sanity check the config
+if (!defined("CMS_PATH") || !defined("CMS_BASE") ||
+    !defined("SITE_PATH") || !defined("SITE_BASE")) {
+	echo "Fatal error: Invalid config file!";
 	exit();
 }
 
