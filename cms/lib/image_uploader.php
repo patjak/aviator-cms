@@ -61,14 +61,24 @@ class ImageUploader {
 		else
 			$height_str = "";
 
+		if ($this->image_ref_vo->crop_horizontal === NULL)
+			$crop_horizontal = 50;
+		else
+			$crop_horizontal = $this->image_ref_vo->crop_horizontal;
+
+		if ($this->image_ref_vo->crop_vertical === NULL)
+			$crop_vertical = 50;
+		else
+			$crop_vertical = $this->image_ref_vo->crop_vertical;
+
 		echo "<div class=\"ImageUpload Button\" ".
 		"style=\"text-align: center; width: ".($this->thumb_max_width)."px; min-height: ".$this->thumb_min_height.";".$height_str."\"".
 		"onclick=\"ShowImageUploader(".$this->image_ref_vo->id.", ".$this->thumb_max_width.", ".$this->thumb_max_height.", ".$this->thumb_min_width.", ".$this->thumb_min_height.", ".$this->show_link.")\">".
 		$no_image_str.
 		"<span class=\"ImageRef_".$this->image_ref_vo->id."\">".$image->GetImgTag()."</span>".
 		"<input type=\"hidden\" name=\"image_id_".$this->image_ref_vo->id."\" id=\"input_image_ref_id_".$this->image_ref_vo->id."\" value=\"".$this->image_ref_vo->image_id."\"/>".
-		"<input type=\"hidden\" name=\"crop_horizontal_".$this->image_ref_vo->id."\" id=\"input_crop_x_".$this->image_ref_vo->id."\" value=\"".$this->image_ref_vo->crop_horizontal."\"/> ".
-		"<input type=\"hidden\" name=\"crop_vertical_".$this->image_ref_vo->id."\" id=\"input_crop_y_".$this->image_ref_vo->id."\" value=\"".$this->image_ref_vo->crop_vertical."\"/> ".
+		"<input type=\"hidden\" name=\"crop_horizontal_".$this->image_ref_vo->id."\" id=\"input_crop_x_".$this->image_ref_vo->id."\" value=\"".$crop_horizontal."\"/> ".
+		"<input type=\"hidden\" name=\"crop_vertical_".$this->image_ref_vo->id."\" id=\"input_crop_y_".$this->image_ref_vo->id."\" value=\"".$crop_vertical."\"/> ".
 		"</div>";
 	}
 
