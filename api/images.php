@@ -265,12 +265,7 @@ class Image {
 		$this->CalculateDimensions();
 
 		// Check cache if this image already exists in this dimension, cropping and requested effects
-		if ($this->image_ref_vo == false)
-			$image_ref_str = " AND image_ref_id IS NULL ";
-		else
-			$image_ref_str = " AND image_ref_id=".$this->image_ref_vo->id." ";
-
-		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_cache WHERE image_id=".$this->image_vo->id.$image_ref_str.
+		$res = DB::Query("SELECT * FROM ".DB_PREFIX."image_cache WHERE image_id=".$this->image_vo->id.
 		" AND width=".$this->width." AND height=".$this->height." AND effects=".$this->effects.
 		" AND crop_horizontal=".$this->crop_horizontal." AND crop_vertical=".$this->crop_vertical);
 
