@@ -68,10 +68,13 @@ function UpdateImageRefs(image_ref_id, image_id, max_width, max_height, min_widt
 				$("#input_image_ref_id_"+image_ref_id).val(image_id);
 				$("img.ImageRefNoImage_"+image_ref_id).hide();
 				// DialogHide();
-				if (image_id != null)
+				if (image_id != null) {
 					ShowCroppingDialog(image_ref_id, image_id);
-				else
+				} else {
+					$("#input_crop_x_"+image_ref_id).val(50);
+					$("#input_crop_y_"+image_ref_id).val(50);
 					DialogHide();
+				}
 			}
 		});
 	})
