@@ -92,10 +92,13 @@ $page->allow_delete = 1;
 $page->allow_change_style = 1;
 $page->type_id = $page_type;
 $page->style_id = $page_style;
-
 DB::Insert($page);
 
+$image_ref = new DaoImageRef();
+DB::Insert($image_ref);
+
 $page->sort = $page->id;
+$page->image_ref_id = $image_ref->id;
 DB::Update($page);
 
 ?>

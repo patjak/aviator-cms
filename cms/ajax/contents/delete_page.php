@@ -39,6 +39,12 @@ if ($affected_links > 0) {
 	Ajax::SetStatus(AJAX_STATUS_NOTICE);
 }
 
-DB::Query("DELETE FROM ".DB_PREFIX."pages WHERE id=".$pid);
+$page = DB::ObjByID("DaoPage", $pid);
+
+// Delete the image_ref
+$image_ref = DB::ObjByID("DaoImageRef", $page->image_ref_id);
+
+DB::Delete($page);
+DB::Delete($image_ref);
 
 ?>
