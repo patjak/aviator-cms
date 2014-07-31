@@ -15,6 +15,11 @@ class Pages {
 		// If no start page is specified, then select the first top page
 		if ($start_page_id == 0) {
 			$pages = Pages::GetTopPages();
+
+			// We might not have any pages
+			if (count($pages) == 0)
+				return false;
+
 			$start_page_id = $pages[0]->id;
 		}
 
@@ -26,15 +31,14 @@ class Pages {
 	 */
 	static public function Init()
 	{
-		if (!isset($_GET['page_id']))
-			self::$page_id = self::GetStartPage()->id;
-		else
+		if (!isset($_GET['page_id'])) {
+			$start_page = self::GetStartPage();
+			if ($start_page === false)
+				self::$page_id = 0;
+			else
+				self::$page_id = $start_page->id;
+		} else {
 			self::$page_id = (int)$_GET['page_id'];
-
-		// If no start page is specified, then select the first top page
-		if (self::$page_id == 0) {
-			$pages = Pages::GetTopPages();
-			self::$page_id = $pages[0]->id;
 		}
 	}
 
