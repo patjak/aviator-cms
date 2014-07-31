@@ -576,3 +576,23 @@ div.LinkPicker img {
 div.LinkPicker table {
 	color: #ffffff;
 }
+
+div.Accordion {
+	margin: 10px 0px 10px 0px;
+	padding: 0px;
+}
+
+div.Accordion div.AccordionHeading {
+	border-bottom: 1px solid #a0a0a0;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #000000;
+	margin: 10px 0px 10px 0px;
+	cursor: pointer;
+}
+
+div.Accordion div.AccordionSection {
+	padding: 0px;
+	margin: 0px;
+	display: none;
+}

@@ -98,6 +98,15 @@ function UpdateCommon() {
 	$("table.Minimized").each(function() {
 		$(this).children('tbody').hide();
 	});
+
+	$("div.Accordion div.AccordionHeading").off("click");
+	$("div.Accordion div.AccordionHeading").click(function() {
+			$(this).next().stop();
+			if ($(this).next().is(":visible"))
+				$(this).next().slideUp(250);
+			else
+				$(this).next().slideDown(250);
+	});
 }
 
 // When cloning DOM elements the state can be lost. Because of that we make sure
