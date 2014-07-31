@@ -27,15 +27,71 @@ echo HtmlLayout($page->id, $page->layout_id, 120, 100, 4, true, $section_id);
 </div>
 <?php
 // FIXME: Need a section_id to content_width_XXX here
-foreach (ContentCore::GetRegistered(CONTENT_WIDTH_ALL) as $content) {
-	if (!($section_id & $content->GetAllowedSections()))
-		continue;
 
-	echo "<p><span class=\"Button\" ".
-	"onclick=\"InsertContent(".$page->id.", ".$section_id.", ".$content->plugin->GetId().", ".$content->GetId().");\">".
-	"<img src=\"".$content->GetIcon32()."\"/> ".$content->GetTitle()."</span></p>";
+$disp = array(); // Keep track of the ones we've shown already
+$num_found = 0;
+$categories = ContentCore::GetCategories();
+ksort($categories, SORT_STRING);
+
+echo "<div class=\"Accordion\">\n";
+foreach ($categories as $name => $contents) {
+	$contents_str = "";
+
+	ksort($contents);
+	foreach ($contents as $content) {
+		$num_found++;
+
+		if (!($section_id & $content->GetAllowedSections()))
+			continue;
+
+		$plugin_id = $content->plugin->GetId();
+		$content_id = $content->GetId();
+
+		if (!isset($disp[$plugin_id]))
+			$disp[$plugin_id] = array();
+
+		// Mark as shown
+		$disp[$plugin_id][$content_id] = true;
+
+		$contents_str .= "<div class=\"Button\" ".
+		"onclick=\"InsertContent(".$page->id.", ".$section_id.", ".$plugin_id.", ".$content_id.");\">".
+		"<img src=\"".$content->GetIcon32()."\"/> ".$content->GetTitle()."</div>";
+	}
+
+	// The category might be empty so only display it if we found something
+	if ($contents_str != "") {
+		echo "<div class=\"AccordionHeading\">".$name."</div>".
+		"<div class=\"AccordionSection\">".$contents_str."</div>\n";
+	}
+}
+
+$uncategorized = ContentCore::GetRegistered(CONTENT_WIDTH_ALL);
+if (count($uncategorized) > $num_found) {
+
+	echo "<div class=\"AccordionHeading\">Uncategorized</div>".
+	"<div class=\"AccordionSection\">";
+
+	foreach ($uncategorized as $content) {
+		if (!($section_id & $content->GetAllowedSections()))
+			continue;
+
+		$plugin_id = $content->plugin->GetId();
+		$content_id = $content->GetId();
+
+		// Don't show already displayed content plugins
+		if (isset($disp[$plugin_id]) || isset($disp[$plugin_id][$content_id]))
+			continue;
+
+		echo "<div class=\"Button\" ".
+		"onclick=\"InsertContent(".$page->id.", ".$section_id.", ".
+		"".$content->plugin->GetId().", ".$content->GetId().");\">".
+		"<img src=\"".$content->GetIcon32()."\"/> ".$content->GetTitle()."</div>";
+	}
+
+	echo "</div><!--AccordionSection-->";
 }
 ?>
+</div><!--Accordion-->
 </div><!--ContentsToolbox-->
 </div>
 

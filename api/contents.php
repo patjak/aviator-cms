@@ -52,12 +52,13 @@ define("CONTENT_BACKEND", 1 << 0);
 define("CONTENT_FRONTEND", 1 << 1);
 
 class ContentCore {
-	private static	$entries = array(); // List of all created content objects
-
+	private static	$entries = array(), // List of all created content objects
+			$categories = array();
 	protected 	$internal_id;	// A plugin internally unique number for
 					// plugins with more than 1 content type
 
 	private		$title,
+			$category,
 			$widths = CONTENT_WIDTH_ALL,
 			$sections = SECTION_ALL,
 			$icon_32_filename;
@@ -567,6 +568,25 @@ class ContentCore {
 		$link_id = $image_ref_vo->link_id;
 		DB::Query("DELETE FROM ".DB_PREFIX."image_refs WHERE id=".$image_ref_vo->id);
 		DB::Query("DELETE FROM ".DB_PREFIX."links WHERE id=".$image_ref_vo->link_id);
+	}
+
+	public function AddCategory($name)
+	{
+		// The first plugin that sets a category dictates the letter case
+		if (!isset(self::$categories[$name])) {
+			foreach (self::$categories as $index => $category) {
+				if (strtolower($index) == strtolower($name))
+					$name = $index;
+			}
+			if (!isset(self::$categories[$name]))
+				self::$categories[$name] = array();
+		}
+		self::$categories[$name][$this->title] = &$this;
+	}
+
+	static public function GetCategories()
+	{
+		return self::$categories;
 	}
 
 	public function SetAllowedWidths($widths)
