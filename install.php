@@ -126,7 +126,7 @@ if (!file_exists("config.php")) {
 			$admin_vo->password = md5($admin_pass);
 			$admin_vo->fullname = "Administrator";
 			$admin_vo->full_access = 1;
-			DB::Insert(DB_PREFIX."users", $admin_vo);
+			DB::Insert($admin_vo);
 		}
 
 		echo "<img src=\"cms/pics/icons_64/settings.png\" style=\"margin: 10px;\"/><br/>".
