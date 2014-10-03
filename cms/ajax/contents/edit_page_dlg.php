@@ -45,6 +45,8 @@ if ($page->published == 1)
 else
 	$published_str = "";
 
+$landing_page_str = ($page->landing_page == 1) ? "checked" : "";
+
 ?>
 <form onsubmit="UpdatePage($(this), <?php echo $page->id;?>); return false;">
 <input type="hidden" name="pid" value="<?php echo $pid;?>"/>
@@ -66,7 +68,8 @@ Default: <?php echo $page->permalink_assigned;?><br/>
 
 <div class="Heading">Attributes</div>
 <input type="checkbox" name="published" <?php echo $published_str;?>/>Published<br/>
-<input type="checkbox" name="in_menu" <?php echo $in_menu_str;?>/>Visible in menu
+<input type="checkbox" name="in_menu" <?php echo $in_menu_str;?>/>Visible in menu<br/>
+<input type="checkbox" name="landing_page" <?php echo $landing_page_str;?>/>Landing page
 
 <?php
 if ($page->allow_edit == 1)

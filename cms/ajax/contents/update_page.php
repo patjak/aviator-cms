@@ -36,6 +36,11 @@ if (isset($_POST['in_menu']))
 else
 	$in_menu = 0;
 
+if (isset($_POST['landing_page']))
+	$landing_page = 1;
+else
+	$landing_page = 0;
+
 if (isset($_POST['allow_edit']))
 	$allow_edit = 1;
 else
@@ -113,6 +118,7 @@ $page->permalink_absolute = $permalink_absolute;
 $page->permalink_hide_in_tree = $permalink_hide_in_tree;
 $page->published = $published;
 $page->in_menu = $in_menu;
+$page->landing_page = $landing_page;
 // Must be last since it reads the page attributes
 $page->permalink_assigned = Permalink::GetDefaultFromPage($page);
 
