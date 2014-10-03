@@ -15,6 +15,7 @@ class DaoPage extends DAO {
 		$sort,
 		$published,
 		$in_menu,
+		$landing_page,
 		$allow_edit,
 		$allow_move,
 		$allow_delete,
