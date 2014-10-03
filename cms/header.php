@@ -9,6 +9,7 @@ if (isset($_GET['page'])) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name=“robots” content=“noindex, nofollow”>
 <link rel="stylesheet" href="style/style.css"/>
 <script type="text/javascript" src="jquery/js/jquery.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
