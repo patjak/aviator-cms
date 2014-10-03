@@ -6,7 +6,7 @@ if (isset($DEBUG) && $DEBUG) {
 	error_reporting(E_ALL & ~E_DEPRECATED);
 }
 
-if (!file_exists(SITE_PATH."config.php")) {
+if (!file_exists("config.php")) {
 	echo "<p>No config.php file found</p>".
 	"<p>Make sure you've properly installed and configured Aviator</p>";
 	exit();
