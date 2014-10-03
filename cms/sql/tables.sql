@@ -62,6 +62,7 @@ CREATE TABLE pages (
         sort INT		DEFAULT 0,
         published INT		DEFAULT 0,
         in_menu INT		DEFAULT 1,
+	landing_page INT	DEFAULT 0,
         allow_edit INT		DEFAULT 1,
         allow_move INT		DEFAULT 1,
         allow_delete INT	DEFAULT 1,
