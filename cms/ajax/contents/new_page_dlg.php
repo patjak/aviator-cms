@@ -48,7 +48,8 @@ $layout = reset($layouts);
 <input type="text" name="description" style="width: 600px;"/>
 <div class="Heading">Attributes</div>
 <nobr><input type="checkbox" name="published"/>Published</nobr><br/>
-<nobr><input type="checkbox" name="in_menu" checked/>Visible in menu</nobr>
+<nobr><input type="checkbox" name="in_menu" checked/>Visible in menu</nobr><br/>
+<nobr><input type="checkbox" name="landing_page"/>Landing page</nobr>
 
 <div class="Heading">Parent page</div>
 <select name="parent_id">

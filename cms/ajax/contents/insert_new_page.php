@@ -36,6 +36,11 @@ if (isset($_POST['in_menu']))
 else
 	$in_menu = 0;
 
+if (isset($_POST['landing_page']))
+	$landing_page = 1;
+else
+	$landing_page = 0;
+
 if (isset($_POST['page_type']) && $_POST['page_type'] != 0)
 	$page_type = (int)$_POST['page_type'];
 else
@@ -85,6 +90,7 @@ $page->parent_id = $parent_id;
 $page->layout_id = $layout_id;
 $page->published = $published;
 $page->in_menu = $in_menu;
+$page->landing_page = $landing_page;
 $page->allow_move = 1;
 $page->allow_edit = 1;
 $page->allow_subpage = 1;
