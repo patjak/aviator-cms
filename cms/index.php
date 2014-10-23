@@ -16,7 +16,8 @@ echo "<p>".CMS_BASE."</p>";
 exit();
 */
 
-if (strpos(CMS_BASE, "http://".$_SERVER['SERVER_NAME']) === false) {
+// Redirect us to the proper URL
+if (strpos(CMS_BASE, SITE_PROTOCOL.$_SERVER['SERVER_NAME']) === false) {
 	header("Location: ".CMS_BASE."\n");
 	exit();
 }

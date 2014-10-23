@@ -1,7 +1,12 @@
 <?php
 
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "")
+	define("SITE_PROTOCOL", "https://");
+else
+	define("SITE_PROTOCOL", "http://");
+
 define("SITE_PATH", dirname(__FILE__)."/");
-define("SITE_BASE", "http://".$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME'])."/");
+define("SITE_BASE", SITE_PROTOCOL.$_SERVER['SERVER_NAME'].dirname($_SERVER['SCRIPT_NAME'])."/");
 
 define("CMS_PATH", SITE_PATH."/cms/");
 define("CMS_BASE", SITE_BASE."/cms/");
