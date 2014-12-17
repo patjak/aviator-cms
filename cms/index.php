@@ -53,31 +53,31 @@ require_once("header.php");
 
 switch ($page) {
 case PAGE_HOME:
-	require_once("page_home.php");
+	require_once("pages/home.php");
 	break;
 case PAGE_CONTENTS:
-	require_once("page_contents.php");
+	require_once("pages/contents.php");
 	break;
 case PAGE_CONTENTS_EDIT:
-	require_once("page_contents_edit.php");
+	require_once("pages/contents_edit.php");
 	break;
 case PAGE_MODULES:
-	require_once("page_modules.php");
+	require_once("pages/modules.php");
 	break;
 case PAGE_PLUGINS:
-	require_once("page_plugins.php");
+	require_once("pages/plugins.php");
 	break;
 case PAGE_SETUP:
-	require_once("page_site_setup.php");
+	require_once("pages/site_setup.php");
 	break;
 case PAGE_USERS:
-	require_once("page_users.php");
+	require_once("pages/users.php");
 	break;
 case PAGE_PROFILE:
-	require_once("page_profile.php");
+	require_once("pages/profile.php");
 	break;
 case PAGE_IMAGE_ARCHIVE:
-	require_once("page_image_archive.php");
+	require_once("pages/image_archive.php");
 	break;
 }
 
