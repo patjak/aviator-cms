@@ -53,6 +53,14 @@ class Image {
 			return "";
 	}
 
+	public function GetDescription()
+	{
+		if ($this->image_vo != false)
+			return $this->image_vo->description;
+		else
+			return "";
+	}
+
 	// Dimensions related methods
 
 	public function GetWidth()
